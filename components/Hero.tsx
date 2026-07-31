@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, CheckCircle2, GitMerge, BarChart2 } from "lucide-react";
+import { ArrowRight, BrainCircuit, CheckCircle2, GitMerge, BarChart2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -20,7 +20,7 @@ export default function Hero() {
             className="lg:col-span-7 flex flex-col text-center lg:text-left items-center lg:items-start"
           >
             <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-1.5 rounded-full shadow-sm mb-6">
-              <Sparkles size={16} className="text-primary" />
+              <BrainCircuit size={16} className="text-primary" />
               <span className="text-xs sm:text-sm font-semibold text-text-main">
                 Seu estudo, finalmente em fluxo.
               </span>

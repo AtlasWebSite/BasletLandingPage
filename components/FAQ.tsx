@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "Como funciona a assinatura?",
-    a: "O StudyFlow opera mediante assinatura para garantir acesso contínuo a todas as ferramentas de IA e atualizações."
+    a: "O StudyFlow opera mediante assinatura para garantir acesso contínuo a todas as ferramentas, funcionalidades e atualizações."
   },
   {
     q: "Como posso cancelar minha assinatura Pro se quiser?",
