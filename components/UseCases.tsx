@@ -15,18 +15,18 @@ const cases = [
     icon: BookOpen,
   },
   {
-    title: "Concursos Públicos",
+    title: "Projetos e Trabalhos em Grupo",
     desc: "Memorize legislação, doutrina e jurisprudência através da repetição ativa.",
     icon: FileCheck,
   },
   {
     title: "Idiomas e Vocabulário",
-    desc: "Aprenda novos vocabulários e estruturas gramaticais de forma constante.",
+    desc: "Centralize pesquisas escolares, resumos de aulas e anotações conjuntas com colegas de classe.",
     icon: Globe,
   },
   {
-    title: "Certificações Profissionais",
-    desc: "Valide conhecimentos técnicos específicos exigidos pelo mercado.",
+    title: "Ensino Médio e Vestibulares",
+    desc: "Organize matérias escolares, cronogramas de provas e revise o conteúdo cobrado no ENEM e vestibulares.",
     icon: Award,
   },
   {

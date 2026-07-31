@@ -23,8 +23,8 @@ const faqs = [
     a: "Sim! A plataforma é totalmente responsiva e otimizada para funcionar perfeitamente em smartphones, tablets e computadores."
   },
   {
-    q: "O plano gratuito tem limite de tempo?",
-    a: "Não. Você pode usar o plano gratuito pelo tempo que quiser, com acesso às funcionalidades fundamentais da plataforma."
+    q: "Como funciona a assinatura?",
+    a: "O StudyFlow opera mediante assinatura para garantir acesso contínuo a todas as ferramentas de IA e atualizações."
   },
   {
     q: "Como posso cancelar minha assinatura Pro se quiser?",
