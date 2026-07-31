@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BrainCircuit, CheckCircle2, GitMerge, BarChart2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, GitMerge, BarChart2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -19,13 +19,6 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-7 flex flex-col text-center lg:text-left items-center lg:items-start"
           >
-            <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-1.5 rounded-full shadow-sm mb-6">
-              <BrainCircuit size={16} className="text-primary" />
-              <span className="text-xs sm:text-sm font-semibold text-text-main">
-                Seu estudo, finalmente em fluxo.
-              </span>
-            </div>
-
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-text-main tracking-tight leading-[1.12] mb-6">
               Transforme conteúdo em{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
