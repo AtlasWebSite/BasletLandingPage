@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { APP_URL } from "@/data/pricingData";
 
 export default function Footer() {
@@ -7,9 +8,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center text-white font-bold text-sm">
-            S
-          </div>
+          <Image
+            src="/favicon.ico"
+            alt="StudyFlow"
+            width={28}
+            height={28}
+            className="h-7 w-7 object-contain"
+          />
           <span className="text-base font-bold text-text-main">StudyFlow</span>
         </div>
 

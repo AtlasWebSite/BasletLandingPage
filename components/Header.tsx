@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -32,9 +33,14 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-bold text-lg shadow-md shadow-primary/20 group-hover:scale-105 transition-transform">
-            S
-          </div>
+          <Image
+            src="/favicon.ico"
+            alt="StudyFlow"
+            width={36}
+            height={36}
+            priority
+            className="h-9 w-9 object-contain transition-transform group-hover:scale-105"
+          />
           <span className="text-xl font-bold tracking-tight text-text-main flex items-center gap-1">
             StudyFlow
             <span className="w-2 h-2 rounded-full bg-progress"></span>
