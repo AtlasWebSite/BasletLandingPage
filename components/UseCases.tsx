@@ -64,8 +64,8 @@ export default function UseCases() {
                 <Icon size={20} />
               </div>
               <div>
-                <h3 className="text-base font-bold text-text-main mb-1">{item.title}</h3>
-                <p className="text-xs text-text-muted leading-relaxed">{item.desc}</p>
+                <h3 className="text-lg font-bold text-text-main mb-1">{item.title}</h3>
+                <p className="text-sm sm:text-base text-text-muted leading-relaxed">{item.desc}</p>
               </div>
             </motion.div>
           );

@@ -60,7 +60,7 @@ export default function BentoGrid() {
   return (
     <section id="recursos" className="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/10 px-3.5 py-1 rounded-full">
+        <span className="text-sm font-bold uppercase tracking-widest text-primary bg-primary/10 px-3.5 py-1 rounded-full">
           Funcionalidades Integradas
         </span>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-text-main tracking-tight mt-4 mb-3">
@@ -87,12 +87,12 @@ export default function BentoGrid() {
                 <div className={`w-12 h-12 rounded-2xl ${item.bgColor} border ${item.borderColor} flex items-center justify-center mb-6`}>
                   <Icon size={24} className={item.accentColor} />
                 </div>
-                <span className="text-xs font-bold text-text-muted block mb-1">{item.subtitle}</span>
+                <span className="text-sm font-bold text-text-muted block mb-1">{item.subtitle}</span>
                 <h3 className="text-2xl font-bold text-text-main mb-3">{item.title}</h3>
-                <p className="text-sm text-text-muted leading-relaxed">{item.description}</p>
+                <p className="text-base text-text-muted leading-relaxed">{item.description}</p>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform">
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-primary group-hover:translate-x-1 transition-transform">
                 <span>Explorar recurso no App</span>
                 <span>→</span>
               </div>
