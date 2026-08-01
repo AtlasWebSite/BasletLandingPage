@@ -2,10 +2,161 @@
 
 import { motion } from "framer-motion";
 import type { MouseEvent } from "react";
-import Image from "next/image";
-import { ArrowRight, CheckCircle2, TrendingUp } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
+
+const LOOP_DURATION = 6;
+
+interface StageLabelProps {
+  number: string;
+  label: string;
+  x: number;
+  y: number;
+  pulseAt: number;
+}
+
+function StageLabel({
+  number,
+  label,
+  x,
+  y,
+  pulseAt,
+}: StageLabelProps) {
+  const pulseStart = Math.max(pulseAt - 0.04, 0);
+  const pulseEnd = Math.min(pulseAt + 0.08, 0.9);
+
+  return (
+    <motion.g
+      style={{
+        originX: 0.5,
+        originY: 0.5,
+      }}
+      animate={{
+        scale: [1, 1, 1.2, 1.06, 1.06, 1],
+      }}
+      transition={{
+        duration: LOOP_DURATION,
+        times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    >
+      <motion.text
+        x={x}
+        y={y - 21}
+        fontSize="12"
+        fontWeight="800"
+        animate={{
+          fill: [
+            "#60A5FA",
+            "#60A5FA",
+            "#2563EB",
+            "#2563EB",
+            "#2563EB",
+            "#60A5FA",
+          ],
+        }}
+        transition={{
+          duration: LOOP_DURATION,
+          times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        {number}
+      </motion.text>
+
+      <motion.g
+        animate={{
+          opacity: [1, 1, 0, 0, 1],
+          scale: [1, 1, 0.7, 0.7, 1],
+        }}
+        transition={{
+          duration: LOOP_DURATION,
+          times: [0, pulseStart, pulseAt, 0.96, 1],
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <circle
+          cx={x + 9}
+          cy={y + 2}
+          r="10"
+          fill="#FEF2F2"
+          stroke="#FECACA"
+          strokeWidth="1.5"
+        />
+        <path
+          d={`M${x + 5} ${y - 2}L${x + 13} ${y + 6}M${x + 13} ${
+            y - 2
+          }L${x + 5} ${y + 6}`}
+          fill="none"
+          stroke="#EF4444"
+          strokeWidth="2.6"
+          strokeLinecap="round"
+        />
+      </motion.g>
+
+      <motion.g
+        animate={{
+          opacity: [0, 0, 1, 1, 1, 0],
+          scale: [0.7, 0.7, 1.18, 1, 1, 0.7],
+        }}
+        transition={{
+          duration: LOOP_DURATION,
+          times: [0, pulseStart, pulseAt, pulseEnd, 0.96, 1],
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <circle
+          cx={x + 9}
+          cy={y + 2}
+          r="10"
+          fill="#ECFDF5"
+          stroke="#A7F3D0"
+          strokeWidth="1.5"
+        />
+        <path
+          d={`M${x + 4.5} ${y + 2}L${x + 8} ${y + 5.5}L${x + 14} ${
+            y - 2
+          }`}
+          fill="none"
+          stroke="#10B981"
+          strokeWidth="2.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </motion.g>
+
+      <motion.text
+        x={x + 27}
+        y={y + 8}
+        fontSize="17"
+        fontWeight="800"
+        animate={{
+          fill: [
+            "#0F172A",
+            "#0F172A",
+            "#2563EB",
+            "#1D4ED8",
+            "#1D4ED8",
+            "#0F172A",
+          ],
+        }}
+        transition={{
+          duration: LOOP_DURATION,
+          times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        {label}
+      </motion.text>
+    </motion.g>
+  );
+}
 
 export default function Hero() {
   const handleSmoothScroll = (
@@ -115,19 +266,6 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
               className="relative z-10 w-full max-w-[560px]"
             >
-              <motion.div
-                animate={{ y: [-4, 4, -4] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 6,
-                  ease: "easeInOut",
-                }}
-                className="absolute right-2 top-4 z-20 flex items-center gap-2 rounded-2xl border border-blue-100 bg-white/90 px-4 py-3 text-sm font-semibold text-blue-700 shadow-lg shadow-blue-600/10 backdrop-blur-md sm:right-4"
-              >
-                <TrendingUp size={18} />
-                <span>Evolução constante</span>
-              </motion.div>
-
               <svg
                 viewBox="0 0 590 440"
                 role="img"
@@ -186,18 +324,18 @@ export default function Hero() {
                 />
 
                 <path
-                  d="M72 330L518 78"
+                  d="M65 265L525 8"
                   fill="none"
-                  stroke="#93C5FD"
+                  stroke="#BFDBFE"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  strokeDasharray="8 10"
+                  strokeDasharray="8 11"
                 />
 
                 <motion.path
-                  d="M72 330L518 78"
+                  d="M65 265L525 8"
                   fill="none"
-                  stroke="#1D4ED8"
+                  stroke="#2563EB"
                   strokeWidth="4"
                   strokeLinecap="round"
                   initial={{ pathLength: 0, opacity: 0 }}
@@ -206,10 +344,10 @@ export default function Hero() {
                     opacity: [0, 1, 0],
                   }}
                   transition={{
-                    duration: 6,
-                    times: [0, 0.82, 1],
+                    duration: LOOP_DURATION,
+                    times: [0, 0.86, 1],
                     repeat: Infinity,
-                    ease: "easeInOut",
+                    ease: "linear",
                   }}
                 />
 
@@ -221,105 +359,53 @@ export default function Hero() {
                   filter="url(#studyflowPointGlow)"
                 >
                   <animateMotion
-                    dur="6s"
+                    dur={`${LOOP_DURATION}s`}
                     repeatCount="indefinite"
-                    path="M72 330L518 78"
-                    keyTimes="0;0.82;1"
+                    path="M65 265L525 8"
+                    keyTimes="0;0.86;1"
                     keyPoints="0;1;1"
                     calcMode="linear"
                   />
                   <animate
                     attributeName="opacity"
                     values="0;1;1;0"
-                    keyTimes="0;0.08;0.82;1"
-                    dur="6s"
+                    keyTimes="0;0.06;0.86;1"
+                    dur={`${LOOP_DURATION}s`}
                     repeatCount="indefinite"
                   />
                 </circle>
 
-                <g>
-                  <text
-                    x="72"
-                    y="308"
-                    fill="#60A5FA"
-                    fontSize="12"
-                    fontWeight="800"
-                  >
-                    01
-                  </text>
-                  <text
-                    x="72"
-                    y="331"
-                    fill="#0F172A"
-                    fontSize="17"
-                    fontWeight="800"
-                  >
-                    Organizar
-                  </text>
-                </g>
+                <StageLabel
+                  number="01"
+                  label="Organizar"
+                  x={69}
+                  y={309}
+                  pulseAt={0.12}
+                />
 
-                <g>
-                  <text
-                    x="174"
-                    y="248"
-                    fill="#60A5FA"
-                    fontSize="12"
-                    fontWeight="800"
-                  >
-                    02
-                  </text>
-                  <text
-                    x="174"
-                    y="271"
-                    fill="#0F172A"
-                    fontSize="17"
-                    fontWeight="800"
-                  >
-                    Praticar
-                  </text>
-                </g>
+                <StageLabel
+                  number="02"
+                  label="Praticar"
+                  x={169}
+                  y={249}
+                  pulseAt={0.3}
+                />
 
-                <g>
-                  <text
-                    x="274"
-                    y="188"
-                    fill="#60A5FA"
-                    fontSize="12"
-                    fontWeight="800"
-                  >
-                    03
-                  </text>
-                  <text
-                    x="274"
-                    y="211"
-                    fill="#0F172A"
-                    fontSize="17"
-                    fontWeight="800"
-                  >
-                    Revisar
-                  </text>
-                </g>
+                <StageLabel
+                  number="03"
+                  label="Revisar"
+                  x={269}
+                  y={189}
+                  pulseAt={0.48}
+                />
 
-                <g>
-                  <text
-                    x="374"
-                    y="128"
-                    fill="#60A5FA"
-                    fontSize="12"
-                    fontWeight="800"
-                  >
-                    04
-                  </text>
-                  <text
-                    x="374"
-                    y="151"
-                    fill="#0F172A"
-                    fontSize="17"
-                    fontWeight="800"
-                  >
-                    Evoluir
-                  </text>
-                </g>
+                <StageLabel
+                  number="04"
+                  label="Evoluir"
+                  x={369}
+                  y={129}
+                  pulseAt={0.66}
+                />
 
                 <motion.g
                   animate={{ y: [0, -5, 0] }}
@@ -330,15 +416,15 @@ export default function Hero() {
                   }}
                 >
                   <circle
-                    cx="520"
-                    cy="76"
+                    cx="528"
+                    cy="8"
                     r="27"
                     fill="#FFFFFF"
                     stroke="#DBEAFE"
                     strokeWidth="2"
                   />
                   <path
-                    d="M508 80L517 71L524 77L533 66"
+                    d="M516 12L525 3L532 9L541 -2"
                     fill="none"
                     stroke="#2563EB"
                     strokeWidth="4"
@@ -346,7 +432,7 @@ export default function Hero() {
                     strokeLinejoin="round"
                   />
                   <path
-                    d="M526 66H533V73"
+                    d="M534 -2H541V5"
                     fill="none"
                     stroke="#2563EB"
                     strokeWidth="4"
@@ -355,31 +441,6 @@ export default function Hero() {
                   />
                 </motion.g>
               </svg>
-
-              <motion.div
-                animate={{ y: [3, -3, 3] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 5,
-                  ease: "easeInOut",
-                }}
-                className="absolute bottom-0 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/95 px-5 py-3 shadow-xl shadow-blue-600/10 backdrop-blur-md"
-              >
-                <Image
-                  src="/favicon.ico"
-                  alt=""
-                  width={34}
-                  height={34}
-                  className="h-[34px] w-[34px] object-contain"
-                />
-
-                <div>
-                  <p className="text-sm font-bold text-text-main">StudyFlow</p>
-                  <p className="whitespace-nowrap text-xs text-text-muted">
-                    Seu estudo em evolução constante
-                  </p>
-                </div>
-              </motion.div>
             </motion.div>
           </div>
         </div>
