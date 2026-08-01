@@ -33,7 +33,7 @@ function StageLabel({
         originY: 0.5,
       }}
       animate={{
-        scale: [1, 1, 1.2, 1.06, 1.06, 1],
+        scale: [1, 1, 1.12, 1.05, 1.05, 1],
       }}
       transition={{
         duration: LOOP_DURATION,
@@ -305,7 +305,7 @@ export default function Hero() {
                 </defs>
 
                 <path
-                  d="M55 345H155V285H255V225H355V165H455V105H535"
+                  d="M45 350H165V285H285V220H405V155H525V90H570"
                   fill="none"
                   stroke="#2563EB"
                   strokeWidth="7"
@@ -315,16 +315,7 @@ export default function Hero() {
                 />
 
                 <path
-                  d="M55 345V385H535V105"
-                  fill="none"
-                  stroke="#BFDBFE"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-
-                <path
-                  d="M65 265L525 8"
+                  d="M60 275L545 20"
                   fill="none"
                   stroke="#BFDBFE"
                   strokeWidth="3"
@@ -333,7 +324,7 @@ export default function Hero() {
                 />
 
                 <motion.path
-                  d="M65 265L525 8"
+                  d="M60 275L545 20"
                   fill="none"
                   stroke="#2563EB"
                   strokeWidth="4"
@@ -361,7 +352,7 @@ export default function Hero() {
                   <animateMotion
                     dur={`${LOOP_DURATION}s`}
                     repeatCount="indefinite"
-                    path="M65 265L525 8"
+                    path="M60 275L545 20"
                     keyTimes="0;0.86;1"
                     keyPoints="0;1;1"
                     calcMode="linear"
@@ -378,68 +369,35 @@ export default function Hero() {
                 <StageLabel
                   number="01"
                   label="Organizar"
-                  x={69}
-                  y={309}
+                  x={55}
+                  y={320}
                   pulseAt={0.12}
                 />
 
                 <StageLabel
                   number="02"
                   label="Praticar"
-                  x={169}
-                  y={249}
-                  pulseAt={0.3}
+                  x={175}
+                  y={255}
+                  pulseAt={0.34}
                 />
 
                 <StageLabel
                   number="03"
                   label="Revisar"
-                  x={269}
-                  y={189}
-                  pulseAt={0.48}
+                  x={295}
+                  y={190}
+                  pulseAt={0.56}
                 />
 
                 <StageLabel
                   number="04"
                   label="Evoluir"
-                  x={369}
-                  y={129}
-                  pulseAt={0.66}
+                  x={415}
+                  y={125}
+                  pulseAt={0.78}
                 />
 
-                <motion.g
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{
-                    duration: 2.8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <circle
-                    cx="528"
-                    cy="8"
-                    r="27"
-                    fill="#FFFFFF"
-                    stroke="#DBEAFE"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M516 12L525 3L532 9L541 -2"
-                    fill="none"
-                    stroke="#2563EB"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M534 -2H541V5"
-                    fill="none"
-                    stroke="#2563EB"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </motion.g>
               </svg>
             </motion.div>
           </div>
