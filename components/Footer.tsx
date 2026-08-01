@@ -19,11 +19,11 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted">
-          <a href="#recursos" className="hover:text-primary transition-colors">Recursos</a>
-          <a href="#como-funciona" className="hover:text-primary transition-colors">Como funciona</a>
-          <a href="#planos" className="hover:text-primary transition-colors">Planos</a>
-          <a href="#faq" className="hover:text-primary transition-colors">FAQ</a>
-          <a href={APP_URL} className="hover:text-primary transition-colors">Acessar App</a>
+          <a href="#recursos" className="hover:text-blue-600 transition-colors">Recursos</a>
+          <a href="#como-funciona" className="hover:text-blue-600 transition-colors">Como funciona</a>
+          <a href="#planos" className="hover:text-blue-600 transition-colors">Planos</a>
+          <a href="#faq" className="hover:text-blue-600 transition-colors">FAQ</a>
+          <a href={APP_URL} className="hover:text-blue-600 transition-colors">Acessar App</a>
         </div>
 
         <p className="text-xs text-text-muted">

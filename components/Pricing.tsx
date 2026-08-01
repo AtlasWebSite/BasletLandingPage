@@ -13,11 +13,7 @@ export default function Pricing() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <span className="rounded-full bg-primary/10 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-primary">
-            Plano transparente
-          </span>
-
-          <h2 className="mb-3 mt-4 text-3xl font-extrabold tracking-tight text-text-main sm:text-4xl">
+          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-text-main sm:text-4xl">
             Um plano simples para estudar melhor
           </h2>
 
@@ -35,20 +31,14 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="relative flex flex-col justify-between rounded-3xl border border-primary bg-white p-8 shadow-xl shadow-primary/10 ring-2 ring-primary/20"
+              className="relative flex flex-col justify-between rounded-3xl border border-blue-600 bg-white p-8 shadow-xl shadow-blue-600/10 ring-2 ring-blue-600/20"
             >
-              {plan.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold text-white shadow-md">
-                  {plan.badge}
-                </div>
-              )}
-
               <div>
                 <h3 className="mb-2 text-2xl font-bold text-text-main">
                   {plan.name}
                 </h3>
 
-                <p className="mb-6 text-xs leading-relaxed text-text-muted">
+                <p className="mb-6 text-base leading-relaxed text-text-muted">
                   {plan.description}
                 </p>
 
@@ -56,7 +46,7 @@ export default function Pricing() {
                   <span className="text-4xl font-black text-text-main sm:text-5xl">
                     {plan.price}
                   </span>
-                  <span className="text-xs font-semibold text-text-muted">
+                  <span className="text-sm font-semibold text-text-muted">
                     {plan.period}
                   </span>
                 </div>
@@ -65,7 +55,7 @@ export default function Pricing() {
                   {plan.features.map((feature) => (
                     <li
                       key={feature}
-                      className="flex items-start gap-3 text-xs text-text-main sm:text-sm"
+                      className="flex items-start gap-3 text-sm text-text-main sm:text-base"
                     >
                       <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-progress/20 text-emerald-700">
                         <Check size={12} />
@@ -81,7 +71,7 @@ export default function Pricing() {
                 onClick={() =>
                   trackEvent("plan_select", { plan_id: plan.id })
                 }
-                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-bold text-white shadow-md shadow-primary/20 transition-all hover:bg-primary/90"
+                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700"
               >
                 <span>{plan.ctaText}</span>
                 <ArrowRight size={16} />

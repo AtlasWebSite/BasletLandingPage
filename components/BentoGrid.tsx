@@ -10,9 +10,9 @@ const bentoItems = [
     description: "Cartões interativos que facilitam a fixação de conceitos e a repetição espaçada.",
     icon: Layers,
     colSpan: "md:col-span-2",
-    accentColor: "text-primary",
-    bgColor: "bg-primary/5",
-    borderColor: "border-primary/20",
+    accentColor: "text-blue-600",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200",
   },
   {
     title: "Mapas Mentais",
@@ -20,9 +20,9 @@ const bentoItems = [
     description: "Estruture temas complexos visualmente com nós e relacionamentos claros.",
     icon: GitMerge,
     colSpan: "md:col-span-1",
-    accentColor: "text-primary",
-    bgColor: "bg-primary/5",
-    borderColor: "border-primary/20",
+    accentColor: "text-blue-600",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200",
   },
   {
     title: "Testes e Quizzes",
@@ -60,10 +60,7 @@ export default function BentoGrid() {
   return (
     <section id="recursos" className="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-3xl mx-auto mb-16">
-        <span className="text-sm font-bold uppercase tracking-widest text-primary bg-primary/10 px-3.5 py-1 rounded-full">
-          Funcionalidades Integradas
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-text-main tracking-tight mt-4 mb-3">
+        <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-text-main sm:text-4xl">
           Tudo o que você precisa para aprender mais em menos tempo
         </h2>
         <p className="text-base sm:text-lg text-text-muted">
@@ -92,7 +89,7 @@ export default function BentoGrid() {
                 <p className="text-base text-text-muted leading-relaxed">{item.description}</p>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-primary group-hover:translate-x-1 transition-transform">
+              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
                 <span>Explorar recurso no App</span>
                 <span>→</span>
               </div>

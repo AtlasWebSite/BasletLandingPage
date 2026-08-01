@@ -36,7 +36,7 @@ export default function AppDemo() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-base font-semibold transition-all whitespace-nowrap shrink-0 ${
                 isActive
-                  ? "bg-primary text-white shadow-md shadow-primary/20"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                   : "bg-white text-text-muted hover:text-text-main border border-slate-200"
               }`}
             >
@@ -80,7 +80,7 @@ export default function AppDemo() {
                   <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                     <span className="text-sm font-medium text-text-muted">Taxa de Acerto</span>
                     <p className="text-2xl font-bold text-text-main mt-1">92.4%</p>
-                    <span className="text-sm text-primary font-semibold">Excelente retenção</span>
+                    <span className="text-sm text-blue-600 font-semibold">Excelente retenção</span>
                   </div>
                   <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
                     <span className="text-sm font-medium text-text-muted">Sequência de Estudos</span>
@@ -98,7 +98,7 @@ export default function AppDemo() {
                         <span>85%</span>
                       </div>
                       <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary rounded-full" style={{ width: "85%" }} />
+                        <div className="h-full bg-blue-600 rounded-full" style={{ width: "85%" }} />
                       </div>
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export default function AppDemo() {
                         <span>70%</span>
                       </div>
                       <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary rounded-full" style={{ width: "70%" }} />
+                        <div className="h-full bg-blue-600 rounded-full" style={{ width: "70%" }} />
                       </div>
                     </div>
                   </div>
@@ -124,7 +124,7 @@ export default function AppDemo() {
                 transition={{ duration: 0.3 }}
                 className="w-full max-w-lg mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-md text-center"
               >
-                <span className="text-sm font-bold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
+                <span className="text-sm font-bold uppercase tracking-widest text-blue-600 bg-blue-600/10 px-3 py-1 rounded-full">
                   Baralho: Neurociência
                 </span>
                 <h3 className="text-xl font-bold text-text-main my-6">
@@ -155,12 +155,12 @@ export default function AppDemo() {
                 className="w-full h-full flex flex-col items-center justify-center p-6 bg-white rounded-xl border border-slate-200"
               >
                 <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
-                  <div className="px-4 py-3 bg-primary text-white rounded-xl shadow-md">
+                  <div className="px-4 py-3 bg-blue-600 text-white rounded-xl shadow-md">
                     Conceito Central: Sistema Nervoso
                   </div>
                   <div className="h-0.5 w-8 bg-slate-300 hidden sm:block" />
                   <div className="flex flex-col gap-2">
-                    <div className="px-3 py-2 bg-primary/10 text-primary border border-primary/20 rounded-lg">
+                    <div className="px-3 py-2 bg-blue-600/10 text-blue-600 border border-blue-600/20 rounded-lg">
                       S.N. Central (Encéfalo + Médula)
                     </div>
                     <div className="px-3 py-2 bg-progress/10 text-emerald-700 border border-progress/20 rounded-lg">
@@ -182,7 +182,7 @@ export default function AppDemo() {
               >
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-sm font-bold text-text-muted">Questão 3 de 10</span>
-                  <span className="text-sm font-bold text-primary">Tempo restante: 01:45</span>
+                  <span className="text-sm font-bold text-blue-600">Tempo restante: 01:45</span>
                 </div>
                 <p className="text-base font-semibold text-text-main mb-4">
                   Qual estrutura celular é responsável pela produção primária de ATP através da respiração celular?
@@ -191,9 +191,9 @@ export default function AppDemo() {
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-text-main">
                     A) Complexo de Golgi
                   </div>
-                  <div className="p-3 bg-primary/10 border border-primary text-primary rounded-lg text-sm font-bold flex justify-between items-center">
+                  <div className="p-3 bg-blue-600/10 border border-blue-600 text-blue-600 rounded-lg text-sm font-bold flex justify-between items-center">
                     <span>B) Mitocôndria</span>
-                    <span className="text-xs bg-primary text-white px-2 py-0.5 rounded">Selecionada</span>
+                    <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded">Selecionada</span>
                   </div>
                   <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-text-main">
                     C) Ribossomo
@@ -214,14 +214,14 @@ export default function AppDemo() {
                 <h4 className="text-base font-bold text-text-main mb-4">Cadernos & Tópicos de Estudo</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-blue-600" />
                     <div>
                       <h5 className="text-sm font-bold text-text-main">Medicina / Anatomia</h5>
                       <p className="text-sm text-text-muted">28 itens organizados</p>
                     </div>
                   </div>
                   <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <div className="w-3 h-3 rounded-full bg-blue-600" />
                     <div>
                       <h5 className="text-sm font-bold text-text-main">Concursos / Direito Const.</h5>
                       <p className="text-sm text-text-muted">42 itens organizados</p>

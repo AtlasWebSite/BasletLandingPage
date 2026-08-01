@@ -60,10 +60,10 @@ export default function ProblemSolution() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="p-8 rounded-2xl bg-gradient-to-br from-primary/5 via-white to-progress/10 border border-primary/20 shadow-lg shadow-primary/5 flex flex-col justify-between"
+            className="p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-progress/10 border border-blue-200 shadow-lg shadow-blue-600/5 flex flex-col justify-between"
           >
             <div>
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold mb-6">
+              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold mb-6">
                 <CheckCircle size={14} />
                 <span>Com o StudyFlow</span>
               </div>
@@ -91,7 +91,7 @@ export default function ProblemSolution() {
             <div className="mt-8 pt-4 border-t border-slate-200">
               <a
                 href={APP_URL}
-                className="inline-flex items-center gap-2 text-base font-bold text-primary hover:text-primary/80 transition-colors"
+                className="inline-flex items-center gap-2 text-base font-bold text-blue-600 hover:text-blue-600/80 transition-colors"
               >
                 <span>Entrar em fluxo agora</span>
                 <ArrowRight size={16} />

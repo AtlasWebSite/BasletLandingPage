@@ -35,10 +35,7 @@ export default function HowItWorks() {
     <section id="como-funciona" className="py-20 md:py-28 bg-white border-y border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-sm font-bold uppercase tracking-widest text-primary bg-primary/10 px-3.5 py-1 rounded-full">
-            Fluxo de Estudo
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-text-main tracking-tight mt-4 mb-3">
+          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-text-main sm:text-4xl">
             Como funciona na prática
           </h2>
           <p className="text-base sm:text-lg text-text-muted">
@@ -60,8 +57,8 @@ export default function HowItWorks() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-3xl font-black text-primary/30">{step.number}</span>
-                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-primary shadow-sm">
+                    <span className="text-3xl font-black text-blue-600/30">{step.number}</span>
+                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 shadow-sm">
                       <Icon size={20} />
                     </div>
                   </div>

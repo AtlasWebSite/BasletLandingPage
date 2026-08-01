@@ -96,7 +96,7 @@ export default function FAQ() {
                   <ChevronDown
                     size={18}
                     className={`shrink-0 text-text-muted transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-primary" : ""
+                      isOpen ? "rotate-180 text-blue-600" : ""
                     }`}
                   />
                 </button>

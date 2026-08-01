@@ -58,9 +58,9 @@ export default function UseCases() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex items-start gap-4"
+              className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-blue-300 hover:shadow-md transition-all flex items-start gap-4"
             >
-              <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                 <Icon size={20} />
               </div>
               <div>
