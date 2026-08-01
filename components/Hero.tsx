@@ -135,32 +135,8 @@ export default function Hero() {
                 className="h-auto w-full overflow-visible"
               >
                 <defs>
-                  <linearGradient
-                    id="studyflowStairGradient"
-                    x1="55"
-                    y1="390"
-                    x2="545"
-                    y2="100"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0%" stopColor="#2563EB" />
-                    <stop offset="55%" stopColor="#3B82F6" />
-                    <stop offset="100%" stopColor="#60A5FA" />
-                  </linearGradient>
-
-                  <linearGradient
-                    id="studyflowSideGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor="#1D4ED8" />
-                    <stop offset="100%" stopColor="#1E40AF" />
-                  </linearGradient>
-
                   <filter
-                    id="studyflowShadow"
+                    id="studyflowLineShadow"
                     x="-30%"
                     y="-30%"
                     width="160%"
@@ -168,21 +144,21 @@ export default function Hero() {
                   >
                     <feDropShadow
                       dx="0"
-                      dy="22"
-                      stdDeviation="20"
-                      floodColor="#1D4ED8"
-                      floodOpacity="0.18"
+                      dy="14"
+                      stdDeviation="14"
+                      floodColor="#2563EB"
+                      floodOpacity="0.16"
                     />
                   </filter>
 
                   <filter
-                    id="studyflowGlow"
-                    x="-200%"
-                    y="-200%"
-                    width="400%"
-                    height="400%"
+                    id="studyflowPointGlow"
+                    x="-250%"
+                    y="-250%"
+                    width="500%"
+                    height="500%"
                   >
-                    <feGaussianBlur stdDeviation="8" result="blur" />
+                    <feGaussianBlur stdDeviation="6" result="blur" />
                     <feMerge>
                       <feMergeNode in="blur" />
                       <feMergeNode in="SourceGraphic" />
@@ -191,39 +167,39 @@ export default function Hero() {
                 </defs>
 
                 <path
-                  d="M45 365H150V305H255V245H360V185H465V125H545V410H45Z"
-                  fill="url(#studyflowSideGradient)"
-                  filter="url(#studyflowShadow)"
-                />
-
-                <path
-                  d="M45 345H150V285H255V225H360V165H465V105H545V365H45Z"
-                  fill="url(#studyflowStairGradient)"
-                />
-
-                <path
-                  d="M45 345H150M150 285H255M255 225H360M360 165H465M465 105H545"
+                  d="M55 345H155V285H255V225H355V165H455V105H535"
                   fill="none"
-                  stroke="rgba(255,255,255,0.48)"
-                  strokeWidth="2"
+                  stroke="#2563EB"
+                  strokeWidth="7"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#studyflowLineShadow)"
                 />
 
                 <path
-                  d="M150 285V345M255 225V285M360 165V225M465 105V165"
+                  d="M55 345V385H535V105"
                   fill="none"
-                  stroke="rgba(255,255,255,0.16)"
-                  strokeWidth="2"
+                  stroke="#BFDBFE"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+
+                <path
+                  d="M72 330L518 78"
+                  fill="none"
+                  stroke="#93C5FD"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray="8 10"
                 />
 
                 <motion.path
-                  d="M72 327H150V267H255V207H360V147H465V87H520"
+                  d="M72 330L518 78"
                   fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="5"
+                  stroke="#1D4ED8"
+                  strokeWidth="4"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                  filter="url(#studyflowGlow)"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{
                     pathLength: [0, 1, 1],
@@ -238,16 +214,16 @@ export default function Hero() {
                 />
 
                 <circle
-                  r="8"
+                  r="9"
                   fill="#FFFFFF"
                   stroke="#2563EB"
-                  strokeWidth="4"
-                  filter="url(#studyflowGlow)"
+                  strokeWidth="5"
+                  filter="url(#studyflowPointGlow)"
                 >
                   <animateMotion
                     dur="6s"
                     repeatCount="indefinite"
-                    path="M72 327H150V267H255V207H360V147H465V87H520"
+                    path="M72 330L518 78"
                     keyTimes="0;0.82;1"
                     keyPoints="0;1;1"
                     calcMode="linear"
@@ -263,19 +239,19 @@ export default function Hero() {
 
                 <g>
                   <text
-                    x="68"
-                    y="302"
-                    fill="rgba(255,255,255,0.6)"
-                    fontSize="11"
-                    fontWeight="700"
+                    x="72"
+                    y="308"
+                    fill="#60A5FA"
+                    fontSize="12"
+                    fontWeight="800"
                   >
                     01
                   </text>
                   <text
-                    x="68"
-                    y="325"
-                    fill="#FFFFFF"
-                    fontSize="16"
+                    x="72"
+                    y="331"
+                    fill="#0F172A"
+                    fontSize="17"
                     fontWeight="800"
                   >
                     Organizar
@@ -284,19 +260,19 @@ export default function Hero() {
 
                 <g>
                   <text
-                    x="173"
-                    y="242"
-                    fill="rgba(255,255,255,0.6)"
-                    fontSize="11"
-                    fontWeight="700"
+                    x="174"
+                    y="248"
+                    fill="#60A5FA"
+                    fontSize="12"
+                    fontWeight="800"
                   >
                     02
                   </text>
                   <text
-                    x="173"
-                    y="265"
-                    fill="#FFFFFF"
-                    fontSize="16"
+                    x="174"
+                    y="271"
+                    fill="#0F172A"
+                    fontSize="17"
                     fontWeight="800"
                   >
                     Praticar
@@ -305,19 +281,19 @@ export default function Hero() {
 
                 <g>
                   <text
-                    x="278"
-                    y="182"
-                    fill="rgba(255,255,255,0.6)"
-                    fontSize="11"
-                    fontWeight="700"
+                    x="274"
+                    y="188"
+                    fill="#60A5FA"
+                    fontSize="12"
+                    fontWeight="800"
                   >
                     03
                   </text>
                   <text
-                    x="278"
-                    y="205"
-                    fill="#FFFFFF"
-                    fontSize="16"
+                    x="274"
+                    y="211"
+                    fill="#0F172A"
+                    fontSize="17"
                     fontWeight="800"
                   >
                     Revisar
@@ -326,19 +302,19 @@ export default function Hero() {
 
                 <g>
                   <text
-                    x="383"
-                    y="122"
-                    fill="rgba(255,255,255,0.6)"
-                    fontSize="11"
-                    fontWeight="700"
+                    x="374"
+                    y="128"
+                    fill="#60A5FA"
+                    fontSize="12"
+                    fontWeight="800"
                   >
                     04
                   </text>
                   <text
-                    x="383"
-                    y="145"
-                    fill="#FFFFFF"
-                    fontSize="16"
+                    x="374"
+                    y="151"
+                    fill="#0F172A"
+                    fontSize="17"
                     fontWeight="800"
                   >
                     Evoluir
@@ -354,15 +330,15 @@ export default function Hero() {
                   }}
                 >
                   <circle
-                    cx="510"
-                    cy="72"
-                    r="28"
+                    cx="520"
+                    cy="76"
+                    r="27"
                     fill="#FFFFFF"
                     stroke="#DBEAFE"
                     strokeWidth="2"
                   />
                   <path
-                    d="M498 76L507 67L514 73L523 62"
+                    d="M508 80L517 71L524 77L533 66"
                     fill="none"
                     stroke="#2563EB"
                     strokeWidth="4"
@@ -370,7 +346,7 @@ export default function Hero() {
                     strokeLinejoin="round"
                   />
                   <path
-                    d="M516 62H523V69"
+                    d="M526 66H533V73"
                     fill="none"
                     stroke="#2563EB"
                     strokeWidth="4"
