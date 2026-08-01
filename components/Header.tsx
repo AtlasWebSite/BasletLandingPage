@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -19,6 +19,7 @@ const navLinks = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const scrollAnimationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +31,44 @@ export default function Header() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const animateScrollTo = (targetY: number, duration = 900) => {
+    if (scrollAnimationRef.current !== null) {
+      window.cancelAnimationFrame(scrollAnimationRef.current);
+    }
+
+    const startY = window.scrollY;
+    const maxScrollY =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const destinationY = Math.min(Math.max(targetY, 0), maxScrollY);
+    const distance = destinationY - startY;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (progress: number) => {
+      if (progress < 0.5) {
+        return 4 * progress * progress * progress;
+      }
+
+      return 1 - Math.pow(-2 * progress + 2, 3) / 2;
+    };
+
+    const step = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * easedProgress);
+
+      if (progress < 1) {
+        scrollAnimationRef.current = window.requestAnimationFrame(step);
+        return;
+      }
+
+      scrollAnimationRef.current = null;
+    };
+
+    scrollAnimationRef.current = window.requestAnimationFrame(step);
+  };
 
   const handleNavClick = (
     event: MouseEvent<HTMLAnchorElement>,
@@ -43,17 +82,14 @@ export default function Header() {
       return;
     }
 
+    setMobileMenu(false);
+
     const headerOffset = 112;
     const targetPosition =
       target.getBoundingClientRect().top + window.scrollY - headerOffset;
 
-    window.scrollTo({
-      top: Math.max(targetPosition, 0),
-      behavior: "smooth",
-    });
-
+    animateScrollTo(targetPosition);
     window.history.replaceState(null, "", href);
-    setMobileMenu(false);
   };
 
   return (
@@ -86,14 +122,14 @@ export default function Header() {
 
         <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.name}
               href={link.href}
               onClick={(event) => handleNavClick(event, link.href)}
               className="py-2 text-base font-medium text-text-muted transition-colors hover:text-blue-600"
             >
               {link.name}
-            </Link>
+            </a>
           ))}
         </nav>
 
@@ -140,14 +176,14 @@ export default function Header() {
           >
             <div className="flex flex-col gap-3 px-6 py-6">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.name}
                   href={link.href}
                   onClick={(event) => handleNavClick(event, link.href)}
                   className="border-b border-slate-100 py-3 text-base font-medium text-text-main transition-colors hover:text-blue-600"
                 >
                   {link.name}
-                </Link>
+                </a>
               ))}
 
               <div className="flex flex-col gap-3 pt-3">
