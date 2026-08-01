@@ -17,19 +17,37 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
   const scrollAnimationRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    let animationFrame: number | null = null;
+
+    const updateHeader = () => {
+      const progress = Math.min(window.scrollY / 240, 1);
+      setScrollProgress(progress);
+      animationFrame = null;
     };
 
-    handleScroll();
+    const handleScroll = () => {
+      if (animationFrame !== null) {
+        return;
+      }
+
+      animationFrame = window.requestAnimationFrame(updateHeader);
+    };
+
+    updateHeader();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
   }, []);
 
   const animateScrollTo = (targetY: number, duration = 900) => {
@@ -70,6 +88,17 @@ export default function Header() {
     scrollAnimationRef.current = window.requestAnimationFrame(step);
   };
 
+  const headerPadding = 12 + scrollProgress * 10;
+  const headerBackgroundOpacity = 0.96 - scrollProgress * 0.86;
+  const headerBorderOpacity = 0.7 * (1 - scrollProgress);
+  const headerShadowOpacity = 0.08 * (1 - scrollProgress);
+  const headerBlur = 18 - scrollProgress * 6;
+  const logoSize = 32 + scrollProgress * 8;
+  const brandFontSize = 18 + scrollProgress * 2;
+  const navFontSize = 15 + scrollProgress;
+  const ctaPaddingX = 20 + scrollProgress * 4;
+  const ctaPaddingY = 10 + scrollProgress * 2;
+
   const handleNavClick = (
     event: MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -97,11 +126,16 @@ export default function Header() {
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className={`fixed inset-x-0 top-0 z-50 border-b py-5 transition-all duration-500 md:py-6 ${
-        scrolled
-          ? "border-transparent bg-white/10 shadow-none backdrop-blur-md"
-          : "border-slate-200/70 bg-white/95 shadow-sm backdrop-blur-xl"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 border-b will-change-[padding,background-color,backdrop-filter]"
+      style={{
+        paddingTop: `${headerPadding}px`,
+        paddingBottom: `${headerPadding}px`,
+        backgroundColor: `rgba(255, 255, 255, ${headerBackgroundOpacity})`,
+        borderColor: `rgba(226, 232, 240, ${headerBorderOpacity})`,
+        boxShadow: `0 1px 20px rgba(15, 23, 42, ${headerShadowOpacity})`,
+        backdropFilter: `blur(${headerBlur}px)`,
+        WebkitBackdropFilter: `blur(${headerBlur}px)`,
+      }}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-3">
@@ -111,10 +145,17 @@ export default function Header() {
             width={40}
             height={40}
             priority
-            className="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105"
+            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            style={{
+              width: `${logoSize}px`,
+              height: `${logoSize}px`,
+            }}
           />
 
-          <span className="flex items-center gap-1 text-xl font-bold tracking-tight text-text-main">
+          <span
+            className="flex items-center gap-1 font-bold tracking-tight text-text-main"
+            style={{ fontSize: `${brandFontSize}px` }}
+          >
             StudyFlow
             <span className="h-2 w-2 rounded-full bg-emerald-400" />
           </span>
@@ -126,7 +167,8 @@ export default function Header() {
               key={link.name}
               href={link.href}
               onClick={(event) => handleNavClick(event, link.href)}
-              className="py-2 text-base font-medium text-text-muted transition-colors hover:text-blue-600"
+              className="py-2 font-medium text-text-muted transition-colors hover:text-blue-600"
+              style={{ fontSize: `${navFontSize}px` }}
             >
               {link.name}
             </a>
@@ -147,7 +189,13 @@ export default function Header() {
           <a
             href={APP_URL}
             onClick={() => trackEvent("cta_header_click")}
-            className="flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]"
+            className="flex items-center gap-2 rounded-full bg-blue-600 text-base font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg active:scale-[0.98]"
+            style={{
+              paddingLeft: `${ctaPaddingX}px`,
+              paddingRight: `${ctaPaddingX}px`,
+              paddingTop: `${ctaPaddingY}px`,
+              paddingBottom: `${ctaPaddingY}px`,
+            }}
           >
             <span>Começar agora</span>
             <ArrowRight size={17} />
