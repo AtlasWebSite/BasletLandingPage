@@ -342,13 +342,15 @@ export default function Hero() {
                   }}
                 />
 
-                <circle
-                  r="9"
-                  fill="#FFFFFF"
-                  stroke="#2563EB"
-                  strokeWidth="5"
-                  filter="url(#studyflowPointGlow)"
-                >
+                <g filter="url(#studyflowPointGlow)">
+                  <path
+                    d="M-12 -8L12 0L-12 8L-6 0Z"
+                    fill="#2563EB"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.5"
+                    strokeLinejoin="round"
+                  />
+
                   <animateMotion
                     dur={`${LOOP_DURATION}s`}
                     repeatCount="indefinite"
@@ -356,7 +358,9 @@ export default function Hero() {
                     keyTimes="0;0.86;1"
                     keyPoints="0;1;1"
                     calcMode="linear"
+                    rotate="auto"
                   />
+
                   <animate
                     attributeName="opacity"
                     values="0;1;1;0"
@@ -364,7 +368,7 @@ export default function Hero() {
                     dur={`${LOOP_DURATION}s`}
                     repeatCount="indefinite"
                   />
-                </circle>
+                </g>
 
                 <StageLabel
                   number="01"
