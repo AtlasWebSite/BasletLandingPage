@@ -93,8 +93,11 @@ export default function Header() {
   const headerBorderOpacity = 0.7 * (1 - scrollProgress);
   const headerShadowOpacity = 0.08 * (1 - scrollProgress);
   const headerBlur = 18 - scrollProgress * 6;
-  const logoSize = 32 + scrollProgress * 8;
-  const brandFontSize = 18 + scrollProgress * 2;
+  const logoSize = 30 + scrollProgress * 10;
+  const brandFontSize = 17 + scrollProgress * 3;
+  const brandScale = 0.9 + scrollProgress * 0.1;
+  const brandOpacity = 1 - scrollProgress * 0.18;
+  const brandGap = 9 + scrollProgress * 3;
   const navFontSize = 15 + scrollProgress;
   const ctaPaddingX = 20 + scrollProgress * 4;
   const ctaPaddingY = 10 + scrollProgress * 2;
@@ -138,7 +141,16 @@ export default function Header() {
       }}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-3">
+        <Link
+          href="/"
+          className="group flex items-center will-change-[transform,opacity]"
+          style={{
+            gap: `${brandGap}px`,
+            opacity: brandOpacity,
+            transform: `scale(${brandScale})`,
+            transformOrigin: "left center",
+          }}
+        >
           <Image
             src="/favicon.ico"
             alt="StudyFlow"
