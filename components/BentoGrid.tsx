@@ -20,9 +20,9 @@ const bentoItems = [
     description: "Estruture temas complexos visualmente com nós e relacionamentos claros.",
     icon: GitMerge,
     colSpan: "md:col-span-1",
-    accentColor: "text-secondary",
-    bgColor: "bg-secondary/5",
-    borderColor: "border-secondary/20",
+    accentColor: "text-primary",
+    bgColor: "bg-primary/5",
+    borderColor: "border-primary/20",
   },
   {
     title: "Testes e Quizzes",

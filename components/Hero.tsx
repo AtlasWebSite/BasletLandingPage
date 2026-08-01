@@ -21,7 +21,7 @@ export default function Hero() {
           >
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-text-main tracking-tight leading-[1.12] mb-6">
               Transforme conteúdo em{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-primary to-blue-500">
                 aprendizado que fica.
               </span>
             </h1>
@@ -66,7 +66,7 @@ export default function Hero() {
             <motion.div
               animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.6, 0.8, 0.6] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="absolute w-96 h-96 bg-gradient-to-tr from-primary/20 via-secondary/15 to-progress/20 rounded-full blur-3xl"
+              className="absolute w-96 h-96 bg-gradient-to-tr from-primary/25 via-blue-500/15 to-blue-300/20 rounded-full blur-3xl"
             />
 
             <motion.div
@@ -75,7 +75,7 @@ export default function Hero() {
               className="absolute z-20 top-10 left-0 sm:-left-4 w-72 sm:w-80 bg-white border border-slate-200/80 rounded-2xl p-5 shadow-2xl shadow-slate-200/60"
             >
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   <GitMerge size={20} />
                 </div>
                 <div>
@@ -85,11 +85,11 @@ export default function Hero() {
               </div>
               <div className="space-y-2.5">
                 <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full w-4/5 bg-secondary rounded-full" />
+                  <div className="h-full w-4/5 bg-primary rounded-full" />
                 </div>
                 <div className="flex justify-between text-xs text-text-muted font-medium">
                   <span>12 Tópicos</span>
-                  <span className="text-secondary font-bold">Conectados</span>
+                  <span className="text-primary font-bold">Conectados</span>
                 </div>
               </div>
             </motion.div>

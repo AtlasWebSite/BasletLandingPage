@@ -107,7 +107,7 @@ export default function AppDemo() {
                         <span>70%</span>
                       </div>
                       <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-secondary rounded-full" style={{ width: "70%" }} />
+                        <div className="h-full bg-primary rounded-full" style={{ width: "70%" }} />
                       </div>
                     </div>
                   </div>
@@ -160,7 +160,7 @@ export default function AppDemo() {
                   </div>
                   <div className="h-0.5 w-8 bg-slate-300 hidden sm:block" />
                   <div className="flex flex-col gap-2">
-                    <div className="px-3 py-2 bg-secondary/10 text-secondary border border-secondary/20 rounded-lg">
+                    <div className="px-3 py-2 bg-primary/10 text-primary border border-primary/20 rounded-lg">
                       S.N. Central (Encéfalo + Médula)
                     </div>
                     <div className="px-3 py-2 bg-progress/10 text-emerald-700 border border-progress/20 rounded-lg">
@@ -221,7 +221,7 @@ export default function AppDemo() {
                     </div>
                   </div>
                   <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-secondary" />
+                    <div className="w-3 h-3 rounded-full bg-primary" />
                     <div>
                       <h5 className="text-sm font-bold text-text-main">Concursos / Direito Const.</h5>
                       <p className="text-sm text-text-muted">42 itens organizados</p>
