@@ -13,24 +13,28 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
+type AnimationPhase = "arrow" | "escalator";
+
 const TOTAL_STEPS = 24;
 const WORD_CYCLE = 12;
-const STEP_WIDTH = 96;
-const STEP_HEIGHT = 22;
-const STEP_RADIUS = 7;
-const STEP_DISTANCE_X = 42;
-const STEP_DISTANCE_Y = 22;
-const STEP_BASE_X = 18;
-const STEP_BASE_Y = 360;
-const LOWER_FADE_END = 1.35;
-const UPPER_FADE_START = 11.2;
-const UPPER_FADE_END = 13.25;
-const ESCALATOR_DURATION = 11;
 
-const ARROW_START_X = 84;
-const ARROW_START_Y = 320;
-const ARROW_FULL_END_X = 512;
-const ARROW_FULL_END_Y = 96;
+const STEP_WIDTH = 84;
+const STEP_HEIGHT = 42;
+const STEP_STROKE_WIDTH = 6;
+
+const STEP_BASE_X = 8;
+const STEP_BASE_Y = 356;
+
+const LOWER_DRAW_END = 0.8;
+const UPPER_DRAW_START = 6.25;
+const UPPER_DRAW_END = 7.35;
+
+const ESCALATOR_CYCLE_DURATION = 30;
+
+const ARROW_START_X = 72;
+const ARROW_START_Y = 282;
+const ARROW_FULL_END_X = 520;
+const ARROW_FULL_END_Y = 58;
 const ARROW_STOP_X = (ARROW_START_X + ARROW_FULL_END_X) / 2;
 const ARROW_STOP_Y = (ARROW_START_Y + ARROW_FULL_END_Y) / 2;
 const ARROW_ANGLE =
@@ -41,105 +45,100 @@ const ARROW_ANGLE =
     180) /
   Math.PI;
 
-const WORDS_BY_SLOT: Record<number, string> = {
-  1: "Organizar",
-  4: "Praticar",
-  7: "Revisar",
-  10: "Evoluir",
+const WORDS_BY_STEP: Record<number, string> = {
+  0: "Organizar",
+  3: "Praticar",
+  6: "Revisar",
+  9: "Evoluir",
 };
 
 function wrap(value: number, length: number) {
   return ((value % length) + length) % length;
 }
 
-function getVisibility(phase: number) {
-  const lowerVisibility = Math.min(Math.max(phase / LOWER_FADE_END, 0), 1);
-  const upperVisibility = Math.min(
-    Math.max((UPPER_FADE_END - phase) / (UPPER_FADE_END - UPPER_FADE_START), 0),
+function getDrawProgress(slot: number) {
+  const lowerProgress = Math.min(
+    Math.max(slot / LOWER_DRAW_END, 0),
     1,
   );
 
-  return Math.min(lowerVisibility, upperVisibility);
+  const upperProgress = Math.min(
+    Math.max(
+      (UPPER_DRAW_END - slot) /
+        (UPPER_DRAW_END - UPPER_DRAW_START),
+      0,
+    ),
+    1,
+  );
+
+  return Math.min(lowerProgress, upperProgress);
 }
 
-interface EscalatorStepProps {
+interface StairStepProps {
   index: number;
-  progress: MotionValue<number>;
+  offset: MotionValue<number>;
 }
 
-function EscalatorStep({ index, progress }: EscalatorStepProps) {
-  const label = WORDS_BY_SLOT[index % WORD_CYCLE];
+function StairStep({ index, offset }: StairStepProps) {
+  const label = WORDS_BY_STEP[index % WORD_CYCLE];
 
-  const x = useTransform(progress, (latestProgress) => {
-    const phase = wrap(
-      index - latestProgress * TOTAL_STEPS,
-      TOTAL_STEPS,
-    );
+  const slot = useTransform(offset, (latestOffset) =>
+    wrap(index - latestOffset, TOTAL_STEPS),
+  );
 
-    return STEP_BASE_X + phase * STEP_DISTANCE_X;
-  });
+  const x = useTransform(
+    slot,
+    (latestSlot) => STEP_BASE_X + latestSlot * STEP_WIDTH,
+  );
 
-  const y = useTransform(progress, (latestProgress) => {
-    const phase = wrap(
-      index - latestProgress * TOTAL_STEPS,
-      TOTAL_STEPS,
-    );
+  const y = useTransform(
+    slot,
+    (latestSlot) => STEP_BASE_Y - latestSlot * STEP_HEIGHT,
+  );
 
-    return STEP_BASE_Y - phase * STEP_DISTANCE_Y;
-  });
+  const drawProgress = useTransform(slot, getDrawProgress);
 
-  const opacity = useTransform(progress, (latestProgress) => {
-    const phase = wrap(
-      index - latestProgress * TOTAL_STEPS,
-      TOTAL_STEPS,
-    );
-
-    return getVisibility(phase);
-  });
-
-  const stepScaleX = useTransform(progress, (latestProgress) => {
-    const phase = wrap(
-      index - latestProgress * TOTAL_STEPS,
-      TOTAL_STEPS,
-    );
-    const visibility = getVisibility(phase);
-
-    return 0.35 + visibility * 0.65;
-  });
+  const textOpacity = useTransform(
+    drawProgress,
+    [0, 0.55, 1],
+    [0, 0, 1],
+  );
 
   return (
     <motion.g
       style={{
         x,
         y,
-        opacity,
       }}
     >
-      <motion.rect
-        width={STEP_WIDTH}
-        height={STEP_HEIGHT}
-        rx={STEP_RADIUS}
-        fill="#2563EB"
-        stroke="#1D4ED8"
-        strokeWidth="1.5"
+      <motion.path
+        d={`M0 0H${STEP_WIDTH}V-${STEP_HEIGHT}`}
+        fill="none"
+        stroke="#2563EB"
+        strokeWidth={STEP_STROKE_WIDTH}
+        strokeLinecap="round"
+        strokeLinejoin="round"
         style={{
-          scaleX: stepScaleX,
-          transformOrigin: `${STEP_WIDTH / 2}px ${STEP_HEIGHT / 2}px`,
+          pathLength: drawProgress,
+          opacity: drawProgress,
         }}
       />
 
       {label && (
-        <text
+        <motion.text
           x={STEP_WIDTH / 2}
-          y={STEP_HEIGHT / 2 + 5}
+          y={-11}
           textAnchor="middle"
-          fill="#FFFFFF"
+          fill="#0F172A"
           fontSize="14"
           fontWeight="800"
-          letterSpacing="-0.2"
+          letterSpacing="-0.25"
+          style={{
+            opacity: textOpacity,
+          }}
         >
           {label}
-        </text>
+        </motion.text>
       )}
     </motion.g>
   );
@@ -150,55 +149,59 @@ interface EscalatorVisualProps {
 }
 
 function EscalatorVisual({ reducedMotion }: EscalatorVisualProps) {
-  const stairProgress = useMotionValue(0);
-  const [staircaseRunning, setStaircaseRunning] = useState(false);
+  const [phase, setPhase] = useState<AnimationPhase>(
+    reducedMotion ? "escalator" : "arrow",
+  );
+
+  const stairOffset = useMotionValue(0);
 
   useEffect(() => {
-    if (!staircaseRunning || reducedMotion) {
+    if (phase !== "escalator" || reducedMotion) {
       return;
     }
 
-    stairProgress.set(0);
+    stairOffset.set(0);
 
-    const controls = animate(stairProgress, 1, {
-      duration: ESCALATOR_DURATION,
+    const controls = animate(stairOffset, TOTAL_STEPS, {
+      duration: ESCALATOR_CYCLE_DURATION,
       ease: "linear",
       repeat: Infinity,
+      repeatType: "loop",
     });
 
     return () => {
       controls.stop();
     };
-  }, [reducedMotion, stairProgress, staircaseRunning]);
+  }, [phase, reducedMotion, stairOffset]);
 
-  const startEscalator = () => {
-    if (reducedMotion) {
+  const finishArrowPhase = () => {
+    if (phase !== "arrow") {
       return;
     }
 
-    setStaircaseRunning(true);
+    setPhase("escalator");
   };
 
   return (
-    <div className="relative flex h-[430px] w-full items-center justify-center sm:h-[520px]">
+    <div className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]">
       <svg
         viewBox="0 0 590 430"
         role="img"
-        aria-label="Escada rolante do StudyFlow com as etapas Organizar, Praticar, Revisar e Evoluir"
-        className="h-auto w-full max-w-[590px]"
+        aria-label="Escada rolante do StudyFlow descendo na diagonal com as etapas Organizar, Praticar, Revisar e Evoluir"
+        className="h-auto w-full max-w-[620px] overflow-visible"
       >
         <defs>
           <clipPath id="studyflowEscalatorClip">
-            <rect x="0" y="0" width="590" height="430" rx="20" />
+            <rect x="0" y="0" width="590" height="430" rx="12" />
           </clipPath>
         </defs>
 
         <g clipPath="url(#studyflowEscalatorClip)">
           {Array.from({ length: TOTAL_STEPS }, (_, index) => (
-            <EscalatorStep
+            <StairStep
               key={index}
               index={index}
-              progress={stairProgress}
+              offset={stairOffset}
             />
           ))}
         </g>
@@ -211,46 +214,47 @@ function EscalatorVisual({ reducedMotion }: EscalatorVisualProps) {
                   x: ARROW_START_X,
                   y: ARROW_START_Y,
                   opacity: 0,
-                  scale: 0.62,
+                  scale: 0.68,
+                  rotate: ARROW_ANGLE,
                 }
           }
           animate={{
             x: ARROW_STOP_X,
             y: ARROW_STOP_Y,
             opacity: 1,
-            scale: reducedMotion ? 1.12 : 1.24,
+            scale: reducedMotion ? 1.12 : 1.2,
             rotate: ARROW_ANGLE,
           }}
           transition={
             reducedMotion
               ? { duration: 0 }
               : {
-                  duration: 2.9,
+                  duration: 3,
                   ease: [0.22, 1, 0.36, 1],
                   opacity: {
-                    duration: 0.45,
+                    duration: 0.4,
                     ease: "easeOut",
                   },
                 }
           }
-          onAnimationComplete={startEscalator}
+          onAnimationComplete={finishArrowPhase}
           style={{
             transformOrigin: "center",
           }}
         >
           <path
-            d="M-38 0H22"
+            d="M-46 0H23"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="8"
+            strokeWidth="9"
             strokeLinecap="round"
           />
 
           <path
-            d="M12 -15L32 0L12 15"
+            d="M10 -17L34 0L10 17"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="8"
+            strokeWidth="9"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -298,7 +302,10 @@ export default function Hero() {
             transition={
               reducedMotion
                 ? { duration: 0 }
-                : { duration: 0.5, ease: "easeOut" }
+                : {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  }
             }
             className="flex flex-col items-center text-center lg:col-span-7 lg:items-start lg:text-left"
           >
