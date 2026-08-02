@@ -1,96 +1,105 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { MouseEvent } from "react";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+} from "framer-motion";
+import { useEffect, useState, type MouseEvent } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
 const LOOP_DURATION = 6;
+const ARROW_ACTIVE_END = 0.86;
+const ARROW_START_X = 60;
+const ARROW_START_Y = 275;
+const ARROW_END_X = 545;
+const ARROW_END_Y = 20;
+const ARROW_ANGLE = -27.73;
+
+const STAGE_CENTERS = [105, 225, 345, 465];
 
 interface StageLabelProps {
   number: string;
   label: string;
-  x: number;
+  centerX: number;
   y: number;
-  pulseAt: number;
+  active: boolean;
 }
 
 function StageLabel({
   number,
   label,
-  x,
+  centerX,
   y,
-  pulseAt,
+  active,
 }: StageLabelProps) {
-  const pulseStart = Math.max(pulseAt - 0.04, 0);
-  const pulseEnd = Math.min(pulseAt + 0.08, 0.9);
+  const iconX = centerX - 55;
 
   return (
     <motion.g
+      animate={
+        active
+          ? {
+              scale: [1, 1.2, 1.08],
+              y: [0, -3, 0],
+            }
+          : {
+              scale: 1,
+              y: 0,
+            }
+      }
+      transition={
+        active
+          ? {
+              duration: 0.45,
+              ease: "easeOut",
+            }
+          : {
+              duration: 0.18,
+              ease: "easeOut",
+            }
+      }
       style={{
         originX: 0.5,
         originY: 0.5,
       }}
-      animate={{
-        scale: [1, 1, 1.12, 1.05, 1.05, 1],
-      }}
-      transition={{
-        duration: LOOP_DURATION,
-        times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
     >
       <motion.text
-        x={x}
+        x={iconX}
         y={y - 21}
         fontSize="12"
         fontWeight="800"
         animate={{
-          fill: [
-            "#60A5FA",
-            "#60A5FA",
-            "#2563EB",
-            "#2563EB",
-            "#2563EB",
-            "#60A5FA",
-          ],
+          fill: active ? "#2563EB" : "#60A5FA",
         }}
-        transition={{
-          duration: LOOP_DURATION,
-          times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 0.2 }}
       >
         {number}
       </motion.text>
 
       <motion.g
         animate={{
-          opacity: [1, 1, 0, 0, 1],
-          scale: [1, 1, 0.7, 0.7, 1],
+          opacity: active ? 0 : 1,
+          scale: active ? 0.65 : 1,
         }}
-        transition={{
-          duration: LOOP_DURATION,
-          times: [0, pulseStart, pulseAt, 0.96, 1],
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 0.18 }}
       >
         <circle
-          cx={x + 9}
+          cx={iconX + 9}
           cy={y + 2}
           r="10"
           fill="#FEF2F2"
           stroke="#FECACA"
           strokeWidth="1.5"
         />
+
         <path
-          d={`M${x + 5} ${y - 2}L${x + 13} ${y + 6}M${x + 13} ${
-            y - 2
-          }L${x + 5} ${y + 6}`}
+          d={`M${iconX + 5} ${y - 2}L${iconX + 13} ${y + 6}M${
+            iconX + 13
+          } ${y - 2}L${iconX + 5} ${y + 6}`}
           fill="none"
           stroke="#EF4444"
           strokeWidth="2.6"
@@ -100,28 +109,27 @@ function StageLabel({
 
       <motion.g
         animate={{
-          opacity: [0, 0, 1, 1, 1, 0],
-          scale: [0.7, 0.7, 1.18, 1, 1, 0.7],
+          opacity: active ? 1 : 0,
+          scale: active ? [0.65, 1.25, 1] : 0.65,
         }}
         transition={{
-          duration: LOOP_DURATION,
-          times: [0, pulseStart, pulseAt, pulseEnd, 0.96, 1],
-          repeat: Infinity,
-          ease: "easeInOut",
+          duration: active ? 0.4 : 0.18,
+          ease: "easeOut",
         }}
       >
         <circle
-          cx={x + 9}
+          cx={iconX + 9}
           cy={y + 2}
           r="10"
           fill="#ECFDF5"
           stroke="#A7F3D0"
           strokeWidth="1.5"
         />
+
         <path
-          d={`M${x + 4.5} ${y + 2}L${x + 8} ${y + 5.5}L${x + 14} ${
-            y - 2
-          }`}
+          d={`M${iconX + 4.5} ${y + 2}L${iconX + 8} ${y + 5.5}L${
+            iconX + 14
+          } ${y - 2}`}
           fill="none"
           stroke="#10B981"
           strokeWidth="2.7"
@@ -131,26 +139,15 @@ function StageLabel({
       </motion.g>
 
       <motion.text
-        x={x + 27}
+        x={centerX}
         y={y + 8}
+        textAnchor="middle"
         fontSize="17"
         fontWeight="800"
         animate={{
-          fill: [
-            "#0F172A",
-            "#0F172A",
-            "#2563EB",
-            "#1D4ED8",
-            "#1D4ED8",
-            "#0F172A",
-          ],
+          fill: active ? "#1D4ED8" : "#0F172A",
         }}
-        transition={{
-          duration: LOOP_DURATION,
-          times: [0, pulseStart, pulseAt, pulseEnd, 0.94, 1],
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 0.2 }}
       >
         {label}
       </motion.text>
@@ -159,6 +156,53 @@ function StageLabel({
 }
 
 export default function Hero() {
+  const arrowX = useMotionValue(ARROW_START_X);
+  const arrowY = useMotionValue(ARROW_START_Y);
+  const [completedStages, setCompletedStages] = useState(0);
+
+  useEffect(() => {
+    const xAnimation = animate(
+      arrowX,
+      [ARROW_START_X, ARROW_END_X, ARROW_END_X],
+      {
+        duration: LOOP_DURATION,
+        times: [0, ARROW_ACTIVE_END, 1],
+        repeat: Infinity,
+        ease: "linear",
+      },
+    );
+
+    const yAnimation = animate(
+      arrowY,
+      [ARROW_START_Y, ARROW_END_Y, ARROW_END_Y],
+      {
+        duration: LOOP_DURATION,
+        times: [0, ARROW_ACTIVE_END, 1],
+        repeat: Infinity,
+        ease: "linear",
+      },
+    );
+
+    return () => {
+      xAnimation.stop();
+      yAnimation.stop();
+    };
+  }, [arrowX, arrowY]);
+
+  useMotionValueEvent(arrowX, "change", (latestX) => {
+    const nextCompletedStages = STAGE_CENTERS.filter(
+      (stageCenterX) => latestX >= stageCenterX,
+    ).length;
+
+    setCompletedStages((current) => {
+      if (current === nextCompletedStages) {
+        return current;
+      }
+
+      return nextCompletedStages;
+    });
+  });
+
   const handleSmoothScroll = (
     event: MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -323,83 +367,55 @@ export default function Hero() {
                   strokeDasharray="8 11"
                 />
 
-                <motion.path
-                  d="M60 275L545 20"
-                  fill="none"
-                  stroke="#2563EB"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{
-                    pathLength: [0, 1, 1],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: LOOP_DURATION,
-                    times: [0, 0.86, 1],
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
 
-                <g filter="url(#studyflowPointGlow)">
+                <motion.g
+                  filter="url(#studyflowPointGlow)"
+                  style={{
+                    x: arrowX,
+                    y: arrowY,
+                    rotate: ARROW_ANGLE,
+                    transformOrigin: "center",
+                  }}
+                >
                   <path
-                    d="M-12 -8L12 0L-12 8L-6 0Z"
+                    d="M-21 -14L21 0L-21 14L-10 0Z"
                     fill="#2563EB"
                     stroke="#FFFFFF"
-                    strokeWidth="2.5"
+                    strokeWidth="3"
                     strokeLinejoin="round"
                   />
-
-                  <animateMotion
-                    dur={`${LOOP_DURATION}s`}
-                    repeatCount="indefinite"
-                    path="M60 275L545 20"
-                    keyTimes="0;0.86;1"
-                    keyPoints="0;1;1"
-                    calcMode="linear"
-                    rotate="auto"
-                  />
-
-                  <animate
-                    attributeName="opacity"
-                    values="0;1;1;0"
-                    keyTimes="0;0.06;0.86;1"
-                    dur={`${LOOP_DURATION}s`}
-                    repeatCount="indefinite"
-                  />
-                </g>
+                </motion.g>
 
                 <StageLabel
                   number="01"
                   label="Organizar"
-                  x={55}
+                  centerX={STAGE_CENTERS[0]}
                   y={320}
-                  pulseAt={0.12}
+                  active={completedStages >= 1}
                 />
 
                 <StageLabel
                   number="02"
                   label="Praticar"
-                  x={175}
+                  centerX={STAGE_CENTERS[1]}
                   y={255}
-                  pulseAt={0.34}
+                  active={completedStages >= 2}
                 />
 
                 <StageLabel
                   number="03"
                   label="Revisar"
-                  x={295}
+                  centerX={STAGE_CENTERS[2]}
                   y={190}
-                  pulseAt={0.56}
+                  active={completedStages >= 3}
                 />
 
                 <StageLabel
                   number="04"
                   label="Evoluir"
-                  x={415}
+                  centerX={STAGE_CENTERS[3]}
                   y={125}
-                  pulseAt={0.78}
+                  active={completedStages >= 4}
                 />
 
               </svg>
