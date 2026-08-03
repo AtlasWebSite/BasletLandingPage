@@ -9,7 +9,7 @@ import { trackEvent } from "@/lib/analytics";
 type AnimationPhase = "arrow" | "escalator";
 
 // Altere somente este valor para aumentar ou diminuir toda a escada.
-const STAIR_SIZE = 1.15;
+const STAIR_SIZE = 1.3;
 const STEP_WIDTH = 96 * STAIR_SIZE;
 const STEP_HEIGHT = 48 * STAIR_SIZE;
 const STEP_STROKE_WIDTH = 7 * STAIR_SIZE;
