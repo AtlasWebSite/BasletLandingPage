@@ -46,13 +46,13 @@ const ARROW_HIT_X = ARROW_STOP_X + ARROW_TIP_X_OFFSET;
 
 const WORDS_BY_STEP: Record<number, string> = {
   0: "Organizar",
-  1: "Planejar",
-  2: "Praticar",
-  3: "Aplicar",
-  4: "Revisar",
-  5: "Consolidar",
-  6: "Evoluir",
-  7: "Repetir",
+  3: "Planejar",
+  6: "Praticar",
+  9: "Aplicar",
+  12: "Revisar",
+  15: "Consolidar",
+  18: "Evoluir",
+  21: "Repetir",
 };
 const WORD_ENTRIES = Object.entries(WORDS_BY_STEP).map(
   ([step, label]) => ({ step: Number(step), label }),
