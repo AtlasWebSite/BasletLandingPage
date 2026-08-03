@@ -19,7 +19,7 @@ const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
 
 // 1 = velocidade atual; valores maiores aceleram e menores desaceleram.
-const ESCALATOR_SPEED = 2;
+const ESCALATOR_SPEED = 2.5;
 const STEP_DURATION = 2 / ESCALATOR_SPEED;
 
 const TRACK_START_X = -STEP_WIDTH * 4;
