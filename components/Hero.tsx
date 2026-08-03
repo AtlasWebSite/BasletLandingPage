@@ -8,9 +8,11 @@ import { trackEvent } from "@/lib/analytics";
 
 type AnimationPhase = "arrow" | "escalator";
 
-const STEP_WIDTH = 96;
-const STEP_HEIGHT = 48;
-const STEP_STROKE_WIDTH = 7;
+// Altere somente este valor para aumentar ou diminuir toda a escada.
+const STAIR_SIZE = 1.15;
+const STEP_WIDTH = 96 * STAIR_SIZE;
+const STEP_HEIGHT = 48 * STAIR_SIZE;
+const STEP_STROKE_WIDTH = 7 * STAIR_SIZE;
 const STEPS_PER_SEQUENCE = 12;
 const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
@@ -24,6 +26,7 @@ const ARROW_START_X = 84;
 const ARROW_START_Y = 320 + ARROW_VERTICAL_OFFSET;
 const ARROW_FULL_END_X = 512;
 const ARROW_FULL_END_Y = 96 + ARROW_VERTICAL_OFFSET;
+const ARROW_SCALE = 1.24;
 const ARROW_STOP_X = (ARROW_START_X + ARROW_FULL_END_X) / 2;
 const ARROW_STOP_Y = (ARROW_START_Y + ARROW_FULL_END_Y) / 2;
 const ARROW_ANGLE =
@@ -172,14 +175,14 @@ function EscalatorVisual() {
             x: ARROW_START_X,
             y: ARROW_START_Y,
             opacity: 0,
-            scale: 0.62,
+            scale: ARROW_SCALE,
             rotate: ARROW_ANGLE,
           }}
           animate={{
             x: ARROW_STOP_X,
             y: ARROW_STOP_Y,
             opacity: 1,
-            scale: 1.24,
+            scale: ARROW_SCALE,
             rotate: ARROW_ANGLE,
           }}
           transition={{
