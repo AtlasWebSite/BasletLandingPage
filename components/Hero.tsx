@@ -213,19 +213,18 @@ function EscalatorVisual() {
           }}
         >
           <path
-            d="M-44 0H28"
+            d="M-44 0H16"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="7"
+            strokeWidth="6.5"
             strokeLinecap="round"
           />
 
           <path
-            d="M16 -13L32 0L16 13"
-            fill="none"
+            d="M11 -15L34 0L11 15Z"
+            fill="#2563EB"
             stroke="#2563EB"
-            strokeWidth="7"
-            strokeLinecap="round"
+            strokeWidth="2"
             strokeLinejoin="round"
           />
         </motion.g>
