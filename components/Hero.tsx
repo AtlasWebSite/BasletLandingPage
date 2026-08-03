@@ -54,6 +54,14 @@ const WORD_ENTRIES = Object.entries(WORDS_BY_STEP).map(
   ([step, label]) => ({ step: Number(step), label }),
 );
 
+function getWordContentWidth(label: string) {
+  const fontSize = 14 * STAIR_SIZE;
+  const indicatorRadius = 7 * STAIR_SIZE;
+  const indicatorGap = 4 * STAIR_SIZE;
+
+  return indicatorRadius * 2 + indicatorGap + label.length * fontSize * 0.56;
+}
+
 const STAIRCASE_PATH = Array.from(
   { length: STEPS_PER_SEQUENCE },
   () => `h${STEP_WIDTH}v-${STEP_HEIGHT}`,
@@ -98,9 +106,7 @@ function WordSequence({ completedWords, sequence }: WordSequenceProps) {
         const labelY = -stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE;
         const indicatorRadius = 7 * STAIR_SIZE;
         const indicatorGap = 4 * STAIR_SIZE;
-        const estimatedLabelWidth = label.length * fontSize * 0.56;
-        const contentWidth =
-          indicatorRadius * 2 + indicatorGap + estimatedLabelWidth;
+        const contentWidth = getWordContentWidth(label);
         const contentStartX = centerX - contentWidth / 2;
         const indicatorX = contentStartX + indicatorRadius;
         const indicatorY = labelY - fontSize * 0.35;
@@ -223,6 +229,25 @@ function EscalatorVisual() {
     });
   }, []);
 
+  const resetWords = useCallback((labels: string[]) => {
+    if (labels.length === 0) {
+      return;
+    }
+
+    setCompletedWords((currentWords) => {
+      const nextWords = new Set(currentWords);
+      let changed = false;
+
+      labels.forEach((label) => {
+        if (nextWords.delete(label)) {
+          changed = true;
+        }
+      });
+
+      return changed ? nextWords : currentWords;
+    });
+  }, []);
+
   const trackArrowCrossings = useCallback(
     (latest: { x?: number | string }) => {
       if (typeof latest.x !== "number") {
@@ -267,11 +292,30 @@ function EscalatorVisual() {
         );
 
         completeWords(crossedLabels);
+
+        const exitedLabels = [0, 1].flatMap((sequence) =>
+          WORD_ENTRIES.filter(({ step, label }) => {
+            const initialWordX =
+              TRACK_START_X +
+              sequence * SEQUENCE_WIDTH +
+              step * STEP_WIDTH +
+              STEP_WIDTH / 2;
+            const halfContentWidth = getWordContentWidth(label) / 2;
+            const previousRightEdge =
+              initialWordX + previousOffset + halfContentWidth;
+            const currentRightEdge =
+              initialWordX + currentOffset + halfContentWidth;
+
+            return previousRightEdge >= 0 && currentRightEdge < 0;
+          }).map(({ label }) => label),
+        );
+
+        resetWords(exitedLabels);
       }
 
       previousWordsOffset.current = currentOffset;
     },
-    [completeWords],
+    [completeWords, resetWords],
   );
 
   return (
