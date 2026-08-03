@@ -17,7 +17,10 @@ const WORD_STEP_COLOR = "#60A5FA";
 const STEPS_PER_SEQUENCE = 12;
 const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
-const STEP_DURATION = 1.5;
+
+// 1 = velocidade atual; valores maiores aceleram e menores desaceleram.
+const ESCALATOR_SPEED = 1;
+const STEP_DURATION = 1.5 / ESCALATOR_SPEED;
 
 const TRACK_START_X = -STEP_WIDTH * 4;
 const TRACK_START_Y = 360 + STEP_HEIGHT * 4;
