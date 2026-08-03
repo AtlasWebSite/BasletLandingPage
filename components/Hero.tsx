@@ -104,7 +104,6 @@ function WordSequence({ completedWords, sequence }: WordSequenceProps) {
     >
       {WORD_ENTRIES.map(({ step: stepIndex, label }) => {
         const isComplete = completedWords.has(label);
-        const stageNumber = String(stepIndex + 1).padStart(2, "0");
         const fontSize = 14 * STAIR_SIZE;
         const centerX = stepIndex * STEP_WIDTH + STEP_WIDTH / 2;
         const labelY = -stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE;
@@ -132,16 +131,6 @@ function WordSequence({ completedWords, sequence }: WordSequenceProps) {
               strokeWidth={STEP_STROKE_WIDTH}
               strokeLinecap="round"
             />
-
-            <text
-              x={contentStartX}
-              y={labelY - fontSize - 3 * STAIR_SIZE}
-              fill="#2563EB"
-              fontSize={8 * STAIR_SIZE}
-              fontWeight="800"
-            >
-              {stageNumber}
-            </text>
 
             <motion.circle
               cx={indicatorX}
