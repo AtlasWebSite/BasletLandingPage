@@ -82,12 +82,12 @@ function WordSequence({ sequence }: { sequence: number }) {
           <text
             key={label}
             x={stepIndex * STEP_WIDTH + STEP_WIDTH / 2}
-            y={-stepIndex * STEP_HEIGHT - 11}
+            y={-stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE}
             textAnchor="middle"
             fill="#0F172A"
-            fontSize="14"
+            fontSize={14 * STAIR_SIZE}
             fontWeight="800"
-            letterSpacing="-0.25"
+            letterSpacing={-0.25 * STAIR_SIZE}
           >
             {label}
           </text>
