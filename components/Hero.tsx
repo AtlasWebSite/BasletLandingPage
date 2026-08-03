@@ -8,16 +8,16 @@ import { trackEvent } from "@/lib/analytics";
 
 type AnimationPhase = "arrow" | "escalator";
 
-const STEP_WIDTH = 84;
-const STEP_HEIGHT = 42;
-const STEP_STROKE_WIDTH = 6;
+const STEP_WIDTH = 96;
+const STEP_HEIGHT = 48;
+const STEP_STROKE_WIDTH = 7;
 const STEPS_PER_SEQUENCE = 12;
 const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
 const STEP_DURATION = 1.5;
 
 const TRACK_START_X = -STEP_WIDTH * 4;
-const TRACK_START_Y = 528;
+const TRACK_START_Y = 360 + STEP_HEIGHT * 4;
 
 const ARROW_VERTICAL_OFFSET = -30;
 const ARROW_START_X = 84;
@@ -184,7 +184,7 @@ function EscalatorVisual() {
           }}
           transition={{
             duration: 1.8,
-            ease: [0.22, 0.61, 0.36, 1],
+            ease: "linear",
             opacity: {
               duration: 0.4,
               ease: "easeOut",
@@ -198,18 +198,18 @@ function EscalatorVisual() {
           }}
         >
           <path
-            d="M-38 0H22"
+            d="M-44 0H28"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="8"
+            strokeWidth="7"
             strokeLinecap="round"
           />
 
           <path
-            d="M12 -15L32 0L12 15"
+            d="M16 -13L32 0L16 13"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="8"
+            strokeWidth="7"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
