@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useState, type MouseEvent } from "react";
+import { useCallback, useRef, useState, type MouseEvent } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
@@ -37,6 +37,9 @@ const ARROW_ANGLE =
   ) *
     180) /
   Math.PI;
+const ARROW_TIP_X_OFFSET =
+  35 * ARROW_SCALE * Math.cos((ARROW_ANGLE * Math.PI) / 180);
+const ARROW_HIT_X = ARROW_STOP_X + ARROW_TIP_X_OFFSET;
 
 const WORDS_BY_STEP: Record<number, string> = {
   0: "Organizar",
@@ -44,6 +47,9 @@ const WORDS_BY_STEP: Record<number, string> = {
   6: "Revisar",
   9: "Evoluir",
 };
+const WORD_ENTRIES = Object.entries(WORDS_BY_STEP).map(
+  ([step, label]) => ({ step: Number(step), label }),
+);
 
 const STAIRCASE_PATH = Array.from(
   { length: STEPS_PER_SEQUENCE },
@@ -69,18 +75,41 @@ function StaircaseSequence({ sequence }: { sequence: number }) {
   );
 }
 
-function WordSequence({ sequence }: { sequence: number }) {
+interface WordSequenceProps {
+  completedWords: ReadonlySet<string>;
+  sequence: number;
+}
+
+function WordSequence({ completedWords, sequence }: WordSequenceProps) {
   return (
     <g
       transform={`translate(${TRACK_START_X + sequence * SEQUENCE_WIDTH} ${
         TRACK_START_Y - sequence * SEQUENCE_HEIGHT
       })`}
     >
-      {Object.entries(WORDS_BY_STEP).map(([step, label]) => {
-        const stepIndex = Number(step);
+      {WORD_ENTRIES.map(({ step: stepIndex, label }) => {
+        const isComplete = completedWords.has(label);
+        const stageNumber = String(stepIndex / 3 + 1).padStart(2, "0");
+        const fontSize = 14 * STAIR_SIZE;
+        const centerX = stepIndex * STEP_WIDTH + STEP_WIDTH / 2;
+        const labelY = -stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE;
+        const indicatorRadius = 7 * STAIR_SIZE;
+        const indicatorGap = 4 * STAIR_SIZE;
+        const estimatedLabelWidth = label.length * fontSize * 0.56;
+        const contentWidth =
+          indicatorRadius * 2 + indicatorGap + estimatedLabelWidth;
+        const contentStartX = centerX - contentWidth / 2;
+        const indicatorX = contentStartX + indicatorRadius;
+        const indicatorY = labelY - fontSize * 0.35;
+        const textX = contentStartX + indicatorRadius * 2 + indicatorGap;
+        const iconMarkSize = 3.5 * STAIR_SIZE;
 
         return (
-          <g key={label}>
+          <g
+            key={label}
+            data-word-status={isComplete ? "complete" : "pending"}
+            data-word-label={label}
+          >
             <line
               x1={stepIndex * STEP_WIDTH}
               y1={-stepIndex * STEP_HEIGHT}
@@ -92,16 +121,67 @@ function WordSequence({ sequence }: { sequence: number }) {
             />
 
             <text
-              x={stepIndex * STEP_WIDTH + STEP_WIDTH / 2}
-              y={-stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE}
-              textAnchor="middle"
-              fill="#0F172A"
-              fontSize={14 * STAIR_SIZE}
+              x={contentStartX}
+              y={labelY - fontSize - 3 * STAIR_SIZE}
+              fill="#2563EB"
+              fontSize={8 * STAIR_SIZE}
+              fontWeight="800"
+            >
+              {stageNumber}
+            </text>
+
+            <motion.circle
+              cx={indicatorX}
+              cy={indicatorY}
+              r={indicatorRadius}
+              animate={{
+                fill: isComplete ? "#ECFDF5" : "#FEF2F2",
+                stroke: isComplete ? "#86EFAC" : "#FCA5A5",
+              }}
+              transition={{ duration: 0.18 }}
+              strokeWidth={1.4 * STAIR_SIZE}
+            />
+
+            <motion.path
+              d={
+                isComplete
+                  ? `M${indicatorX - iconMarkSize} ${indicatorY}L${
+                      indicatorX - iconMarkSize * 0.25
+                    } ${indicatorY + iconMarkSize * 0.75}L${
+                      indicatorX + iconMarkSize
+                    } ${indicatorY - iconMarkSize}`
+                  : `M${indicatorX - iconMarkSize} ${
+                      indicatorY - iconMarkSize
+                    }L${indicatorX + iconMarkSize} ${
+                      indicatorY + iconMarkSize
+                    }M${indicatorX + iconMarkSize} ${
+                      indicatorY - iconMarkSize
+                    }L${indicatorX - iconMarkSize} ${
+                      indicatorY + iconMarkSize
+                    }`
+              }
+              fill="none"
+              animate={{
+                stroke: isComplete ? "#22C55E" : "#EF4444",
+              }}
+              transition={{ duration: 0.18 }}
+              strokeWidth={1.8 * STAIR_SIZE}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+
+            <motion.text
+              x={textX}
+              y={labelY}
+              textAnchor="start"
+              animate={{ fill: isComplete ? "#2563EB" : "#0F172A" }}
+              transition={{ duration: 0.18 }}
+              fontSize={fontSize}
               fontWeight="800"
               letterSpacing={-0.25 * STAIR_SIZE}
             >
               {label}
-            </text>
+            </motion.text>
           </g>
         );
       })}
@@ -112,8 +192,84 @@ function WordSequence({ sequence }: { sequence: number }) {
 function EscalatorVisual() {
   const [animationPhase, setAnimationPhase] =
     useState<AnimationPhase>("arrow");
+  const [completedWords, setCompletedWords] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const previousArrowTipX = useRef(ARROW_START_X + ARROW_TIP_X_OFFSET);
+  const previousWordsOffset = useRef(0);
 
   const escalatorIsRunning = animationPhase === "escalator";
+
+  const completeWords = useCallback((labels: string[]) => {
+    if (labels.length === 0) {
+      return;
+    }
+
+    setCompletedWords((currentWords) => {
+      const nextWords = new Set(currentWords);
+      let changed = false;
+
+      labels.forEach((label) => {
+        if (!nextWords.has(label)) {
+          nextWords.add(label);
+          changed = true;
+        }
+      });
+
+      return changed ? nextWords : currentWords;
+    });
+  }, []);
+
+  const trackArrowCrossings = useCallback(
+    (latest: { x?: number | string }) => {
+      if (typeof latest.x !== "number") {
+        return;
+      }
+
+      const currentTipX = latest.x + ARROW_TIP_X_OFFSET;
+      const crossedLabels = WORD_ENTRIES.filter(({ step }) => {
+        const wordX = TRACK_START_X + step * STEP_WIDTH + STEP_WIDTH / 2;
+
+        return previousArrowTipX.current < wordX && currentTipX >= wordX;
+      }).map(({ label }) => label);
+
+      previousArrowTipX.current = currentTipX;
+      completeWords(crossedLabels);
+    },
+    [completeWords],
+  );
+
+  const trackWordCrossings = useCallback(
+    (latest: { x?: number | string }) => {
+      if (typeof latest.x !== "number") {
+        return;
+      }
+
+      const currentOffset = latest.x;
+      const previousOffset = previousWordsOffset.current;
+
+      if (currentOffset <= previousOffset) {
+        const crossedLabels = [0, 1].flatMap((sequence) =>
+          WORD_ENTRIES.filter(({ step }) => {
+            const initialWordX =
+              TRACK_START_X +
+              sequence * SEQUENCE_WIDTH +
+              step * STEP_WIDTH +
+              STEP_WIDTH / 2;
+            const previousWordX = initialWordX + previousOffset;
+            const currentWordX = initialWordX + currentOffset;
+
+            return previousWordX > ARROW_HIT_X && currentWordX <= ARROW_HIT_X;
+          }).map(({ label }) => label),
+        );
+
+        completeWords(crossedLabels);
+      }
+
+      previousWordsOffset.current = currentOffset;
+    },
+    [completeWords],
+  );
 
   return (
     <div
@@ -160,6 +316,7 @@ function EscalatorVisual() {
           <motion.g
             data-escalator-track="words"
             initial={false}
+            onUpdate={trackWordCrossings}
             animate={
               escalatorIsRunning
                 ? { x: -SEQUENCE_WIDTH, y: SEQUENCE_HEIGHT }
@@ -176,8 +333,8 @@ function EscalatorVisual() {
                 : { duration: 0 }
             }
           >
-            <WordSequence sequence={0} />
-            <WordSequence sequence={1} />
+            <WordSequence completedWords={completedWords} sequence={0} />
+            <WordSequence completedWords={completedWords} sequence={1} />
           </motion.g>
         </g>
 
@@ -205,6 +362,7 @@ function EscalatorVisual() {
               ease: "easeOut",
             },
           }}
+          onUpdate={trackArrowCrossings}
           onAnimationComplete={() => {
             setAnimationPhase("escalator");
           }}
