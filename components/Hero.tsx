@@ -1,432 +1,181 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useCallback, useRef, useState, type MouseEvent } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import type { MouseEvent } from "react";
+import {
+  ArrowRight,
+  BookOpen,
+  BrainCircuit,
+  CheckCircle2,
+  Clock3,
+  Flame,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
-type AnimationPhase = "arrow" | "escalator";
-
-// Altere somente este valor para aumentar ou diminuir toda a escada.
-const STAIR_SIZE = 1.4;
-const STEP_WIDTH = 96 * STAIR_SIZE;
-const STEP_HEIGHT = 48 * STAIR_SIZE;
-const STEP_STROKE_WIDTH = 7 * STAIR_SIZE;
-const WORD_STEP_COLOR = "#60A5FA";
-const STEPS_PER_SEQUENCE = 24;
-const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
-const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
-
-// 1 = velocidade atual; valores maiores aceleram e menores desaceleram.
-const ESCALATOR_SPEED = 3;
-const STEP_DURATION = 2 / ESCALATOR_SPEED;
-
-const TRACK_START_X = -STEP_WIDTH * 4;
-const TRACK_START_Y = 360 + STEP_HEIGHT * 4;
-
-const ARROW_VERTICAL_OFFSET = -30;
-const ARROW_START_X = 84;
-const ARROW_START_Y = 320 + ARROW_VERTICAL_OFFSET;
-const ARROW_FULL_END_X = 512;
-const ARROW_FULL_END_Y = 96 + ARROW_VERTICAL_OFFSET;
-const ARROW_SCALE = 1.24;
-const ARROW_STOP_X = (ARROW_START_X + ARROW_FULL_END_X) / 2;
-const ARROW_STOP_Y = (ARROW_START_Y + ARROW_FULL_END_Y) / 2;
-const ARROW_ANGLE =
-  (Math.atan2(
-    ARROW_FULL_END_Y - ARROW_START_Y,
-    ARROW_FULL_END_X - ARROW_START_X,
-  ) *
-    180) /
-  Math.PI;
-const ARROW_TIP_X_OFFSET =
-  35 * ARROW_SCALE * Math.cos((ARROW_ANGLE * Math.PI) / 180);
-const ARROW_HIT_X = ARROW_STOP_X + ARROW_TIP_X_OFFSET;
-
-const WORDS_BY_STEP: Record<number, string> = {
-  0: "Organizar",
-  3: "Planejar",
-  6: "Praticar",
-  9: "Aplicar",
-  12: "Revisar",
-  15: "Consolidar",
-  18: "Evoluir",
-  21: "Repetir",
-};
-const WORD_ENTRIES = Object.entries(WORDS_BY_STEP).map(
-  ([step, label]) => ({ step: Number(step), label }),
-);
-
-function getWordContentWidth(label: string) {
-  const fontSize = 14 * STAIR_SIZE;
-  const indicatorRadius = 7 * STAIR_SIZE;
-  const indicatorGap = 4 * STAIR_SIZE;
-
-  return indicatorRadius * 2 + indicatorGap + label.length * fontSize * 0.56;
+interface StudyDashboardVisualProps {
+  reducedMotion: boolean;
 }
 
-const STAIRCASE_PATH = Array.from(
-  { length: STEPS_PER_SEQUENCE },
-  () => `h${STEP_WIDTH}v-${STEP_HEIGHT}`,
-).join("");
-
-function StaircaseSequence({ sequence }: { sequence: number }) {
+function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
   return (
-    <g
-      transform={`translate(${TRACK_START_X + sequence * SEQUENCE_WIDTH} ${
-        TRACK_START_Y - sequence * SEQUENCE_HEIGHT
-      })`}
-    >
-      <path
-        d={`M0 0${STAIRCASE_PATH}`}
-        fill="none"
-        stroke="#2563EB"
-        strokeWidth={STEP_STROKE_WIDTH}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </g>
-  );
-}
+    <div className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]">
+      <div className="pointer-events-none absolute inset-x-8 top-16 h-72 rounded-full bg-blue-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-12 right-4 h-44 w-44 rounded-full bg-cyan-300/15 blur-3xl" />
 
-interface WordSequenceProps {
-  completedWords: ReadonlySet<string>;
-  sequence: number;
-}
-
-function WordSequence({ completedWords, sequence }: WordSequenceProps) {
-  return (
-    <g
-      transform={`translate(${TRACK_START_X + sequence * SEQUENCE_WIDTH} ${
-        TRACK_START_Y - sequence * SEQUENCE_HEIGHT
-      })`}
-    >
-      {WORD_ENTRIES.map(({ step: stepIndex, label }) => {
-        const isComplete = completedWords.has(label);
-        const fontSize = 14 * STAIR_SIZE;
-        const centerX = stepIndex * STEP_WIDTH + STEP_WIDTH / 2;
-        const labelY = -stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE;
-        const indicatorRadius = 7 * STAIR_SIZE;
-        const indicatorGap = 4 * STAIR_SIZE;
-        const contentWidth = getWordContentWidth(label);
-        const contentStartX = centerX - contentWidth / 2;
-        const indicatorX = contentStartX + indicatorRadius;
-        const indicatorY = labelY - fontSize * 0.35;
-        const textX = contentStartX + indicatorRadius * 2 + indicatorGap;
-        const iconMarkSize = 3.5 * STAIR_SIZE;
-
-        return (
-          <g
-            key={label}
-            data-word-status={isComplete ? "complete" : "pending"}
-            data-word-label={label}
-          >
-            <line
-              x1={stepIndex * STEP_WIDTH}
-              y1={-stepIndex * STEP_HEIGHT}
-              x2={(stepIndex + 1) * STEP_WIDTH}
-              y2={-stepIndex * STEP_HEIGHT}
-              stroke={WORD_STEP_COLOR}
-              strokeWidth={STEP_STROKE_WIDTH}
-              strokeLinecap="round"
-            />
-
-            <motion.circle
-              cx={indicatorX}
-              cy={indicatorY}
-              r={indicatorRadius}
-              animate={{
-                fill: isComplete ? "#ECFDF5" : "#FEF2F2",
-                stroke: isComplete ? "#86EFAC" : "#FCA5A5",
-              }}
-              transition={{ duration: 0.18 }}
-              strokeWidth={1.4 * STAIR_SIZE}
-            />
-
-            <motion.path
-              d={
-                isComplete
-                  ? `M${indicatorX - iconMarkSize} ${indicatorY}L${
-                      indicatorX - iconMarkSize * 0.25
-                    } ${indicatorY + iconMarkSize * 0.75}L${
-                      indicatorX + iconMarkSize
-                    } ${indicatorY - iconMarkSize}`
-                  : `M${indicatorX - iconMarkSize} ${
-                      indicatorY - iconMarkSize
-                    }L${indicatorX + iconMarkSize} ${
-                      indicatorY + iconMarkSize
-                    }M${indicatorX + iconMarkSize} ${
-                      indicatorY - iconMarkSize
-                    }L${indicatorX - iconMarkSize} ${
-                      indicatorY + iconMarkSize
-                    }`
-              }
-              fill="none"
-              animate={{
-                stroke: isComplete ? "#22C55E" : "#EF4444",
-              }}
-              transition={{ duration: 0.18 }}
-              strokeWidth={1.8 * STAIR_SIZE}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-
-            <motion.text
-              x={textX}
-              y={labelY}
-              textAnchor="start"
-              animate={{ fill: isComplete ? "#2563EB" : "#0F172A" }}
-              transition={{ duration: 0.18 }}
-              fontSize={fontSize}
-              fontWeight="800"
-              letterSpacing={-0.25 * STAIR_SIZE}
-            >
-              {label}
-            </motion.text>
-          </g>
-        );
-      })}
-    </g>
-  );
-}
-
-function EscalatorVisual() {
-  const [animationPhase, setAnimationPhase] =
-    useState<AnimationPhase>("arrow");
-  const [completedWords, setCompletedWords] = useState<Set<string>>(
-    () => new Set(),
-  );
-  const previousArrowTipX = useRef(ARROW_START_X + ARROW_TIP_X_OFFSET);
-  const previousWordsOffset = useRef(0);
-
-  const escalatorIsRunning = animationPhase === "escalator";
-
-  const completeWords = useCallback((labels: string[]) => {
-    if (labels.length === 0) {
-      return;
-    }
-
-    setCompletedWords((currentWords) => {
-      const nextWords = new Set(currentWords);
-      let changed = false;
-
-      labels.forEach((label) => {
-        if (!nextWords.has(label)) {
-          nextWords.add(label);
-          changed = true;
+      <motion.div
+        initial={reducedMotion ? false : { opacity: 0, y: 24, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={
+          reducedMotion
+            ? { duration: 0 }
+            : { duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }
         }
-      });
-
-      return changed ? nextWords : currentWords;
-    });
-  }, []);
-
-  const resetWords = useCallback((labels: string[]) => {
-    if (labels.length === 0) {
-      return;
-    }
-
-    setCompletedWords((currentWords) => {
-      const nextWords = new Set(currentWords);
-      let changed = false;
-
-      labels.forEach((label) => {
-        if (nextWords.delete(label)) {
-          changed = true;
-        }
-      });
-
-      return changed ? nextWords : currentWords;
-    });
-  }, []);
-
-  const trackArrowCrossings = useCallback(
-    (latest: { x?: number | string }) => {
-      if (typeof latest.x !== "number") {
-        return;
-      }
-
-      const currentTipX = latest.x + ARROW_TIP_X_OFFSET;
-      const crossedLabels = WORD_ENTRIES.filter(({ step }) => {
-        const wordX = TRACK_START_X + step * STEP_WIDTH + STEP_WIDTH / 2;
-
-        return previousArrowTipX.current < wordX && currentTipX >= wordX;
-      }).map(({ label }) => label);
-
-      previousArrowTipX.current = currentTipX;
-      completeWords(crossedLabels);
-    },
-    [completeWords],
-  );
-
-  const trackWordCrossings = useCallback(
-    (latest: { x?: number | string }) => {
-      if (typeof latest.x !== "number") {
-        return;
-      }
-
-      const currentOffset = latest.x;
-      const previousOffset = previousWordsOffset.current;
-
-      if (currentOffset <= previousOffset) {
-        const crossedLabels = [0, 1].flatMap((sequence) =>
-          WORD_ENTRIES.filter(({ step }) => {
-            const initialWordX =
-              TRACK_START_X +
-              sequence * SEQUENCE_WIDTH +
-              step * STEP_WIDTH +
-              STEP_WIDTH / 2;
-            const previousWordX = initialWordX + previousOffset;
-            const currentWordX = initialWordX + currentOffset;
-
-            return previousWordX > ARROW_HIT_X && currentWordX <= ARROW_HIT_X;
-          }).map(({ label }) => label),
-        );
-
-        completeWords(crossedLabels);
-
-        const exitedLabels = [0, 1].flatMap((sequence) =>
-          WORD_ENTRIES.filter(({ step, label }) => {
-            const initialWordX =
-              TRACK_START_X +
-              sequence * SEQUENCE_WIDTH +
-              step * STEP_WIDTH +
-              STEP_WIDTH / 2;
-            const halfContentWidth = getWordContentWidth(label) / 2;
-            const previousRightEdge =
-              initialWordX + previousOffset + halfContentWidth;
-            const currentRightEdge =
-              initialWordX + currentOffset + halfContentWidth;
-
-            return previousRightEdge >= 0 && currentRightEdge < 0;
-          }).map(({ label }) => label),
-        );
-
-        resetWords(exitedLabels);
-      }
-
-      previousWordsOffset.current = currentOffset;
-    },
-    [completeWords, resetWords],
-  );
-
-  return (
-    <div
-      className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]"
-      data-animation-phase={animationPhase}
-    >
-      <svg
-        viewBox="0 0 590 430"
+        className="relative w-full max-w-[540px]"
         role="img"
-        aria-label="Escada rolante do StudyFlow descendo na diagonal com as etapas Organizar, Praticar, Revisar e Evoluir"
-        overflow="hidden"
-        className="h-auto w-full max-w-[620px] overflow-hidden"
+        aria-label="Painel do StudyFlow com progresso diário, matérias em estudo e próxima revisão"
       >
-        <defs>
-          <clipPath id="studyflowEscalatorClip">
-            <rect x="0" y="0" width="590" height="430" rx="12" />
-          </clipPath>
-        </defs>
-
-        <g clipPath="url(#studyflowEscalatorClip)">
-          <motion.g
-            data-escalator-track="steps"
-            initial={false}
-            animate={
-              escalatorIsRunning
-                ? { x: -STEP_WIDTH, y: STEP_HEIGHT }
-                : { x: 0, y: 0 }
-            }
-            transition={
-              escalatorIsRunning
-                ? {
-                    duration: STEP_DURATION,
-                    ease: "linear",
-                    repeat: Infinity,
-                    repeatType: "loop",
-                  }
-                : { duration: 0 }
-            }
-          >
-            <StaircaseSequence sequence={0} />
-            <StaircaseSequence sequence={1} />
-          </motion.g>
-
-          <motion.g
-            data-escalator-track="words"
-            initial={false}
-            onUpdate={trackWordCrossings}
-            animate={
-              escalatorIsRunning
-                ? { x: -SEQUENCE_WIDTH, y: SEQUENCE_HEIGHT }
-                : { x: 0, y: 0 }
-            }
-            transition={
-              escalatorIsRunning
-                ? {
-                    duration: STEP_DURATION * STEPS_PER_SEQUENCE,
-                    ease: "linear",
-                    repeat: Infinity,
-                    repeatType: "loop",
-                  }
-                : { duration: 0 }
-            }
-          >
-            <WordSequence completedWords={completedWords} sequence={0} />
-            <WordSequence completedWords={completedWords} sequence={1} />
-          </motion.g>
-        </g>
-
-        <motion.g
-          data-escalator-arrow="true"
-          initial={{
-            x: ARROW_START_X,
-            y: ARROW_START_Y,
-            opacity: 0,
-            scale: ARROW_SCALE,
-            rotate: ARROW_ANGLE,
-          }}
-          animate={{
-            x: ARROW_STOP_X,
-            y: ARROW_STOP_Y,
-            opacity: 1,
-            scale: ARROW_SCALE,
-            rotate: ARROW_ANGLE,
-          }}
-          transition={{
-            duration: 1.8,
-            ease: "linear",
-            opacity: {
-              duration: 0.4,
-              ease: "easeOut",
-            },
-          }}
-          onUpdate={trackArrowCrossings}
-          onAnimationComplete={() => {
-            setAnimationPhase("escalator");
-          }}
-          style={{
-            transformOrigin: "center",
-          }}
+        <motion.div
+          animate={reducedMotion ? undefined : { y: [0, -6, 0] }}
+          transition={
+            reducedMotion
+              ? undefined
+              : { duration: 5, repeat: Infinity, ease: "easeInOut" }
+          }
+          className="absolute -left-5 top-20 z-20 hidden items-center gap-3 rounded-2xl border border-blue-100 bg-white px-4 py-3 shadow-xl shadow-blue-950/10 sm:flex"
         >
-          <path
-            d="M-44 0H16"
-            fill="none"
-            stroke="#2563EB"
-            strokeWidth="6.5"
-            strokeLinecap="round"
-          />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+            <TrendingUp size={19} />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-slate-500">Retenção</p>
+            <p className="text-base font-extrabold text-slate-900">92%</p>
+          </div>
+        </motion.div>
 
-          <path
-            d="M11 -15L34 0L11 15Z"
-            fill="#2563EB"
-            stroke="#2563EB"
-            strokeWidth="2"
-            strokeLinejoin="round"
-          />
-        </motion.g>
-      </svg>
+        <motion.div
+          animate={reducedMotion ? undefined : { y: [0, 7, 0] }}
+          transition={
+            reducedMotion
+              ? undefined
+              : {
+                  duration: 5.8,
+                  delay: 0.45,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+          }
+          className="absolute -right-4 bottom-16 z-20 hidden items-center gap-3 rounded-2xl border border-orange-100 bg-white px-4 py-3 shadow-xl shadow-blue-950/10 sm:flex"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-orange-500">
+            <Flame size={19} />
+          </div>
+          <div>
+            <p className="text-xs font-medium text-slate-500">Sequência</p>
+            <p className="text-base font-extrabold text-slate-900">12 dias</p>
+          </div>
+        </motion.div>
+
+        <div className="relative overflow-hidden rounded-[30px] border border-slate-200/80 bg-white/95 p-4 shadow-[0_28px_80px_-28px_rgba(37,99,235,0.32)] backdrop-blur sm:p-5">
+          <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-blue-100/70 blur-3xl" />
+
+          <div className="relative mb-5 flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 text-white shadow-md shadow-blue-500/20">
+                <BrainCircuit size={20} />
+              </div>
+              <div>
+                <p className="text-sm font-extrabold text-slate-900">Meu StudyFlow</p>
+                <p className="text-xs text-slate-500">Visão geral de hoje</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Em fluxo
+            </div>
+          </div>
+
+          <div className="relative mb-4 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-slate-950 p-4 text-white sm:p-5">
+              <div className="mb-5 flex items-start justify-between gap-2">
+                <div>
+                  <p className="mb-1 text-xs font-medium text-slate-400">Progresso semanal</p>
+                  <p className="text-3xl font-extrabold tracking-tight">72%</p>
+                </div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-blue-300">
+                  <TrendingUp size={17} />
+                </div>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-400" />
+              </div>
+              <p className="mt-2 text-[11px] text-slate-400">+18% nesta semana</p>
+            </div>
+
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 sm:p-5">
+              <div className="mb-5 flex items-start justify-between gap-2">
+                <div>
+                  <p className="mb-1 text-xs font-medium text-blue-700/70">Foco de hoje</p>
+                  <p className="text-3xl font-extrabold tracking-tight text-slate-900">42<span className="ml-1 text-sm text-slate-500">min</span></p>
+                </div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-blue-600 shadow-sm">
+                  <Clock3 size={17} />
+                </div>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-blue-100">
+                <div className="h-full w-[70%] rounded-full bg-blue-600" />
+              </div>
+              <p className="mt-2 text-[11px] text-blue-700/70">Meta diária: 60 min</p>
+            </div>
+          </div>
+
+          <div className="relative mb-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen size={16} className="text-blue-600" />
+                <p className="text-sm font-extrabold text-slate-900">Matérias em andamento</p>
+              </div>
+              <span className="text-xs font-semibold text-blue-600">Ver todas</span>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <div className="mb-1.5 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-700">Biologia celular</span>
+                  <span className="font-bold text-slate-900">84%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full w-[84%] rounded-full bg-blue-600" />
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-1.5 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-700">História do Brasil</span>
+                  <span className="font-bold text-slate-900">68%</span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-full w-[68%] rounded-full bg-cyan-500" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 p-4 text-white shadow-lg shadow-blue-500/20">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
+              <Sparkles size={19} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-blue-100">Próxima ação</p>
+              <p className="truncate text-sm font-extrabold">Revisar 12 flashcards de Biologia</p>
+            </div>
+            <ArrowRight size={18} className="shrink-0" />
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -529,7 +278,7 @@ export default function Hero() {
           </motion.div>
 
           <div className="relative flex w-full items-center justify-center lg:col-span-5">
-            <EscalatorVisual />
+            <StudyDashboardVisual reducedMotion={reducedMotion} />
           </div>
         </div>
       </div>
