@@ -14,7 +14,7 @@ const STEP_WIDTH = 96 * STAIR_SIZE;
 const STEP_HEIGHT = 48 * STAIR_SIZE;
 const STEP_STROKE_WIDTH = 7 * STAIR_SIZE;
 const WORD_STEP_COLOR = "#60A5FA";
-const STEPS_PER_SEQUENCE = 20;
+const STEPS_PER_SEQUENCE = 8;
 const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
 
@@ -47,24 +47,12 @@ const ARROW_HIT_X = ARROW_STOP_X + ARROW_TIP_X_OFFSET;
 const WORDS_BY_STEP: Record<number, string> = {
   0: "Organizar",
   1: "Planejar",
-  2: "Priorizar",
-  3: "Preparar",
-  4: "Começar",
-  5: "Praticar",
-  6: "Explorar",
-  7: "Aplicar",
-  8: "Testar",
-  9: "Corrigir",
-  10: "Revisar",
-  11: "Relembrar",
-  12: "Reforçar",
-  13: "Conectar",
-  14: "Consolidar",
-  15: "Evoluir",
-  16: "Medir",
-  17: "Ajustar",
-  18: "Avançar",
-  19: "Repetir",
+  2: "Praticar",
+  3: "Aplicar",
+  4: "Revisar",
+  5: "Consolidar",
+  6: "Evoluir",
+  7: "Repetir",
 };
 const WORD_ENTRIES = Object.entries(WORDS_BY_STEP).map(
   ([step, label]) => ({ step: Number(step), label }),
