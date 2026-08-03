@@ -13,6 +13,7 @@ const STAIR_SIZE = 1.4;
 const STEP_WIDTH = 96 * STAIR_SIZE;
 const STEP_HEIGHT = 48 * STAIR_SIZE;
 const STEP_STROKE_WIDTH = 7 * STAIR_SIZE;
+const WORD_STEP_COLOR = "#60A5FA";
 const STEPS_PER_SEQUENCE = 12;
 const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
 const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
@@ -79,18 +80,29 @@ function WordSequence({ sequence }: { sequence: number }) {
         const stepIndex = Number(step);
 
         return (
-          <text
-            key={label}
-            x={stepIndex * STEP_WIDTH + STEP_WIDTH / 2}
-            y={-stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE}
-            textAnchor="middle"
-            fill="#0F172A"
-            fontSize={14 * STAIR_SIZE}
-            fontWeight="800"
-            letterSpacing={-0.25 * STAIR_SIZE}
-          >
-            {label}
-          </text>
+          <g key={label}>
+            <line
+              x1={stepIndex * STEP_WIDTH}
+              y1={-stepIndex * STEP_HEIGHT}
+              x2={(stepIndex + 1) * STEP_WIDTH}
+              y2={-stepIndex * STEP_HEIGHT}
+              stroke={WORD_STEP_COLOR}
+              strokeWidth={STEP_STROKE_WIDTH}
+              strokeLinecap="round"
+            />
+
+            <text
+              x={stepIndex * STEP_WIDTH + STEP_WIDTH / 2}
+              y={-stepIndex * STEP_HEIGHT - 11 * STAIR_SIZE}
+              textAnchor="middle"
+              fill="#0F172A"
+              fontSize={14 * STAIR_SIZE}
+              fontWeight="800"
+              letterSpacing={-0.25 * STAIR_SIZE}
+            >
+              {label}
+            </text>
+          </g>
         );
       })}
     </g>
