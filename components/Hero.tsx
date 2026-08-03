@@ -19,10 +19,11 @@ const STEP_DURATION = 1.5;
 const TRACK_START_X = -STEP_WIDTH * 4;
 const TRACK_START_Y = 528;
 
+const ARROW_VERTICAL_OFFSET = -22;
 const ARROW_START_X = 84;
-const ARROW_START_Y = 320;
+const ARROW_START_Y = 320 + ARROW_VERTICAL_OFFSET;
 const ARROW_FULL_END_X = 512;
-const ARROW_FULL_END_Y = 96;
+const ARROW_FULL_END_Y = 96 + ARROW_VERTICAL_OFFSET;
 const ARROW_STOP_X = (ARROW_START_X + ARROW_FULL_END_X) / 2;
 const ARROW_STOP_Y = (ARROW_START_Y + ARROW_FULL_END_Y) / 2;
 const ARROW_ANGLE =
@@ -183,7 +184,7 @@ function EscalatorVisual() {
           }}
           transition={{
             duration: 1.8,
-            ease: [0.22, 1, 0.36, 1],
+            ease: [0.22, 0.61, 0.36, 1],
             opacity: {
               duration: 0.4,
               ease: "easeOut",
