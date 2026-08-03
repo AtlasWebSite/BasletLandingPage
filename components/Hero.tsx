@@ -1,40 +1,28 @@
 "use client";
 
-import {
-  animate,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
-import { useEffect, useState, type MouseEvent } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState, type MouseEvent } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
 type AnimationPhase = "arrow" | "escalator";
 
-const TOTAL_STEPS = 24;
-const WORD_CYCLE = 12;
-
 const STEP_WIDTH = 84;
 const STEP_HEIGHT = 42;
 const STEP_STROKE_WIDTH = 6;
+const STEPS_PER_SEQUENCE = 12;
+const SEQUENCE_WIDTH = STEP_WIDTH * STEPS_PER_SEQUENCE;
+const SEQUENCE_HEIGHT = STEP_HEIGHT * STEPS_PER_SEQUENCE;
+const STEP_DURATION = 1.5;
 
-const STEP_BASE_X = 8;
-const STEP_BASE_Y = 356;
+const TRACK_START_X = -STEP_WIDTH * 4;
+const TRACK_START_Y = 528;
 
-const LOWER_DRAW_END = 0.8;
-const UPPER_DRAW_START = 6.25;
-const UPPER_DRAW_END = 7.35;
-
-const ESCALATOR_CYCLE_DURATION = 30;
-
-const ARROW_START_X = 72;
-const ARROW_START_Y = 282;
-const ARROW_FULL_END_X = 520;
-const ARROW_FULL_END_Y = 58;
+const ARROW_START_X = 84;
+const ARROW_START_Y = 320;
+const ARROW_FULL_END_X = 512;
+const ARROW_FULL_END_Y = 96;
 const ARROW_STOP_X = (ARROW_START_X + ARROW_FULL_END_X) / 2;
 const ARROW_STOP_Y = (ARROW_START_Y + ARROW_FULL_END_Y) / 2;
 const ARROW_ANGLE =
@@ -52,143 +40,76 @@ const WORDS_BY_STEP: Record<number, string> = {
   9: "Evoluir",
 };
 
-function wrap(value: number, length: number) {
-  return ((value % length) + length) % length;
-}
+const STAIRCASE_PATH = Array.from(
+  { length: STEPS_PER_SEQUENCE },
+  () => `h${STEP_WIDTH}v-${STEP_HEIGHT}`,
+).join("");
 
-function getDrawProgress(slot: number) {
-  const lowerProgress = Math.min(
-    Math.max(slot / LOWER_DRAW_END, 0),
-    1,
-  );
-
-  const upperProgress = Math.min(
-    Math.max(
-      (UPPER_DRAW_END - slot) /
-        (UPPER_DRAW_END - UPPER_DRAW_START),
-      0,
-    ),
-    1,
-  );
-
-  return Math.min(lowerProgress, upperProgress);
-}
-
-interface StairStepProps {
-  index: number;
-  offset: MotionValue<number>;
-}
-
-function StairStep({ index, offset }: StairStepProps) {
-  const label = WORDS_BY_STEP[index % WORD_CYCLE];
-
-  const slot = useTransform(offset, (latestOffset) =>
-    wrap(index - latestOffset, TOTAL_STEPS),
-  );
-
-  const x = useTransform(
-    slot,
-    (latestSlot) => STEP_BASE_X + latestSlot * STEP_WIDTH,
-  );
-
-  const y = useTransform(
-    slot,
-    (latestSlot) => STEP_BASE_Y - latestSlot * STEP_HEIGHT,
-  );
-
-  const drawProgress = useTransform(slot, getDrawProgress);
-
-  const textOpacity = useTransform(
-    drawProgress,
-    [0, 0.55, 1],
-    [0, 0, 1],
-  );
-
+function StaircaseSequence({ sequence }: { sequence: number }) {
   return (
-    <motion.g
-      style={{
-        x,
-        y,
-      }}
+    <g
+      transform={`translate(${TRACK_START_X + sequence * SEQUENCE_WIDTH} ${
+        TRACK_START_Y - sequence * SEQUENCE_HEIGHT
+      })`}
     >
-      <motion.path
-        d={`M0 0H${STEP_WIDTH}V-${STEP_HEIGHT}`}
+      <path
+        d={`M0 0${STAIRCASE_PATH}`}
         fill="none"
         stroke="#2563EB"
         strokeWidth={STEP_STROKE_WIDTH}
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{
-          pathLength: drawProgress,
-          opacity: drawProgress,
-        }}
       />
-
-      {label && (
-        <motion.text
-          x={STEP_WIDTH / 2}
-          y={-11}
-          textAnchor="middle"
-          fill="#0F172A"
-          fontSize="14"
-          fontWeight="800"
-          letterSpacing="-0.25"
-          style={{
-            opacity: textOpacity,
-          }}
-        >
-          {label}
-        </motion.text>
-      )}
-    </motion.g>
+    </g>
   );
 }
 
-interface EscalatorVisualProps {
-  reducedMotion: boolean;
+function WordSequence({ sequence }: { sequence: number }) {
+  return (
+    <g
+      transform={`translate(${TRACK_START_X + sequence * SEQUENCE_WIDTH} ${
+        TRACK_START_Y - sequence * SEQUENCE_HEIGHT
+      })`}
+    >
+      {Object.entries(WORDS_BY_STEP).map(([step, label]) => {
+        const stepIndex = Number(step);
+
+        return (
+          <text
+            key={label}
+            x={stepIndex * STEP_WIDTH + STEP_WIDTH / 2}
+            y={-stepIndex * STEP_HEIGHT - 11}
+            textAnchor="middle"
+            fill="#0F172A"
+            fontSize="14"
+            fontWeight="800"
+            letterSpacing="-0.25"
+          >
+            {label}
+          </text>
+        );
+      })}
+    </g>
+  );
 }
 
-function EscalatorVisual({ reducedMotion }: EscalatorVisualProps) {
-  const [phase, setPhase] = useState<AnimationPhase>(
-    reducedMotion ? "escalator" : "arrow",
-  );
+function EscalatorVisual() {
+  const [animationPhase, setAnimationPhase] =
+    useState<AnimationPhase>("arrow");
 
-  const stairOffset = useMotionValue(0);
-
-  useEffect(() => {
-    if (phase !== "escalator" || reducedMotion) {
-      return;
-    }
-
-    stairOffset.set(0);
-
-    const controls = animate(stairOffset, TOTAL_STEPS, {
-      duration: ESCALATOR_CYCLE_DURATION,
-      ease: "linear",
-      repeat: Infinity,
-      repeatType: "loop",
-    });
-
-    return () => {
-      controls.stop();
-    };
-  }, [phase, reducedMotion, stairOffset]);
-
-  const finishArrowPhase = () => {
-    if (phase !== "arrow") {
-      return;
-    }
-
-    setPhase("escalator");
-  };
+  const escalatorIsRunning = animationPhase === "escalator";
 
   return (
-    <div className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]">
+    <div
+      className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]"
+      data-animation-phase={animationPhase}
+    >
       <svg
         viewBox="0 0 590 430"
         role="img"
         aria-label="Escada rolante do StudyFlow descendo na diagonal com as etapas Organizar, Praticar, Revisar e Evoluir"
-        className="h-auto w-full max-w-[620px] overflow-visible"
+        overflow="hidden"
+        className="h-auto w-full max-w-[620px] overflow-hidden"
       >
         <defs>
           <clipPath id="studyflowEscalatorClip">
@@ -197,64 +118,97 @@ function EscalatorVisual({ reducedMotion }: EscalatorVisualProps) {
         </defs>
 
         <g clipPath="url(#studyflowEscalatorClip)">
-          {Array.from({ length: TOTAL_STEPS }, (_, index) => (
-            <StairStep
-              key={index}
-              index={index}
-              offset={stairOffset}
-            />
-          ))}
+          <motion.g
+            data-escalator-track="steps"
+            initial={false}
+            animate={
+              escalatorIsRunning
+                ? { x: -STEP_WIDTH, y: STEP_HEIGHT }
+                : { x: 0, y: 0 }
+            }
+            transition={
+              escalatorIsRunning
+                ? {
+                    duration: STEP_DURATION,
+                    ease: "linear",
+                    repeat: Infinity,
+                    repeatType: "loop",
+                  }
+                : { duration: 0 }
+            }
+          >
+            <StaircaseSequence sequence={0} />
+            <StaircaseSequence sequence={1} />
+          </motion.g>
+
+          <motion.g
+            data-escalator-track="words"
+            initial={false}
+            animate={
+              escalatorIsRunning
+                ? { x: -SEQUENCE_WIDTH, y: SEQUENCE_HEIGHT }
+                : { x: 0, y: 0 }
+            }
+            transition={
+              escalatorIsRunning
+                ? {
+                    duration: STEP_DURATION * STEPS_PER_SEQUENCE,
+                    ease: "linear",
+                    repeat: Infinity,
+                    repeatType: "loop",
+                  }
+                : { duration: 0 }
+            }
+          >
+            <WordSequence sequence={0} />
+            <WordSequence sequence={1} />
+          </motion.g>
         </g>
 
         <motion.g
-          initial={
-            reducedMotion
-              ? false
-              : {
-                  x: ARROW_START_X,
-                  y: ARROW_START_Y,
-                  opacity: 0,
-                  scale: 0.68,
-                  rotate: ARROW_ANGLE,
-                }
-          }
+          data-escalator-arrow="true"
+          initial={{
+            x: ARROW_START_X,
+            y: ARROW_START_Y,
+            opacity: 0,
+            scale: 0.62,
+            rotate: ARROW_ANGLE,
+          }}
           animate={{
             x: ARROW_STOP_X,
             y: ARROW_STOP_Y,
             opacity: 1,
-            scale: reducedMotion ? 1.12 : 1.2,
+            scale: 1.24,
             rotate: ARROW_ANGLE,
           }}
-          transition={
-            reducedMotion
-              ? { duration: 0 }
-              : {
-                  duration: 3,
-                  ease: [0.22, 1, 0.36, 1],
-                  opacity: {
-                    duration: 0.4,
-                    ease: "easeOut",
-                  },
-                }
-          }
-          onAnimationComplete={finishArrowPhase}
+          transition={{
+            duration: 1.8,
+            ease: [0.22, 1, 0.36, 1],
+            opacity: {
+              duration: 0.4,
+              ease: "easeOut",
+            },
+          }}
+          onAnimationComplete={() => {
+            setAnimationPhase("escalator");
+          }}
           style={{
             transformOrigin: "center",
           }}
         >
           <path
-            d="M-46 0H23"
+            d="M-38 0H22"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="9"
+            strokeWidth="8"
             strokeLinecap="round"
           />
 
           <path
-            d="M10 -17L34 0L10 17"
+            d="M12 -15L32 0L12 15"
             fill="none"
             stroke="#2563EB"
-            strokeWidth="9"
+            strokeWidth="8"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
@@ -362,7 +316,7 @@ export default function Hero() {
           </motion.div>
 
           <div className="relative flex w-full items-center justify-center lg:col-span-5">
-            <EscalatorVisual reducedMotion={reducedMotion} />
+            <EscalatorVisual />
           </div>
         </div>
       </div>
