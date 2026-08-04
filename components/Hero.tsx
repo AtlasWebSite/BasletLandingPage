@@ -3,7 +3,13 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import type { MouseEvent } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  Layers3,
+  RotateCcw,
+} from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -114,18 +120,66 @@ export default function Hero() {
             }
             className="relative flex w-full min-w-0 items-center justify-center lg:col-span-7"
           >
-            <div className="pointer-events-none absolute inset-x-8 top-1/2 h-3/4 -translate-y-1/2 rounded-full bg-blue-500/15 blur-3xl" />
-            <div className="relative w-full max-w-[590px] overflow-hidden rounded-[24px] border border-blue-100 bg-white p-2 shadow-[0_32px_90px_-34px_rgba(37,99,235,0.5)] sm:rounded-[30px] sm:p-3 lg:ml-auto">
-              <Image
-                src="/hero-studyflow-dashboard-real.jpg"
-                alt="Painel real de progresso do StudyFlow"
-                width={753}
-                height={720}
-                priority
-                sizes="(min-width: 1024px) 58vw, (min-width: 640px) 90vw, 100vw"
-                quality={90}
-                className="h-auto w-full rounded-[18px] object-contain sm:rounded-[22px]"
-              />
+            <div className="pointer-events-none absolute inset-x-4 top-1/2 h-4/5 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+
+            <div className="relative w-full max-w-[680px] overflow-hidden rounded-[26px] border border-slate-800 bg-slate-950 p-2 shadow-[0_36px_100px_-32px_rgba(37,99,235,0.65)] sm:rounded-[32px] sm:p-3 lg:ml-auto">
+              <div className="flex items-center justify-between px-2 py-2.5 sm:px-3 sm:py-3">
+                <div className="flex items-center gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                </div>
+                <span className="text-[10px] font-semibold tracking-wide text-slate-400 sm:text-xs">
+                  StudyFlow · Painel de progresso
+                </span>
+              </div>
+
+              <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white sm:rounded-[22px]">
+                <div className="relative aspect-square w-full sm:aspect-[16/11]">
+                  <Image
+                    src="/hero-studyflow-dashboard-real.jpg"
+                    alt="Painel real de progresso do StudyFlow com métricas de domínio, revisões e cards praticados"
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 56vw, (min-width: 640px) 90vw, 100vw"
+                    quality={92}
+                    className="object-cover object-top"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/90 to-transparent sm:h-20" />
+                </div>
+              </div>
+
+              <figcaption className="grid grid-cols-3 gap-1.5 p-1.5 pt-2 sm:gap-2 sm:p-2 sm:pt-3">
+                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
+                  <BarChart3 className="mb-2 text-blue-300" size={18} />
+                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
+                    Veja seu progresso
+                  </strong>
+                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
+                    Acompanhe sua evolução em um só painel.
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
+                  <Layers3 className="mb-2 text-blue-300" size={18} />
+                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
+                    Centralize os estudos
+                  </strong>
+                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
+                    Conteúdos e práticas sempre organizados.
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
+                  <RotateCcw className="mb-2 text-blue-300" size={18} />
+                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
+                    Revise no ritmo certo
+                  </strong>
+                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
+                    Saiba o que precisa de atenção agora.
+                  </span>
+                </div>
+              </figcaption>
             </div>
           </motion.figure>
         </div>
