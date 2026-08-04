@@ -4,11 +4,11 @@ import { motion, useReducedMotion } from "framer-motion";
 import type { MouseEvent } from "react";
 import {
   ArrowRight,
-  BarChart3,
-  BookOpen,
   CheckCircle2,
+  FileText,
+  GitFork,
   Layers3,
-  Plus,
+  ListChecks,
   RotateCcw,
   Sparkles,
 } from "lucide-react";
@@ -132,132 +132,136 @@ export default function Hero() {
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
                 </div>
                 <span className="text-[10px] font-semibold tracking-wide text-slate-400 sm:text-xs">
-                  StudyFlow · Sua rotina de estudos
+                  StudyFlow · Do conteúdo à evolução
                 </span>
               </div>
 
               <div
                 role="img"
-                aria-label="Tela inicial do StudyFlow mostrando a revisão recomendada, domínio geral e estudos recentes"
-                className="overflow-hidden rounded-[18px] border border-white/10 bg-[#f4f6fb] sm:rounded-[22px]"
+                aria-label="Demonstração do StudyFlow transformando um conteúdo em flashcards, mapa mental, teste e revisão recomendada"
+                className="overflow-hidden rounded-[18px] border border-white/10 bg-[#f4f6fb] p-3 sm:rounded-[22px] sm:p-5"
               >
-                <div className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-3 sm:px-5 sm:py-4">
-                  <div>
-                    <span className="block text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
-                      Visão geral
-                    </span>
-                    <strong className="mt-0.5 block text-xs text-slate-900 sm:text-base">
-                      Pronto para avançar hoje?
-                    </strong>
+                <div className="text-center sm:text-left">
+                  <strong className="block text-sm text-slate-950 sm:text-lg">
+                    Um conteúdo. Várias formas de aprender.
+                  </strong>
+                  <span className="mt-1 block text-[10px] leading-relaxed text-slate-500 sm:text-xs">
+                    O StudyFlow organiza a prática e mostra o próximo passo.
+                  </span>
+                </div>
+
+                <div className="mt-3 grid items-center gap-2.5 sm:mt-5 sm:grid-cols-[0.88fr_auto_1.12fr] sm:gap-3">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm sm:p-4">
+                    <div className="mb-3 flex items-center gap-2.5">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 sm:h-10 sm:w-10">
+                        <FileText size={18} />
+                      </div>
+                      <div>
+                        <span className="block text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 sm:text-[10px]">
+                          Seu conteúdo
+                        </span>
+                        <strong className="block text-xs text-slate-950 sm:text-sm">
+                          Biologia celular
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 border-t border-slate-100 pt-3">
+                      {["Membrana plasmática", "Mitocôndria", "Núcleo celular"].map(
+                        (topic) => (
+                          <div
+                            key={topic}
+                            className="flex items-center gap-2 text-[9px] text-slate-600 sm:text-[10px]"
+                          >
+                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                            {topic}
+                          </div>
+                        ),
+                      )}
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-2.5 py-2 text-[9px] font-bold text-white shadow-md shadow-blue-600/20 sm:px-3 sm:text-xs">
-                    <Plus size={14} />
-                    <span className="hidden min-[380px]:inline">Novo conjunto</span>
+                  <div className="flex items-center justify-center gap-1 text-blue-600 sm:flex-col">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/25">
+                      <Sparkles size={16} />
+                    </div>
+                    <ArrowRight className="rotate-90 sm:rotate-0" size={18} />
+                  </div>
+
+                  <div>
+                    <span className="mb-2 block text-center text-[9px] font-bold uppercase tracking-[0.1em] text-blue-600 sm:text-left sm:text-[10px]">
+                      StudyFlow prepara para você
+                    </span>
+
+                    <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-1 sm:gap-2">
+                      {[
+                        {
+                          title: "Flashcards",
+                          description: "Cards para praticar",
+                          icon: Layers3,
+                          color: "bg-violet-50 text-violet-600",
+                        },
+                        {
+                          title: "Mapa mental",
+                          description: "Conexões visuais",
+                          icon: GitFork,
+                          color: "bg-cyan-50 text-cyan-600",
+                        },
+                        {
+                          title: "Teste rápido",
+                          description: "Perguntas para testar",
+                          icon: ListChecks,
+                          color: "bg-emerald-50 text-emerald-600",
+                        },
+                      ].map((item) => {
+                        const Icon = item.icon;
+
+                        return (
+                          <div
+                            key={item.title}
+                            className="flex min-w-0 flex-col items-center rounded-xl border border-slate-200 bg-white p-2 text-center shadow-sm sm:flex-row sm:gap-2.5 sm:p-2.5 sm:text-left"
+                          >
+                            <div
+                              className={`mb-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:mb-0 ${item.color}`}
+                            >
+                              <Icon size={15} />
+                            </div>
+                            <div className="min-w-0">
+                              <strong className="block text-[8px] leading-tight text-slate-950 min-[390px]:text-[9px] sm:text-[10px]">
+                                {item.title}
+                              </strong>
+                              <span className="mt-0.5 hidden text-[9px] text-slate-500 sm:block">
+                                {item.description}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-5">
-                  <div className="grid gap-2.5 min-[430px]:grid-cols-[1.45fr_0.55fr] sm:gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-3.5 text-white shadow-lg shadow-blue-600/15 sm:p-5">
-                      <div className="mb-2 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-blue-100 sm:text-[10px]">
-                        <Sparkles size={13} />
+                <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-3 text-white shadow-lg shadow-blue-600/15 sm:mt-4 sm:p-4">
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15">
+                      <RotateCcw size={17} />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="block text-[9px] text-blue-100 sm:text-[10px]">
                         Próximo passo recomendado
-                      </div>
-                      <strong className="block max-w-sm text-sm leading-snug sm:text-lg">
-                        Você tem 25 cards para revisar hoje.
-                      </strong>
-                      <span className="mt-2 block text-[10px] leading-relaxed text-blue-100 sm:text-xs">
-                        Fortaleça agora o que ainda precisa de prática.
                       </span>
-                      <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-[10px] font-bold text-blue-700 sm:text-xs">
-                        Revisar agora
-                        <ArrowRight size={13} />
-                      </div>
-                    </div>
-
-                    <div className="flex min-h-28 items-center justify-center rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm">
-                      <div>
-                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-[7px] border-blue-100 text-sm font-black text-blue-600 sm:h-16 sm:w-16 sm:text-base">
-                          0%
-                        </div>
-                        <strong className="mt-2 block text-[10px] text-slate-900 sm:text-xs">
-                          Domínio geral
-                        </strong>
-                        <span className="block text-[9px] text-slate-500 sm:text-[10px]">
-                          progresso real
-                        </span>
-                      </div>
+                      <strong className="block truncate text-[10px] sm:text-sm">
+                        Revise o que precisa de atenção hoje
+                      </strong>
                     </div>
                   </div>
 
-                  <div className="mb-2 mt-3 flex items-center justify-between sm:mt-4">
-                    <strong className="text-[10px] text-slate-900 sm:text-xs">
-                      Estudos recentes
-                    </strong>
-                    <span className="text-[9px] font-semibold text-blue-600 sm:text-[10px]">
-                      Ver todos
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                    {[
-                      ["Matemática essencial", "6 termos"],
-                      ["História do Brasil", "5 termos"],
-                      ["Biologia celular", "6 termos"],
-                    ].map(([title, terms], index) => (
-                      <div
-                        key={title}
-                        className={`${index === 2 ? "hidden sm:flex" : "flex"} items-center gap-2 rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm sm:p-3`}
-                      >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                          <BookOpen size={14} />
-                        </div>
-                        <div className="min-w-0">
-                          <strong className="block truncate text-[9px] text-slate-900 sm:text-[10px]">
-                            {title}
-                          </strong>
-                          <span className="block text-[8px] text-slate-500 sm:text-[9px]">
-                            {terms}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
+                  <div className="flex shrink-0 items-center gap-1 rounded-lg bg-white px-2.5 py-2 text-[9px] font-bold text-blue-700 sm:px-3 sm:text-[10px]">
+                    Revisar
+                    <ArrowRight size={12} />
                   </div>
                 </div>
               </div>
-
-              <figcaption className="grid grid-cols-3 gap-1.5 p-1.5 pt-2 sm:gap-2 sm:p-2 sm:pt-3">
-                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
-                  <BarChart3 className="mb-2 text-blue-300" size={18} />
-                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
-                    Veja seu progresso
-                  </strong>
-                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
-                    Acompanhe sua evolução em um só painel.
-                  </span>
-                </div>
-
-                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
-                  <Layers3 className="mb-2 text-blue-300" size={18} />
-                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
-                    Centralize os estudos
-                  </strong>
-                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
-                    Conteúdos e práticas sempre organizados.
-                  </span>
-                </div>
-
-                <div className="rounded-xl border border-white/10 bg-white/[0.07] p-2.5 sm:rounded-2xl sm:p-3.5">
-                  <RotateCcw className="mb-2 text-blue-300" size={18} />
-                  <strong className="block text-[10px] leading-tight text-white sm:text-sm">
-                    Revise no ritmo certo
-                  </strong>
-                  <span className="mt-1 hidden text-xs leading-relaxed text-slate-400 sm:block">
-                    Saiba o que precisa de atenção agora.
-                  </span>
-                </div>
-              </figcaption>
             </div>
           </motion.figure>
         </div>
