@@ -57,7 +57,7 @@ export default function RootLayout({
     applicationCategory: "EducationalApplication",
     offers: {
       "@type": "Offer",
-      price: "14.90",
+      price: "11.90",
       priceCurrency: "BRL",
       url: "https://app-usestudyflow.vercel.app/",
       availability: "https://schema.org/InStock",

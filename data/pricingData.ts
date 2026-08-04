@@ -15,7 +15,7 @@ export const pricingPlans: Plan[] = [
   {
     id: "pro",
     name: "Plano Pro",
-    price: "R$ 14,90",
+    price: "R$ 11,90",
     period: "/mês",
     description:
       "Para estudantes que buscam mais organização, recursos completos e acompanhamento da evolução nos estudos.",

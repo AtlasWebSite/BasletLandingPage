@@ -34,9 +34,6 @@ export default function AssuranceSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-3xl text-center">
-          <span className="mb-4 inline-flex rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-blue-200">
-            Comece com tranquilidade
-          </span>
           <h2 id="assurance-heading" className="text-3xl font-extrabold tracking-tight sm:text-4xl">
             Menos barreiras para você entrar em fluxo
           </h2>

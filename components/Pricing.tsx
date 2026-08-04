@@ -33,10 +33,6 @@ export default function Pricing() {
               transition={{ duration: 0.4 }}
               className="relative flex flex-col justify-between rounded-3xl border border-blue-600 bg-white p-6 shadow-xl shadow-blue-600/10 ring-2 ring-blue-600/20 sm:p-8"
             >
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-lg shadow-blue-600/20">
-                Acesso completo
-              </div>
-
               <div>
                 <h3 className="mb-2 text-2xl font-bold text-text-main">
                   {plan.name}
