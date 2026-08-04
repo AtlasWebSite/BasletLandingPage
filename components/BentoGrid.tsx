@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Layers, GitMerge, CheckSquare, BarChart2, FolderKanban } from "lucide-react";
+import { ArrowRight, Layers, GitMerge, CheckSquare, BarChart2, FolderKanban } from "lucide-react";
+import { APP_URL } from "@/data/pricingData";
+import { trackEvent } from "@/lib/analytics";
 
 const bentoItems = [
   {
@@ -89,10 +91,15 @@ export default function BentoGrid() {
                 <p className="text-base text-text-muted leading-relaxed">{item.description}</p>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-sm font-semibold text-blue-600 group-hover:translate-x-1 transition-transform">
+              <a
+                href={APP_URL}
+                onClick={() => trackEvent("resource_cta_click", { resource: item.title })}
+                aria-label={`Explorar ${item.title} no aplicativo`}
+                className="mt-8 flex min-h-11 items-center justify-between border-t border-slate-100 pt-6 text-sm font-semibold text-blue-600 transition-transform group-hover:translate-x-1"
+              >
                 <span>Explorar recurso no App</span>
-                <span>→</span>
-              </div>
+                <ArrowRight size={16} />
+              </a>
             </motion.div>
           );
         })}

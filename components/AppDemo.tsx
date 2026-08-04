@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Layers, GitMerge, CheckSquare, BarChart2, FolderKanban } from "lucide-react";
+import { ArrowRight, Layers, GitMerge, CheckSquare, BarChart2, FolderKanban } from "lucide-react";
+import { APP_URL } from "@/data/pricingData";
+import { trackEvent } from "@/lib/analytics";
 
 const tabs = [
   { id: "dashboard", label: "Dashboard", icon: BarChart2 },
@@ -231,6 +233,20 @@ export default function AppDemo() {
             )}
           </AnimatePresence>
         </div>
+      </div>
+
+      <div className="mt-8 flex flex-col items-center text-center">
+        <a
+          href={APP_URL}
+          onClick={() => trackEvent("cta_demo_click", { active_tab: activeTab })}
+          className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] hover:bg-blue-700 sm:w-auto sm:text-base"
+        >
+          Experimentar o StudyFlow
+          <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+        </a>
+        <p className="mt-3 text-xs text-text-muted sm:text-sm">
+          Acesse pelo navegador e comece sua rotina de estudos.
+        </p>
       </div>
     </section>
   );

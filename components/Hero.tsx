@@ -53,9 +53,9 @@ export default function Hero() {
             className="flex flex-col items-center text-center lg:col-span-5 lg:items-start lg:text-left"
           >
             <h1 className="mb-5 text-4xl font-extrabold leading-[1.12] tracking-tight text-text-main sm:mb-6 sm:text-6xl lg:text-7xl">
-              Dobre o seu desempenho{" "}
-              <span className="inline-block whitespace-nowrap bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 bg-clip-text text-transparent">
-                em 14 dias
+              Dobre o seu desempenho
+              <span className="block bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 bg-clip-text text-transparent">
+                em 14 dias com Study Flow
               </span>
             </h1>
 

@@ -6,6 +6,7 @@ import BentoGrid from "@/components/BentoGrid";
 import HowItWorks from "@/components/HowItWorks";
 import UseCases from "@/components/UseCases";
 import Pricing from "@/components/Pricing";
+import AssuranceSection from "@/components/AssuranceSection";
 import FAQ from "@/components/FAQ";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -15,12 +16,13 @@ export default function Home() {
     <main className="min-h-screen w-full min-w-0 overflow-x-clip bg-background text-text-main [&>*]:min-w-0">
       <Header />
       <Hero />
-      <AppDemo />
       <ProblemSolution />
+      <AppDemo />
       <BentoGrid />
       <HowItWorks />
       <UseCases />
       <Pricing />
+      <AssuranceSection />
       <FAQ />
       <CTASection />
       <Footer />
