@@ -28,13 +28,22 @@ export default function AppDemo() {
         </p>
       </div>
 
-      <div className="no-scrollbar -mx-4 mb-6 flex snap-x items-center justify-start gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mb-8 sm:justify-center sm:px-0 sm:pb-4">
+      <div
+        role="tablist"
+        aria-label="Recursos do StudyFlow"
+        className="no-scrollbar -mx-4 mb-6 flex snap-x items-center justify-start gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mb-8 sm:justify-center sm:px-0 sm:pb-4"
+      >
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
+              id={`demo-tab-${tab.id}`}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="demo-panel"
               onClick={() => setActiveTab(tab.id)}
               className={`flex min-h-11 shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-all sm:text-base ${
                 isActive
@@ -49,7 +58,12 @@ export default function AppDemo() {
         })}
       </div>
 
-      <div className="relative mx-auto w-full min-w-0 max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div
+        id="demo-panel"
+        role="tabpanel"
+        aria-labelledby={`demo-tab-${activeTab}`}
+        className="relative mx-auto w-full min-w-0 max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+      >
         <div className="flex min-w-0 items-center gap-3 border-b border-slate-200 bg-slate-100/80 px-3 py-3 sm:px-4">
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <div className="w-3 h-3 rounded-full bg-rose-400" />
@@ -133,13 +147,13 @@ export default function AppDemo() {
                 </h3>
                 <p className="text-sm text-text-muted mb-8">Clique para virar o cartão ou selecione seu nível de facilidade</p>
                 <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                  <button className="min-h-11 rounded-xl border border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-600 transition-colors hover:bg-rose-100">
+                  <button type="button" className="min-h-11 rounded-xl border border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-600 transition-colors hover:bg-rose-100">
                     Difícil
                   </button>
-                  <button className="min-h-11 rounded-xl border border-amber-200 bg-amber-50 py-2.5 text-sm font-bold text-amber-600 transition-colors hover:bg-amber-100">
+                  <button type="button" className="min-h-11 rounded-xl border border-amber-200 bg-amber-50 py-2.5 text-sm font-bold text-amber-600 transition-colors hover:bg-amber-100">
                     Bom
                   </button>
-                  <button className="min-h-11 rounded-xl border border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-100">
+                  <button type="button" className="min-h-11 rounded-xl border border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-100">
                     Fácil
                   </button>
                 </div>

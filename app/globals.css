@@ -62,6 +62,11 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.45);
+  outline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

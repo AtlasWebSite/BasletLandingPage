@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Globe2, RefreshCw } from "lucide-react";
 import { APP_URL, pricingPlans } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -33,6 +33,10 @@ export default function Pricing() {
               transition={{ duration: 0.4 }}
               className="relative flex flex-col justify-between rounded-3xl border border-blue-600 bg-white p-6 shadow-xl shadow-blue-600/10 ring-2 ring-blue-600/20 sm:p-8"
             >
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-lg shadow-blue-600/20">
+                Acesso completo
+              </div>
+
               <div>
                 <h3 className="mb-2 text-2xl font-bold text-text-main">
                   {plan.name}
@@ -71,11 +75,22 @@ export default function Pricing() {
                 onClick={() =>
                   trackEvent("plan_select", { plan_id: plan.id })
                 }
-                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700"
+                className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700"
               >
                 <span>{plan.ctaText}</span>
                 <ArrowRight size={16} />
               </a>
+
+              <div className="mt-4 flex flex-col items-center justify-center gap-2 text-xs font-medium text-text-muted sm:flex-row sm:gap-5">
+                <span className="inline-flex items-center gap-1.5">
+                  <Globe2 size={14} className="text-blue-600" />
+                  Acesso imediato pelo navegador
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <RefreshCw size={14} className="text-blue-600" />
+                  Cancele quando quiser
+                </span>
+              </div>
             </motion.div>
           ))}
         </div>

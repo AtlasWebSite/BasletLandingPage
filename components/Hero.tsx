@@ -52,6 +52,10 @@ export default function Hero() {
             }
             className="flex flex-col items-center text-center lg:col-span-5 lg:items-start lg:text-left"
           >
+            <div className="mb-4 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.12em] text-blue-700 sm:text-sm">
+              Seu estudo em um só lugar
+            </div>
+
             <h1 className="mb-5 text-4xl font-extrabold leading-[1.12] tracking-tight text-text-main sm:mb-6 sm:text-6xl lg:text-7xl">
               Dobre o seu desempenho
               <span className="block bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 bg-clip-text text-transparent">

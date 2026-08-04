@@ -15,15 +15,17 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "StudyFlow — Flashcards, mapas mentais e testes em um só lugar",
-  description: "Transforme conteúdo em aprendizado que fica. Flashcards, mapas mentais e testes reunidos em uma experiência simples e visual para organizar seus estudos e acompanhar sua evolução.",
+  title: "StudyFlow — Dobre o seu desempenho em 14 dias",
+  description:
+    "Organize seus estudos com flashcards, mapas mentais, testes e acompanhamento de progresso em um único ambiente.",
   metadataBase: new URL("https://use-studyflow.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "StudyFlow — Seu estudo, finalmente em fluxo",
-    description: "Organize seus estudos e acompanhe sua evolução com flashcards, mapas mentais e testes em um só ambiente.",
+    title: "Dobre o seu desempenho em 14 dias com StudyFlow",
+    description:
+      "Flashcards, mapas mentais, testes e acompanhamento de progresso em um único ambiente de estudos.",
     url: "https://use-studyflow.vercel.app",
     siteName: "StudyFlow",
     locale: "pt_BR",
@@ -31,8 +33,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "StudyFlow — Flashcards, mapas mentais e testes",
-    description: "Organize seus estudos e acompanhe sua evolução com flashcards, mapas mentais e testes em um só ambiente.",
+    title: "Dobre o seu desempenho em 14 dias com StudyFlow",
+    description:
+      "Organize seus estudos com flashcards, mapas mentais, testes e acompanhamento de progresso.",
   },
   robots: {
     index: true,
@@ -48,15 +51,19 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "StudyFlow",
-    "operatingSystem": "Web, Mobile",
-    "applicationCategory": "EducationalApplication",
-    "offers": {
+    name: "StudyFlow",
+    url: "https://use-studyflow.vercel.app",
+    operatingSystem: "Web, Mobile",
+    applicationCategory: "EducationalApplication",
+    offers: {
       "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "BRL"
+      price: "14.90",
+      priceCurrency: "BRL",
+      url: "https://app-usestudyflow.vercel.app/",
+      availability: "https://schema.org/InStock",
     },
-    "description": "Plataforma de estudos com flashcards, mapas mentais, testes e acompanhamento de progresso."
+    description:
+      "Plataforma de estudos com flashcards, mapas mentais, testes e acompanhamento de progresso.",
   };
 
   return (
