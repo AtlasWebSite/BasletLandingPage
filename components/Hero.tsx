@@ -115,16 +115,16 @@ export default function Hero() {
             className="relative flex w-full min-w-0 items-center justify-center lg:col-span-7"
           >
             <div className="pointer-events-none absolute inset-x-8 top-1/2 h-3/4 -translate-y-1/2 rounded-full bg-blue-500/15 blur-3xl" />
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[24px] border border-blue-100 bg-white p-2 shadow-[0_32px_90px_-34px_rgba(37,99,235,0.5)] sm:rounded-[30px] sm:p-3">
+            <div className="relative w-full max-w-[590px] overflow-hidden rounded-[24px] border border-blue-100 bg-white p-2 shadow-[0_32px_90px_-34px_rgba(37,99,235,0.5)] sm:rounded-[30px] sm:p-3 lg:ml-auto">
               <Image
                 src="/hero-studyflow-dashboard-real.jpg"
                 alt="Painel real de progresso do StudyFlow"
-                width={768}
+                width={753}
                 height={720}
                 priority
                 sizes="(min-width: 1024px) 58vw, (min-width: 640px) 90vw, 100vw"
                 quality={90}
-                className="h-full w-full origin-top-left scale-[1.02] rounded-[18px] object-cover object-top sm:rounded-[22px]"
+                className="h-auto w-full rounded-[18px] object-contain sm:rounded-[22px]"
               />
             </div>
           </motion.figure>
