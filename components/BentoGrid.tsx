@@ -78,7 +78,7 @@ export default function BentoGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
-              className={`glass-card p-8 flex flex-col justify-between group ${item.colSpan}`}
+              className={`glass-card group flex flex-col justify-between p-6 sm:p-8 ${item.colSpan}`}
             >
               <div>
                 <div className={`w-12 h-12 rounded-2xl ${item.bgColor} border ${item.borderColor} flex items-center justify-center mb-6`}>

@@ -18,15 +18,15 @@ export default function Footer() {
           <span className="text-base font-bold text-text-main">StudyFlow</span>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted">
-          <a href="#recursos" className="hover:text-blue-600 transition-colors">Recursos</a>
-          <a href="#como-funciona" className="hover:text-blue-600 transition-colors">Como funciona</a>
-          <a href="#planos" className="hover:text-blue-600 transition-colors">Planos</a>
-          <a href="#faq" className="hover:text-blue-600 transition-colors">FAQ</a>
-          <a href={APP_URL} className="hover:text-blue-600 transition-colors">Acessar App</a>
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-xs text-text-muted sm:gap-x-6">
+          <a href="#recursos" className="inline-flex min-h-11 items-center transition-colors hover:text-blue-600">Recursos</a>
+          <a href="#como-funciona" className="inline-flex min-h-11 items-center transition-colors hover:text-blue-600">Como funciona</a>
+          <a href="#planos" className="inline-flex min-h-11 items-center transition-colors hover:text-blue-600">Planos</a>
+          <a href="#faq" className="inline-flex min-h-11 items-center transition-colors hover:text-blue-600">FAQ</a>
+          <a href={APP_URL} className="inline-flex min-h-11 items-center transition-colors hover:text-blue-600">Acessar App</a>
         </div>
 
-        <p className="text-xs text-text-muted">
+        <p className="text-center text-xs text-text-muted">
           © {new Date().getFullYear()} StudyFlow. Todos os direitos reservados.
         </p>
 

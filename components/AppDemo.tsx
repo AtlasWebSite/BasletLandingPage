@@ -16,7 +16,7 @@ export default function AppDemo() {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   return (
-    <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="mx-auto w-full min-w-0 max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
       <div className="text-center mb-10">
         <h2 className="text-2xl sm:text-4xl font-extrabold text-text-main tracking-tight mb-3">
           Veja o StudyFlow em ação
@@ -26,7 +26,7 @@ export default function AppDemo() {
         </p>
       </div>
 
-      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+      <div className="no-scrollbar -mx-4 mb-6 flex snap-x items-center justify-start gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mb-8 sm:justify-center sm:px-0 sm:pb-4">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -34,7 +34,7 @@ export default function AppDemo() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-base font-semibold transition-all whitespace-nowrap shrink-0 ${
+              className={`flex min-h-11 shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-all sm:text-base ${
                 isActive
                   ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
                   : "bg-white text-text-muted hover:text-text-main border border-slate-200"
@@ -47,20 +47,19 @@ export default function AppDemo() {
         })}
       </div>
 
-      <div className="relative rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden max-w-5xl mx-auto">
-        <div className="bg-slate-100/80 border-b border-slate-200 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="relative mx-auto w-full min-w-0 max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="flex min-w-0 items-center gap-3 border-b border-slate-200 bg-slate-100/80 px-3 py-3 sm:px-4">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <div className="w-3 h-3 rounded-full bg-rose-400" />
             <div className="w-3 h-3 rounded-full bg-amber-400" />
             <div className="w-3 h-3 rounded-full bg-emerald-400" />
           </div>
-          <div className="bg-white border border-slate-200 rounded-md px-4 py-1 text-sm font-mono text-text-muted shadow-inner">
+          <div className="min-w-0 flex-1 truncate rounded-md border border-slate-200 bg-white px-2 py-1 text-center font-mono text-[10px] text-text-muted shadow-inner sm:px-4 sm:text-sm">
             app-usestudyflow.vercel.app/{activeTab}
           </div>
-          <div className="w-12" />
         </div>
 
-        <div className="p-6 sm:p-8 bg-slate-50/50 min-h-[380px] sm:min-h-[460px] flex items-center justify-center">
+        <div className="flex min-h-[340px] min-w-0 items-center justify-center bg-slate-50/50 p-4 sm:min-h-[460px] sm:p-8">
           <AnimatePresence mode="wait">
             {activeTab === "dashboard" && (
               <motion.div
@@ -122,7 +121,7 @@ export default function AppDemo() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
                 transition={{ duration: 0.3 }}
-                className="w-full max-w-lg mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-md text-center"
+                className="mx-auto w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-md sm:p-8"
               >
                 <span className="text-sm font-bold uppercase tracking-widest text-blue-600 bg-blue-600/10 px-3 py-1 rounded-full">
                   Baralho: Neurociência
@@ -131,14 +130,14 @@ export default function AppDemo() {
                   Como funciona a potenciação de longa duração (LTP) no hipocampo?
                 </h3>
                 <p className="text-sm text-text-muted mb-8">Clique para virar o cartão ou selecione seu nível de facilidade</p>
-                <div className="grid grid-cols-3 gap-3">
-                  <button className="py-2.5 bg-rose-50 text-rose-600 border border-rose-200 rounded-xl text-sm font-bold hover:bg-rose-100 transition-colors">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                  <button className="min-h-11 rounded-xl border border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-600 transition-colors hover:bg-rose-100">
                     Difícil
                   </button>
-                  <button className="py-2.5 bg-amber-50 text-amber-600 border border-amber-200 rounded-xl text-sm font-bold hover:bg-amber-100 transition-colors">
+                  <button className="min-h-11 rounded-xl border border-amber-200 bg-amber-50 py-2.5 text-sm font-bold text-amber-600 transition-colors hover:bg-amber-100">
                     Bom
                   </button>
-                  <button className="py-2.5 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl text-sm font-bold hover:bg-emerald-100 transition-colors">
+                  <button className="min-h-11 rounded-xl border border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-100">
                     Fácil
                   </button>
                 </div>

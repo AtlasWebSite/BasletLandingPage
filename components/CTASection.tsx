@@ -26,7 +26,7 @@ export default function CTASection() {
         <a
           href={APP_URL}
           onClick={() => trackEvent("cta_final_click")}
-          className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-9 py-4 rounded-full font-bold text-base transition-all shadow-lg shadow-primary/25 hover:shadow-xl hover:scale-105 active:scale-95"
+          className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-4 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:scale-[1.02] hover:bg-primary/90 hover:shadow-xl active:scale-95 sm:w-auto sm:px-9 sm:text-base"
         >
           <span>Começar agora no StudyFlow</span>
           <ArrowRight size={18} />

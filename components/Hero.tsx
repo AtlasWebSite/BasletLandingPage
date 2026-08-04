@@ -21,7 +21,7 @@ interface StudyDashboardVisualProps {
 
 function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
   return (
-    <div className="relative flex h-[460px] w-full items-center justify-center sm:h-[540px]">
+    <div className="relative flex h-[470px] w-full min-w-0 items-center justify-center sm:h-[540px]">
       <div className="pointer-events-none absolute inset-x-8 top-16 h-72 rounded-full bg-blue-500/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-12 right-4 h-44 w-44 rounded-full bg-cyan-300/15 blur-3xl" />
 
@@ -33,7 +33,7 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
             ? { duration: 0 }
             : { duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }
         }
-        className="relative w-full max-w-[540px]"
+        className="relative w-full min-w-0 max-w-[540px]"
         role="img"
         aria-label="Painel do StudyFlow com progresso diário, matérias em estudo e próxima revisão"
       >
@@ -78,32 +78,32 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
           </div>
         </motion.div>
 
-        <div className="relative overflow-hidden rounded-[30px] border border-slate-200/80 bg-white/95 p-4 shadow-[0_28px_80px_-28px_rgba(37,99,235,0.32)] backdrop-blur sm:p-5">
+        <div className="relative overflow-hidden rounded-[24px] border border-slate-200/80 bg-white/95 p-3 shadow-[0_28px_80px_-28px_rgba(37,99,235,0.32)] backdrop-blur min-[380px]:p-4 sm:rounded-[30px] sm:p-5">
           <div className="pointer-events-none absolute -right-20 -top-24 h-52 w-52 rounded-full bg-blue-100/70 blur-3xl" />
 
           <div className="relative mb-5 flex items-center justify-between border-b border-slate-100 pb-4">
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 text-white shadow-md shadow-blue-500/20">
                 <BrainCircuit size={20} />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-extrabold text-slate-900">Meu StudyFlow</p>
-                <p className="text-xs text-slate-500">Visão geral de hoje</p>
+                <p className="truncate text-xs text-slate-500">Visão geral de hoje</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Em fluxo
+              <span className="hidden min-[340px]:inline">Em fluxo</span>
             </div>
           </div>
 
           <div className="relative mb-4 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-slate-950 p-4 text-white sm:p-5">
+            <div className="rounded-2xl bg-slate-950 p-3 text-white min-[380px]:p-4 sm:p-5">
               <div className="mb-5 flex items-start justify-between gap-2">
                 <div>
                   <p className="mb-1 text-xs font-medium text-slate-400">Progresso semanal</p>
-                  <p className="text-3xl font-extrabold tracking-tight">72%</p>
+                  <p className="text-2xl font-extrabold tracking-tight min-[380px]:text-3xl">72%</p>
                 </div>
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-blue-300">
                   <TrendingUp size={17} />
@@ -115,11 +115,11 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
               <p className="mt-2 text-[11px] text-slate-400">+18% nesta semana</p>
             </div>
 
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 sm:p-5">
+            <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-3 min-[380px]:p-4 sm:p-5">
               <div className="mb-5 flex items-start justify-between gap-2">
                 <div>
                   <p className="mb-1 text-xs font-medium text-blue-700/70">Foco de hoje</p>
-                  <p className="text-3xl font-extrabold tracking-tight text-slate-900">42<span className="ml-1 text-sm text-slate-500">min</span></p>
+                  <p className="text-2xl font-extrabold tracking-tight text-slate-900 min-[380px]:text-3xl">22<span className="ml-1 text-xs text-slate-500 min-[380px]:text-sm">min</span></p>
                 </div>
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-blue-600 shadow-sm">
                   <Clock3 size={17} />
@@ -128,7 +128,7 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
               <div className="h-2 overflow-hidden rounded-full bg-blue-100">
                 <div className="h-full w-[70%] rounded-full bg-blue-600" />
               </div>
-              <p className="mt-2 text-[11px] text-blue-700/70">Meta diária: 60 min</p>
+              <p className="mt-2 text-[11px] text-blue-700/70">Meta diária: 30 min</p>
             </div>
           </div>
 
@@ -138,7 +138,7 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
                 <BookOpen size={16} className="text-blue-600" />
                 <p className="text-sm font-extrabold text-slate-900">Matérias em andamento</p>
               </div>
-              <span className="text-xs font-semibold text-blue-600">Ver todas</span>
+              <span className="hidden text-xs font-semibold text-blue-600 min-[340px]:inline">Ver todas</span>
             </div>
 
             <div className="space-y-3">
@@ -164,7 +164,7 @@ function StudyDashboardVisual({ reducedMotion }: StudyDashboardVisualProps) {
             </div>
           </div>
 
-          <div className="relative flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 p-4 text-white shadow-lg shadow-blue-500/20">
+          <div className="relative flex items-center gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 p-3 text-white shadow-lg shadow-blue-500/20 min-[380px]:p-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
               <Sparkles size={19} />
             </div>
@@ -209,9 +209,9 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white pb-24 pt-32 md:pb-36 md:pt-44">
+    <section className="relative w-full overflow-hidden bg-white pb-16 pt-28 sm:pb-24 sm:pt-32 md:pb-36 md:pt-44">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-12">
+        <div className="grid min-w-0 items-center gap-8 sm:gap-12 lg:grid-cols-12">
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-text-muted sm:text-xl">
+            <p className="mb-8 max-w-2xl text-base leading-relaxed text-text-muted min-[380px]:text-lg sm:text-xl">
               Flashcards, mapas mentais e testes reunidos em uma experiência
               simples e visual para organizar seus estudos e acompanhar sua
               evolução.
@@ -277,7 +277,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <div className="relative flex w-full items-center justify-center lg:col-span-5">
+          <div className="relative flex w-full min-w-0 items-center justify-center lg:col-span-5">
             <StudyDashboardVisual reducedMotion={reducedMotion} />
           </div>
         </div>

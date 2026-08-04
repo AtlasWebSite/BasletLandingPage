@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-background text-text-main">
+    <main className="min-h-screen w-full min-w-0 overflow-x-clip bg-background text-text-main [&>*]:min-w-0">
       <Header />
       <Hero />
       <AppDemo />

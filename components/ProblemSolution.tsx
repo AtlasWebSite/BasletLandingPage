@@ -33,7 +33,7 @@ export default function ProblemSolution() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="p-8 rounded-2xl bg-rose-50/50 border border-rose-200/70 flex flex-col justify-between"
+            className="flex flex-col justify-between rounded-2xl border border-rose-200/70 bg-rose-50/50 p-6 sm:p-8"
           >
             <div>
               <div className="inline-flex items-center gap-2 bg-rose-100 text-rose-700 px-3 py-1 rounded-full text-sm font-bold mb-6">
@@ -60,7 +60,7 @@ export default function ProblemSolution() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="p-8 rounded-2xl bg-gradient-to-br from-blue-50 via-white to-progress/10 border border-blue-200 shadow-lg shadow-blue-600/5 flex flex-col justify-between"
+            className="flex flex-col justify-between rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-progress/10 p-6 shadow-lg shadow-blue-600/5 sm:p-8"
           >
             <div>
               <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-sm font-bold mb-6">
@@ -91,7 +91,7 @@ export default function ProblemSolution() {
             <div className="mt-8 pt-4 border-t border-slate-200">
               <a
                 href={APP_URL}
-                className="inline-flex items-center gap-2 text-base font-bold text-blue-600 hover:text-blue-600/80 transition-colors"
+                className="inline-flex min-h-11 items-center gap-2 text-base font-bold text-blue-600 transition-colors hover:text-blue-600/80"
               >
                 <span>Entrar em fluxo agora</span>
                 <ArrowRight size={16} />

@@ -143,7 +143,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="group flex items-center will-change-[transform,opacity]"
+          className="group flex min-h-[50px] items-center will-change-[transform,opacity]"
           style={{
             gap: `${brandGap}px`,
             opacity: brandOpacity,
@@ -219,7 +219,7 @@ export default function Header() {
           onClick={() => setMobileMenu((current) => !current)}
           aria-label={mobileMenu ? "Fechar menu" : "Abrir menu"}
           aria-expanded={mobileMenu}
-          className="rounded-xl p-2.5 text-text-main transition-colors hover:bg-slate-100/80 md:hidden"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-2.5 text-text-main transition-colors hover:bg-slate-100/80 md:hidden"
         >
           {mobileMenu ? <X size={26} /> : <Menu size={26} />}
         </button>
@@ -232,9 +232,9 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-b border-slate-200 bg-white/95 shadow-xl backdrop-blur-xl md:hidden"
+            className="max-h-[calc(100dvh-72px)] overflow-y-auto overscroll-contain border-b border-slate-200 bg-white/95 shadow-xl backdrop-blur-xl md:hidden"
           >
-            <div className="flex flex-col gap-3 px-6 py-6">
+            <div className="flex flex-col gap-2 px-4 py-4 sm:gap-3 sm:px-6 sm:py-6">
               {navLinks.map((link) => (
                 <a
                   key={link.name}

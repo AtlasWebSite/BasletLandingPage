@@ -69,7 +69,7 @@ export default function FAQ() {
             Dúvidas Frequentes
           </h2>
 
-          <p className="text-lg text-text-muted">
+          <p className="text-base text-text-muted sm:text-lg">
             Respostas claras para você começar a estudar sem incertezas.
           </p>
         </div>
@@ -87,9 +87,9 @@ export default function FAQ() {
                   type="button"
                   onClick={() => toggleFAQ(index)}
                   aria-expanded={isOpen}
-                  className="w-full text-left p-6 flex items-center justify-between gap-4 focus:outline-none"
+                  className="flex min-h-14 w-full items-center justify-between gap-4 p-5 text-left focus:outline-none sm:p-6"
                 >
-                  <span className="min-w-0 text-lg font-bold text-text-main">
+                  <span className="min-w-0 text-base font-bold text-text-main sm:text-lg">
                     {faq.q}
                   </span>
 
@@ -113,7 +113,7 @@ export default function FAQ() {
                       }}
                       className="w-full"
                     >
-                      <div className="w-full px-6 pb-6 pt-0 text-base text-text-muted leading-relaxed border-t border-slate-100/80">
+                      <div className="w-full border-t border-slate-100/80 px-5 pb-5 pt-0 text-sm leading-relaxed text-text-muted sm:px-6 sm:pb-6 sm:text-base">
                         <p className="pt-4">{faq.a}</p>
                       </div>
                     </motion.div>

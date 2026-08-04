@@ -31,7 +31,7 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="relative flex flex-col justify-between rounded-3xl border border-blue-600 bg-white p-8 shadow-xl shadow-blue-600/10 ring-2 ring-blue-600/20"
+              className="relative flex flex-col justify-between rounded-3xl border border-blue-600 bg-white p-6 shadow-xl shadow-blue-600/10 ring-2 ring-blue-600/20 sm:p-8"
             >
               <div>
                 <h3 className="mb-2 text-2xl font-bold text-text-main">
