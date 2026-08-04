@@ -1,17 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import type { MouseEvent } from "react";
-import {
-  ArrowRight,
-  CheckCircle2,
-  FileText,
-  GitFork,
-  Layers3,
-  ListChecks,
-  RotateCcw,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -46,7 +38,7 @@ export default function Hero() {
   return (
     <section className="relative w-full overflow-hidden bg-white pb-16 pt-28 sm:pb-24 sm:pt-32 md:pb-36 md:pt-44">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid min-w-0 items-center gap-6 sm:gap-12 lg:grid-cols-12">
+        <div className="grid min-w-0 items-center gap-8 sm:gap-12 lg:grid-cols-12">
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -80,7 +72,6 @@ export default function Hero() {
                 className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg active:scale-[0.98] sm:w-auto"
               >
                 <span>Começar agora</span>
-
                 <ArrowRight
                   size={18}
                   className="transition-transform group-hover:translate-x-1"
@@ -113,7 +104,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.figure
-            initial={reducedMotion ? false : { opacity: 0, x: 28, scale: 0.96 }}
+            initial={reducedMotion ? false : { opacity: 0, x: 28, scale: 0.97 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={
               reducedMotion
@@ -124,144 +115,17 @@ export default function Hero() {
           >
             <div className="pointer-events-none absolute inset-x-4 top-1/2 h-4/5 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
 
-            <div className="relative w-full max-w-[680px] overflow-hidden rounded-[26px] border border-slate-800 bg-slate-950 p-2 shadow-[0_36px_100px_-32px_rgba(37,99,235,0.65)] sm:rounded-[32px] sm:p-3 lg:ml-auto">
-              <div className="flex items-center justify-between px-2 py-2.5 sm:px-3 sm:py-3">
-                <div className="flex items-center gap-1.5" aria-hidden="true">
-                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                </div>
-                <span className="text-[10px] font-semibold tracking-wide text-slate-400 sm:text-xs">
-                  StudyFlow · Do conteúdo à evolução
-                </span>
-              </div>
-
-              <div
-                role="img"
-                aria-label="Demonstração do StudyFlow transformando um conteúdo em flashcards, mapa mental, teste e revisão recomendada"
-                className="overflow-hidden rounded-[18px] border border-white/10 bg-[#f4f6fb] p-3 sm:rounded-[22px] sm:p-5"
-              >
-                <div className="text-center sm:text-left">
-                  <strong className="block text-sm text-slate-950 sm:text-lg">
-                    Um conteúdo. Várias formas de aprender.
-                  </strong>
-                  <span className="mt-1 block text-[10px] leading-relaxed text-slate-500 sm:text-xs">
-                    O StudyFlow organiza a prática e mostra o próximo passo.
-                  </span>
-                </div>
-
-                <div className="mt-3 grid items-center gap-2.5 sm:mt-5 sm:grid-cols-[0.88fr_auto_1.12fr] sm:gap-3">
-                  <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm sm:p-4">
-                    <div className="mb-3 flex items-center gap-2.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 sm:h-10 sm:w-10">
-                        <FileText size={18} />
-                      </div>
-                      <div>
-                        <span className="block text-[9px] font-bold uppercase tracking-[0.1em] text-slate-400 sm:text-[10px]">
-                          Seu conteúdo
-                        </span>
-                        <strong className="block text-xs text-slate-950 sm:text-sm">
-                          Biologia celular
-                        </strong>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5 border-t border-slate-100 pt-3">
-                      {["Membrana plasmática", "Mitocôndria", "Núcleo celular"].map(
-                        (topic) => (
-                          <div
-                            key={topic}
-                            className="flex items-center gap-2 text-[9px] text-slate-600 sm:text-[10px]"
-                          >
-                            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-                            {topic}
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-1 text-blue-600 sm:flex-col">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/25">
-                      <Sparkles size={16} />
-                    </div>
-                    <ArrowRight className="rotate-90 sm:rotate-0" size={18} />
-                  </div>
-
-                  <div>
-                    <span className="mb-2 block text-center text-[9px] font-bold uppercase tracking-[0.1em] text-blue-600 sm:text-left sm:text-[10px]">
-                      StudyFlow prepara para você
-                    </span>
-
-                    <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-1 sm:gap-2">
-                      {[
-                        {
-                          title: "Flashcards",
-                          description: "Cards para praticar",
-                          icon: Layers3,
-                          color: "bg-violet-50 text-violet-600",
-                        },
-                        {
-                          title: "Mapa mental",
-                          description: "Conexões visuais",
-                          icon: GitFork,
-                          color: "bg-cyan-50 text-cyan-600",
-                        },
-                        {
-                          title: "Teste rápido",
-                          description: "Perguntas para testar",
-                          icon: ListChecks,
-                          color: "bg-emerald-50 text-emerald-600",
-                        },
-                      ].map((item) => {
-                        const Icon = item.icon;
-
-                        return (
-                          <div
-                            key={item.title}
-                            className="flex min-w-0 flex-col items-center rounded-xl border border-slate-200 bg-white p-2 text-center shadow-sm sm:flex-row sm:gap-2.5 sm:p-2.5 sm:text-left"
-                          >
-                            <div
-                              className={`mb-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg sm:mb-0 ${item.color}`}
-                            >
-                              <Icon size={15} />
-                            </div>
-                            <div className="min-w-0">
-                              <strong className="block text-[8px] leading-tight text-slate-950 min-[390px]:text-[9px] sm:text-[10px]">
-                                {item.title}
-                              </strong>
-                              <span className="mt-0.5 hidden text-[9px] text-slate-500 sm:block">
-                                {item.description}
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700 p-3 text-white shadow-lg shadow-blue-600/15 sm:mt-4 sm:p-4">
-                  <div className="flex min-w-0 items-center gap-2.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15">
-                      <RotateCcw size={17} />
-                    </div>
-                    <div className="min-w-0">
-                      <span className="block text-[9px] text-blue-100 sm:text-[10px]">
-                        Próximo passo recomendado
-                      </span>
-                      <strong className="block truncate text-[10px] sm:text-sm">
-                        Revise o que precisa de atenção hoje
-                      </strong>
-                    </div>
-                  </div>
-
-                  <div className="flex shrink-0 items-center gap-1 rounded-lg bg-white px-2.5 py-2 text-[9px] font-bold text-blue-700 sm:px-3 sm:text-[10px]">
-                    Revisar
-                    <ArrowRight size={12} />
-                  </div>
-                </div>
-              </div>
+            <div className="relative w-full max-w-[760px] overflow-hidden rounded-[22px] border border-blue-100/80 bg-[#f7f8ff] shadow-[0_32px_90px_-34px_rgba(37,99,235,0.55)] sm:rounded-[30px] lg:ml-auto">
+              <Image
+                src="/hero-studyflow-product-showcase-v2.png"
+                alt="Visão geral do StudyFlow com painel de estudos, flashcards, mapa mental, teste rápido e acompanhamento de progresso"
+                width={1672}
+                height={941}
+                priority
+                sizes="(min-width: 1024px) 58vw, (min-width: 640px) 92vw, 100vw"
+                quality={92}
+                className="h-auto w-full"
+              />
             </div>
           </motion.figure>
         </div>
