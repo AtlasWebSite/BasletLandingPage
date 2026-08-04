@@ -1,14 +1,16 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
 import type { MouseEvent } from "react";
 import {
   ArrowRight,
   BarChart3,
+  BookOpen,
   CheckCircle2,
   Layers3,
+  Plus,
   RotateCcw,
+  Sparkles,
 } from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
@@ -130,22 +132,98 @@ export default function Hero() {
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
                 </div>
                 <span className="text-[10px] font-semibold tracking-wide text-slate-400 sm:text-xs">
-                  StudyFlow · Painel de progresso
+                  StudyFlow · Sua rotina de estudos
                 </span>
               </div>
 
-              <div className="overflow-hidden rounded-[18px] border border-white/10 bg-white sm:rounded-[22px]">
-                <div className="relative aspect-square w-full sm:aspect-[16/11]">
-                  <Image
-                    src="/hero-studyflow-dashboard-real.jpg"
-                    alt="Painel real de progresso do StudyFlow com métricas de domínio, revisões e cards praticados"
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 56vw, (min-width: 640px) 90vw, 100vw"
-                    quality={92}
-                    className="object-cover object-top"
-                  />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/90 to-transparent sm:h-20" />
+              <div
+                role="img"
+                aria-label="Tela inicial do StudyFlow mostrando a revisão recomendada, domínio geral e estudos recentes"
+                className="overflow-hidden rounded-[18px] border border-white/10 bg-[#f4f6fb] sm:rounded-[22px]"
+              >
+                <div className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-3 sm:px-5 sm:py-4">
+                  <div>
+                    <span className="block text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
+                      Visão geral
+                    </span>
+                    <strong className="mt-0.5 block text-xs text-slate-900 sm:text-base">
+                      Pronto para avançar hoje?
+                    </strong>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-2.5 py-2 text-[9px] font-bold text-white shadow-md shadow-blue-600/20 sm:px-3 sm:text-xs">
+                    <Plus size={14} />
+                    <span className="hidden min-[380px]:inline">Novo conjunto</span>
+                  </div>
+                </div>
+
+                <div className="p-3 sm:p-5">
+                  <div className="grid gap-2.5 min-[430px]:grid-cols-[1.45fr_0.55fr] sm:gap-3">
+                    <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-3.5 text-white shadow-lg shadow-blue-600/15 sm:p-5">
+                      <div className="mb-2 flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.1em] text-blue-100 sm:text-[10px]">
+                        <Sparkles size={13} />
+                        Próximo passo recomendado
+                      </div>
+                      <strong className="block max-w-sm text-sm leading-snug sm:text-lg">
+                        Você tem 25 cards para revisar hoje.
+                      </strong>
+                      <span className="mt-2 block text-[10px] leading-relaxed text-blue-100 sm:text-xs">
+                        Fortaleça agora o que ainda precisa de prática.
+                      </span>
+                      <div className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-2 text-[10px] font-bold text-blue-700 sm:text-xs">
+                        Revisar agora
+                        <ArrowRight size={13} />
+                      </div>
+                    </div>
+
+                    <div className="flex min-h-28 items-center justify-center rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm">
+                      <div>
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-[7px] border-blue-100 text-sm font-black text-blue-600 sm:h-16 sm:w-16 sm:text-base">
+                          0%
+                        </div>
+                        <strong className="mt-2 block text-[10px] text-slate-900 sm:text-xs">
+                          Domínio geral
+                        </strong>
+                        <span className="block text-[9px] text-slate-500 sm:text-[10px]">
+                          progresso real
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-2 mt-3 flex items-center justify-between sm:mt-4">
+                    <strong className="text-[10px] text-slate-900 sm:text-xs">
+                      Estudos recentes
+                    </strong>
+                    <span className="text-[9px] font-semibold text-blue-600 sm:text-[10px]">
+                      Ver todos
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {[
+                      ["Matemática essencial", "6 termos"],
+                      ["História do Brasil", "5 termos"],
+                      ["Biologia celular", "6 termos"],
+                    ].map(([title, terms], index) => (
+                      <div
+                        key={title}
+                        className={`${index === 2 ? "hidden sm:flex" : "flex"} items-center gap-2 rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm sm:p-3`}
+                      >
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                          <BookOpen size={14} />
+                        </div>
+                        <div className="min-w-0">
+                          <strong className="block truncate text-[9px] text-slate-900 sm:text-[10px]">
+                            {title}
+                          </strong>
+                          <span className="block text-[8px] text-slate-500 sm:text-[9px]">
+                            {terms}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
