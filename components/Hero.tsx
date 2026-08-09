@@ -73,18 +73,25 @@ export default function Hero() {
               evolução.
             </p>
 
-            <div className="mb-8 flex w-full flex-col items-center gap-4 sm:mb-10 sm:w-auto sm:flex-row">
-              <a
-                href={APP_URL}
-                onClick={() => trackEvent("cta_hero_click")}
-                className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg active:scale-[0.98] sm:w-auto"
-              >
-                <span>Começar agora</span>
-                <ArrowRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-1"
-                />
-              </a>
+            <div className="mb-8 flex w-full flex-col items-start gap-4 sm:mb-10 sm:w-auto sm:flex-row">
+              <div className="flex w-full flex-col items-center sm:w-auto sm:items-start">
+                <a
+                  href={APP_URL}
+                  onClick={() => trackEvent("cta_hero_click")}
+                  className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25 active:scale-[0.98] sm:w-auto"
+                >
+                  <span>Criar minha conta</span>
+                  <ArrowRight
+                    size={18}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </a>
+
+                <p className="mt-2 max-w-[320px] text-center text-[11px] font-medium leading-relaxed text-slate-500 sm:text-left sm:text-xs">
+                  Assinatura de R$11,90/mês • Cancele quando quiser • Comece em
+                  poucos segundos
+                </p>
+              </div>
 
               <a
                 href="#como-funciona"
@@ -92,7 +99,7 @@ export default function Hero() {
                   trackEvent("cta_secondary_hero_click");
                   handleSmoothScroll(event, "#como-funciona");
                 }}
-                className="flex min-h-[52px] w-full items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-base font-semibold text-text-main shadow-sm transition-all hover:bg-slate-50 sm:w-auto"
+                className="flex min-h-[52px] w-full items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-base font-semibold text-text-main shadow-sm transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300/50 sm:w-auto"
               >
                 Ver como funciona
               </a>
