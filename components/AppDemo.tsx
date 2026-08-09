@@ -123,7 +123,7 @@ function ProductShell({
 }) {
   return (
     <div className="grid h-full min-h-0 min-w-0 overflow-hidden bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
-      <aside className="hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-3 sm:block">
+      <aside className="no-scrollbar hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-3 sm:block">
         <div className="mb-5 flex items-center gap-2 px-1 text-[10px] font-black text-slate-950">
           <span className="grid h-6 w-6 place-items-center rounded-lg bg-blue-600 text-white">
             S
@@ -167,7 +167,7 @@ function ProductShell({
             </div>
           </div>
         </header>
-        <div className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">{children}</div>
+        <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">{children}</div>
       </main>
     </div>
   );
@@ -507,7 +507,7 @@ export default function AppDemo() {
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_330px] lg:gap-8">
         <div className="min-w-0">
-          <div className="flex aspect-video flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
+          <div className="flex aspect-[16/11] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
             <div className="flex min-w-0 shrink-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
               <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
