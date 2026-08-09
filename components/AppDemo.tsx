@@ -122,8 +122,8 @@ function ProductShell({
   children: ReactNode;
 }) {
   return (
-    <div className="grid min-w-0 bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
-      <aside className="hidden border-r border-slate-200 bg-white p-3 sm:block">
+    <div className="grid h-full min-h-0 min-w-0 overflow-hidden bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
+      <aside className="hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-3 sm:block">
         <div className="mb-5 flex items-center gap-2 px-1 text-[10px] font-black text-slate-950">
           <span className="grid h-6 w-6 place-items-center rounded-lg bg-blue-600 text-white">
             S
@@ -147,8 +147,8 @@ function ProductShell({
         </div>
       </aside>
 
-      <main className="min-w-0">
-        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3">
+      <main className="flex h-full min-h-0 min-w-0 flex-col">
+        <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3">
           <div>
             <strong className="block text-[10px] text-slate-950 sm:text-xs">
               {title}
@@ -167,7 +167,7 @@ function ProductShell({
             </div>
           </div>
         </header>
-        <div className="p-3 sm:p-4">{children}</div>
+        <div className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">{children}</div>
       </main>
     </div>
   );
@@ -437,7 +437,7 @@ function TestsDemo() {
 
 function ProgressDemo() {
   return (
-    <div className="bg-[#f5f6fb] p-2 sm:p-4">
+    <div className="flex h-full min-h-0 items-center justify-center overflow-hidden bg-[#f5f6fb] p-2 sm:p-4">
       <Image
         src="/hero-studyflow-dashboard-real.jpg"
         alt="Tela real de progresso do StudyFlow"
@@ -445,7 +445,7 @@ function ProgressDemo() {
         height={720}
         sizes="(min-width: 1024px) 720px, 92vw"
         quality={92}
-        className="mx-auto h-auto w-full max-w-[720px] rounded-xl border border-slate-200 bg-white shadow-sm"
+        className="h-auto max-h-full w-auto max-w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
       />
     </div>
   );
@@ -507,8 +507,8 @@ export default function AppDemo() {
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_330px] lg:gap-8">
         <div className="min-w-0">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
-            <div className="flex min-w-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
+          <div className="flex aspect-video flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
+            <div className="flex min-w-0 shrink-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
               <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
                 <span className="h-2.5 w-2.5 rounded-full bg-white/55" />
@@ -523,7 +523,7 @@ export default function AppDemo() {
               id="demo-panel"
               role="tabpanel"
               aria-labelledby={`demo-tab-${activeTab}`}
-              className="min-w-0"
+              className="min-h-0 min-w-0 flex-1 overflow-hidden"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -532,6 +532,7 @@ export default function AppDemo() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="h-full"
                   aria-hidden="true"
                 >
                   <ActiveDemo activeTab={activeTab} />
