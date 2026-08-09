@@ -124,7 +124,7 @@ function ProductShell({
   return (
     <div className="grid h-full min-h-0 min-w-0 overflow-hidden bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
       <aside className="no-scrollbar hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-3 sm:block">
-        <div className="mb-5 flex items-center gap-2 px-1 text-[10px] font-black text-slate-950">
+        <div className="mb-5 flex items-center gap-2 px-1 text-xs font-black text-slate-950">
           <span className="grid h-6 w-6 place-items-center rounded-lg bg-blue-600 text-white">
             S
           </span>
@@ -134,7 +134,7 @@ function ProductShell({
           {sidebarItems.map(([label, Icon]) => (
             <div
               key={label}
-              className={`flex items-center gap-2 rounded-lg px-2 py-2 text-[8px] font-semibold ${
+              className={`flex items-center gap-2 rounded-lg px-2 py-2 text-[10px] font-semibold ${
                 label === active
                   ? "bg-blue-50 text-blue-700"
                   : "text-slate-500"
@@ -150,15 +150,15 @@ function ProductShell({
       <main className="flex h-full min-h-0 min-w-0 flex-col">
         <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3">
           <div>
-            <strong className="block text-[10px] text-slate-950 sm:text-xs">
+            <strong className="block text-xs text-slate-950 sm:text-sm">
               {title}
             </strong>
-            <span className="hidden text-[8px] text-slate-400 sm:block">
+            <span className="hidden text-[10px] text-slate-400 sm:block">
               Seu espaço de estudos
             </span>
           </div>
           <div className="flex items-center gap-1.5 text-slate-400">
-            <div className="hidden items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[8px] sm:flex">
+            <div className="hidden items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] sm:flex">
               <Search size={10} />
               Buscar conjuntos...
             </div>
@@ -184,23 +184,23 @@ function DashboardDemo() {
     <ProductShell active="Início" title="Olá! Pronto para avançar hoje?">
       <section className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#6658df] to-[#477fe8] p-4 text-white sm:p-5">
         <div className="max-w-[72%]">
-          <span className="flex items-center gap-1 text-[7px] font-bold uppercase tracking-[0.12em] text-white/75 sm:text-[8px]">
+          <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-white/75 sm:text-[10px]">
             <Sparkles size={10} /> Próximo passo recomendado
           </span>
           <strong className="mt-2 block text-sm leading-tight sm:text-xl">
             Você tem 25 cards para revisar hoje.
           </strong>
-          <p className="mt-1.5 text-[8px] leading-relaxed text-white/75 sm:text-[10px]">
+          <p className="mt-1.5 text-[10px] leading-relaxed text-white/75 sm:text-xs">
             Comece por “Inglês básico” para fortalecer o que ainda precisa de prática.
           </p>
-          <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1.5 text-[8px] font-bold text-blue-700 sm:text-[9px]">
+          <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1.5 text-[10px] font-bold text-blue-700 sm:text-[11px]">
             <RotateCcw size={10} /> Revisar agora
           </span>
         </div>
         <div className="absolute right-3 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center rounded-full border-[7px] border-white/25 bg-white/10 sm:right-7 sm:h-24 sm:w-24 sm:border-[10px]">
           <div className="text-center">
             <strong className="block text-lg sm:text-2xl">0%</strong>
-            <span className="text-[6px] text-white/70 sm:text-[7px]">domínio geral</span>
+            <span className="text-[8px] text-white/70 sm:text-[9px]">domínio geral</span>
           </div>
         </div>
       </section>
@@ -221,10 +221,10 @@ function DashboardDemo() {
               <Icon size={13} />
             </span>
             <div className="min-w-0">
-              <strong className="block truncate text-[7px] text-slate-900 sm:text-[9px]">
+              <strong className="block truncate text-[9px] text-slate-900 sm:text-[11px]">
                 {title as string}
               </strong>
-              <span className="hidden truncate text-[7px] text-slate-400 sm:block">
+              <span className="hidden truncate text-[9px] text-slate-400 sm:block">
                 {detail as string}
               </span>
             </div>
@@ -234,10 +234,10 @@ function DashboardDemo() {
 
       <div className="mt-3">
         <div className="mb-2 flex items-center justify-between">
-          <strong className="text-[9px] text-slate-950 sm:text-[11px]">
+          <strong className="text-[11px] text-slate-950 sm:text-[13px]">
             Estudos recentes
           </strong>
-          <span className="text-[7px] font-semibold text-blue-600 sm:text-[8px]">
+          <span className="text-[9px] font-semibold text-blue-600 sm:text-[10px]">
             Ver todos
           </span>
         </div>
@@ -248,10 +248,10 @@ function DashboardDemo() {
                 className="block h-1 w-8 rounded-full"
                 style={{ backgroundColor: color }}
               />
-              <strong className="mt-2 block truncate text-[7px] text-slate-900 sm:text-[9px]">
+              <strong className="mt-2 block truncate text-[9px] text-slate-900 sm:text-[11px]">
                 {title}
               </strong>
-              <span className="text-[7px] text-slate-400">{count}</span>
+              <span className="text-[9px] text-slate-400">{count}</span>
               <div className="mt-2 h-1 overflow-hidden rounded-full bg-slate-100">
                 <span className="block h-full w-0" />
               </div>
@@ -269,14 +269,14 @@ function FlashcardsDemo() {
       <div className="mx-auto max-w-xl">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[8px]">
+            <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
               Sessão em foco
             </span>
             <strong className="block text-xs text-slate-950 sm:text-base">
               Biologia celular
             </strong>
           </div>
-          <div className="text-[9px] text-slate-400 sm:text-xs">
+          <div className="text-[11px] text-slate-400 sm:text-sm">
             <strong className="text-slate-950">1</strong> / 6
           </div>
         </div>
@@ -285,18 +285,18 @@ function FlashcardsDemo() {
         </div>
 
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-5 py-9 text-center shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-8 sm:py-12">
-          <span className="text-[7px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-[8px]">
+          <span className="text-[9px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-[10px]">
             Termo
           </span>
           <strong className="mt-3 block text-xl text-slate-950 sm:text-3xl">
             Mitocôndria
           </strong>
-          <span className="mt-5 block text-[8px] text-slate-400 sm:text-[10px]">
+          <span className="mt-5 block text-[10px] text-slate-400 sm:text-xs">
             Clique para ver a resposta
           </span>
         </div>
 
-        <p className="my-3 text-center text-[8px] text-slate-500 sm:text-[10px]">
+        <p className="my-3 text-center text-[10px] text-slate-500 sm:text-xs">
           Pense na resposta antes de virar
         </p>
 
@@ -307,8 +307,8 @@ function FlashcardsDemo() {
             ["Sei", "Você dominou", "border-emerald-200 bg-emerald-50 text-emerald-700"],
           ].map(([label, detail, color]) => (
             <div key={label} className={`rounded-lg border p-2 text-center ${color}`}>
-              <strong className="block text-[8px] sm:text-[10px]">{label}</strong>
-              <span className="hidden text-[7px] opacity-70 sm:block">{detail}</span>
+              <strong className="block text-[10px] sm:text-xs">{label}</strong>
+              <span className="hidden text-[9px] opacity-70 sm:block">{detail}</span>
             </div>
           ))}
         </div>
@@ -323,14 +323,14 @@ function MindMapDemo() {
       <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[8px]">
+            <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
               Conjunto selecionado
             </span>
-            <strong className="block text-[10px] text-slate-950 sm:text-sm">
+            <strong className="block text-xs text-slate-950 sm:text-base">
               Biologia celular
             </strong>
           </div>
-          <span className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-[7px] font-semibold text-slate-600 sm:text-[8px]">
+          <span className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-[9px] font-semibold text-slate-600 sm:text-[10px]">
             <GitFork size={10} /> Modo resumido
           </span>
         </div>
@@ -341,14 +341,14 @@ function MindMapDemo() {
               {["Núcleo", "DNA", "Citoplasma"].map((node) => (
                 <span
                   key={node}
-                  className="rounded-lg border border-violet-200 bg-white px-2 py-1.5 text-center text-[7px] font-semibold text-violet-700 shadow-sm sm:text-[8px]"
+                  className="rounded-lg border border-violet-200 bg-white px-2 py-1.5 text-center text-[9px] font-semibold text-violet-700 shadow-sm sm:text-[10px]"
                 >
                   {node}
                 </span>
               ))}
             </div>
             <span className="hidden h-px w-8 bg-slate-300 sm:block" />
-            <div className="rounded-xl bg-blue-600 px-4 py-3 text-center text-[9px] font-bold text-white shadow-md sm:text-[11px]">
+            <div className="rounded-xl bg-blue-600 px-4 py-3 text-center text-[11px] font-bold text-white shadow-md sm:text-[13px]">
               Biologia celular
             </div>
             <span className="hidden h-px w-8 bg-slate-300 sm:block" />
@@ -356,7 +356,7 @@ function MindMapDemo() {
               {["Mitocôndria", "Membrana plasmática", "Célula"].map((node) => (
                 <span
                   key={node}
-                  className="rounded-lg border border-cyan-200 bg-white px-2 py-1.5 text-center text-[7px] font-semibold text-cyan-700 shadow-sm sm:text-[8px]"
+                  className="rounded-lg border border-cyan-200 bg-white px-2 py-1.5 text-center text-[9px] font-semibold text-cyan-700 shadow-sm sm:text-[10px]"
                 >
                   {node}
                 </span>
@@ -365,7 +365,7 @@ function MindMapDemo() {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between text-[7px] text-slate-400 sm:text-[8px]">
+        <div className="mt-3 flex items-center justify-between text-[9px] text-slate-400 sm:text-[10px]">
           <span>6 conceitos conectados</span>
           <span>Gerado a partir dos flashcards</span>
         </div>
@@ -385,7 +385,7 @@ function TestsDemo() {
     <ProductShell active="Testes" title="Testes">
       <div className="mx-auto max-w-2xl rounded-xl border border-slate-200 bg-white shadow-sm">
         <div className="border-b border-slate-100 p-3 sm:p-4">
-          <div className="flex items-center justify-between text-[8px] sm:text-[10px]">
+          <div className="flex items-center justify-between text-[10px] sm:text-xs">
             <span className="font-semibold text-slate-600">
               Biologia celular · Questão 1 de 5
             </span>
@@ -397,7 +397,7 @@ function TestsDemo() {
         </div>
 
         <div className="p-3 sm:p-5">
-          <span className="text-[7px] font-black uppercase tracking-[0.13em] text-blue-600 sm:text-[8px]">
+          <span className="text-[9px] font-black uppercase tracking-[0.13em] text-blue-600 sm:text-[10px]">
             Escolha a definição correta
           </span>
           <h3 className="mt-2 text-sm font-bold text-slate-950 sm:text-xl">
@@ -407,13 +407,13 @@ function TestsDemo() {
             {options.map((option, index) => (
               <div
                 key={option}
-                className={`flex items-center gap-2 rounded-lg border p-2.5 text-[8px] font-semibold sm:p-3 sm:text-[10px] ${
+                className={`flex items-center gap-2 rounded-lg border p-2.5 text-[10px] font-semibold sm:p-3 sm:text-xs ${
                   index === 1
                     ? "border-emerald-400 bg-emerald-50 text-emerald-800"
                     : "border-slate-200 text-slate-600"
                 }`}
               >
-                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white text-[7px] shadow-sm">
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white text-[9px] shadow-sm">
                   {String.fromCharCode(65 + index)}
                 </span>
                 <span className="min-w-0 flex-1">{option}</span>
@@ -422,7 +422,7 @@ function TestsDemo() {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between border-t border-slate-100 p-3 text-[8px] sm:px-5 sm:text-[9px]">
+        <div className="flex items-center justify-between border-t border-slate-100 p-3 text-[10px] sm:px-5 sm:text-[11px]">
           <span className="flex items-center gap-1 font-semibold text-emerald-700">
             <Check size={11} /> Resposta certa!
           </span>
@@ -514,7 +514,7 @@ export default function AppDemo() {
                 <span className="h-2.5 w-2.5 rounded-full bg-white/55" />
                 <span className="h-2.5 w-2.5 rounded-full bg-white/80" />
               </div>
-              <div className="min-w-0 flex-1 truncate rounded-md border border-white/10 bg-white/5 px-3 py-1 text-center font-mono text-[9px] text-white/60 sm:text-xs">
+              <div className="min-w-0 flex-1 truncate rounded-md border border-white/10 bg-white/5 px-3 py-1 text-center font-mono text-[10px] text-white/60 sm:text-sm">
                 studyflow-use.netlify.app/{activeTab}
               </div>
             </div>
