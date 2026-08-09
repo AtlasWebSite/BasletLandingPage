@@ -3,7 +3,15 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import type { MouseEvent } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  BrainCircuit,
+  CheckCircle2,
+  GitBranch,
+  Layers3,
+  ListChecks,
+  TrendingUp,
+} from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
@@ -113,20 +121,137 @@ export default function Hero() {
             }
             className="relative flex w-full min-w-0 items-center justify-center lg:col-span-7"
           >
-            <div className="pointer-events-none absolute inset-x-4 top-1/2 h-4/5 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+            <div className="relative w-full max-w-[760px] sm:min-h-[560px] lg:ml-auto">
+              <div className="relative z-10 mx-auto w-full overflow-hidden rounded-[22px] border border-neutral-200 bg-neutral-950 shadow-[0_28px_70px_-32px_rgba(15,23,42,0.38)] sm:absolute sm:left-1/2 sm:top-1/2 sm:w-[72%] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px]">
+                <div className="flex items-center justify-between bg-neutral-950 px-3 py-3 text-white sm:px-4">
+                  <div className="flex items-center gap-1.5" aria-hidden="true">
+                    <span className="h-2 w-2 rounded-full bg-white/35" />
+                    <span className="h-2 w-2 rounded-full bg-white/55" />
+                    <span className="h-2 w-2 rounded-full bg-white/80" />
+                  </div>
+                  <span className="text-[9px] font-semibold tracking-wide text-white/80 sm:text-[10px]">
+                    StudyFlow · painel real
+                  </span>
+                </div>
 
-            <div className="relative w-full max-w-[760px] overflow-hidden rounded-[22px] border border-blue-100/80 bg-[#f7f8ff] shadow-[0_32px_90px_-34px_rgba(37,99,235,0.55)] sm:rounded-[30px] lg:ml-auto">
-              <Image
-                src="/hero-studyflow-product-showcase-v2.png"
-                alt="Visão geral do StudyFlow com painel de estudos, flashcards, mapa mental, teste rápido e acompanhamento de progresso"
-                width={1672}
-                height={941}
-                priority
-                sizes="(min-width: 1024px) 58vw, (min-width: 640px) 92vw, 100vw"
-                quality={92}
-                className="h-auto w-full"
-              />
+                <div className="relative aspect-[753/720] w-full bg-white">
+                  <Image
+                    src="/hero-studyflow-dashboard-real.jpg"
+                    alt="Painel real de progresso do StudyFlow com domínio geral, cards para revisar e acompanhamento de desempenho"
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 42vw, (min-width: 640px) 68vw, 100vw"
+                    quality={92}
+                    className="object-cover object-top"
+                  />
+                </div>
+              </div>
+
+              <div
+                aria-hidden="true"
+                className="mt-3 grid grid-cols-2 gap-2.5 sm:contents"
+              >
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:left-0 sm:top-[4%] sm:z-20 sm:w-[31%] sm:p-3.5">
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                    <span className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
+                      <Layers3 size={12} className="text-blue-600" />
+                      Flashcard
+                    </span>
+                    <span className="text-[8px] text-slate-400">Neurociência</span>
+                  </div>
+                  <p className="mt-3 text-[9px] font-bold leading-snug text-slate-900 sm:text-[10px]">
+                    Como funciona a potenciação de longa duração no hipocampo?
+                  </p>
+                  <div className="mt-3 grid grid-cols-3 gap-1 text-center text-[7px] font-bold sm:text-[8px]">
+                    <span className="rounded-md border border-slate-200 py-1.5 text-slate-500">
+                      Difícil
+                    </span>
+                    <span className="rounded-md border border-slate-200 py-1.5 text-slate-700">
+                      Bom
+                    </span>
+                    <span className="rounded-md bg-neutral-950 py-1.5 text-white">
+                      Fácil
+                    </span>
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:right-0 sm:top-[10%] sm:z-20 sm:w-[31%] sm:p-3.5">
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+                    <span className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
+                      <ListChecks size={12} className="text-blue-600" />
+                      Teste
+                    </span>
+                    <span className="text-[8px] text-slate-400">3 de 10</span>
+                  </div>
+                  <p className="mt-3 text-[9px] font-bold leading-snug text-slate-900 sm:text-[10px]">
+                    Qual estrutura celular produz ATP?
+                  </p>
+                  <div className="mt-2 space-y-1 text-[7px] font-semibold sm:text-[8px]">
+                    <div className="rounded-md border border-slate-200 px-2 py-1.5 text-slate-500">
+                      A · Complexo de Golgi
+                    </div>
+                    <div className="flex items-center justify-between rounded-md border border-neutral-950 bg-neutral-950 px-2 py-1.5 text-white">
+                      <span>B · Mitocôndria</span>
+                      <CheckCircle2 size={10} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:bottom-[3%] sm:left-[1%] sm:z-20 sm:w-[34%] sm:p-3.5">
+                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
+                    <GitBranch size={12} className="text-blue-600" />
+                    Mapa mental
+                  </div>
+                  <div className="mt-3 flex flex-col items-center justify-center gap-1.5 text-[7px] font-semibold sm:flex-row sm:text-[8px]">
+                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-600">
+                      S.N. Central
+                    </span>
+                    <span className="hidden h-px w-3 bg-slate-300 sm:block" />
+                    <span className="rounded-md bg-neutral-950 px-2 py-2 text-center text-white">
+                      Sistema Nervoso
+                    </span>
+                    <span className="hidden h-px w-3 bg-slate-300 sm:block" />
+                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-600">
+                      S.N. Periférico
+                    </span>
+                  </div>
+                  <div className="mt-3 flex items-center justify-center gap-1 text-[7px] text-slate-400">
+                    <BrainCircuit size={11} />
+                    Encéfalo · Medula · Nervos
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:bottom-[1%] sm:right-[1%] sm:z-20 sm:w-[30%] sm:p-3.5">
+                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
+                    <TrendingUp size={12} className="text-blue-600" />
+                    Progresso
+                  </div>
+                  <div className="mt-3 flex items-center gap-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[5px] border-slate-200 text-[11px] font-black text-slate-950 sm:h-14 sm:w-14 sm:text-xs">
+                      0%
+                    </div>
+                    <div className="min-w-0 space-y-1.5 text-[7px] sm:text-[8px]">
+                      <div className="flex items-center justify-between gap-3 text-slate-500">
+                        <span>Para revisar</span>
+                        <strong className="text-slate-950">25</strong>
+                      </div>
+                      <div className="flex items-center justify-between gap-3 text-slate-500">
+                        <span>Dominados</span>
+                        <strong className="text-slate-950">0</strong>
+                      </div>
+                      <div className="h-1 overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full w-0 bg-neutral-950" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <figcaption className="sr-only">
+              Painel real do StudyFlow acompanhado por exemplos dos recursos de
+              flashcards, testes, mapas mentais e progresso.
+            </figcaption>
           </motion.figure>
         </div>
       </div>
