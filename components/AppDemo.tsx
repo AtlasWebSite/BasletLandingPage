@@ -1,41 +1,488 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Layers, GitMerge, CheckSquare, BarChart2, FolderKanban } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  ArrowRight,
+  BarChart3,
+  Bell,
+  BookOpen,
+  BrainCircuit,
+  Check,
+  CheckCircle2,
+  ChevronRight,
+  GitFork,
+  Layers3,
+  ListChecks,
+  Network,
+  RotateCcw,
+  Search,
+  Sparkles,
+  Target,
+} from "lucide-react";
 import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
-const tabs = [
-  { id: "dashboard", label: "Dashboard", icon: BarChart2 },
-  { id: "flashcards", label: "Flashcards", icon: Layers },
-  { id: "mapas", label: "Mapas Mentais", icon: GitMerge },
-  { id: "testes", label: "Testes & Quizzes", icon: CheckSquare },
-  { id: "organizacao", label: "Organização", icon: FolderKanban },
+type DemoTabId = "dashboard" | "flashcards" | "mapas" | "testes" | "progresso";
+
+interface DemoTab {
+  id: DemoTabId;
+  label: string;
+  icon: typeof BarChart3;
+  benefit: string;
+  description: string;
+  highlights: string[];
+}
+
+const tabs: DemoTab[] = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: BarChart3,
+    benefit: "Tenha uma visão clara de tudo que está estudando.",
+    description:
+      "O início reúne sua próxima revisão, seus conjuntos recentes e o panorama do seu acervo.",
+    highlights: [
+      "Próximo passo recomendado",
+      "Estudos recentes organizados",
+      "Visão geral dos 25 flashcards iniciais",
+    ],
+  },
+  {
+    id: "flashcards",
+    label: "Flashcards",
+    icon: Layers3,
+    benefit: "Descubra rapidamente o que ainda não memorizou.",
+    description:
+      "Revise cada conceito, revele a resposta e registre o quanto você já domina.",
+    highlights: [
+      "Sessões organizadas por conjunto",
+      "Respostas em frente e verso",
+      "Avaliação: Não sei, Quase sei ou Sei",
+    ],
+  },
+  {
+    id: "mapas",
+    label: "Mapas mentais",
+    icon: Network,
+    benefit: "Transforme assuntos complexos em uma estrutura visual mais clara.",
+    description:
+      "Os flashcards do conjunto viram conceitos e conexões que facilitam a revisão.",
+    highlights: [
+      "Gerado a partir dos seus flashcards",
+      "Modos resumido e completo",
+      "Mapas vinculados ao conjunto estudado",
+    ],
+  },
+  {
+    id: "testes",
+    label: "Testes",
+    icon: ListChecks,
+    benefit: "Descubra o que ainda precisa revisar antes da prova.",
+    description:
+      "Pratique com perguntas criadas a partir dos conceitos dos seus próprios conjuntos.",
+    highlights: [
+      "Questões baseadas nos flashcards",
+      "Correção imediata das respostas",
+      "Resultado registrado no progresso",
+    ],
+  },
+  {
+    id: "progresso",
+    label: "Progresso",
+    icon: Target,
+    benefit: "Veja onde você está evoluindo e onde precisa melhorar.",
+    description:
+      "Acompanhe domínio, cards praticados, revisões pendentes e evolução por matéria.",
+    highlights: [
+      "Dados reais das suas respostas",
+      "Cards dominados e pendentes",
+      "Panorama geral do aprendizado",
+    ],
+  },
 ];
 
+const sidebarItems = [
+  ["Início", BarChart3],
+  ["Estudos", BookOpen],
+  ["Flashcards", Layers3],
+  ["Mapas Mentais", Network],
+  ["Testes", ListChecks],
+  ["Progresso", Target],
+] as const;
+
+function ProductShell({
+  active,
+  title,
+  children,
+}: {
+  active: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="grid min-w-0 bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
+      <aside className="hidden border-r border-slate-200 bg-white p-3 sm:block">
+        <div className="mb-5 flex items-center gap-2 px-1 text-[10px] font-black text-slate-950">
+          <span className="grid h-6 w-6 place-items-center rounded-lg bg-blue-600 text-white">
+            S
+          </span>
+          StudyFlow
+        </div>
+        <div className="space-y-1">
+          {sidebarItems.map(([label, Icon]) => (
+            <div
+              key={label}
+              className={`flex items-center gap-2 rounded-lg px-2 py-2 text-[8px] font-semibold ${
+                label === active
+                  ? "bg-blue-50 text-blue-700"
+                  : "text-slate-500"
+              }`}
+            >
+              <Icon size={12} />
+              {label}
+            </div>
+          ))}
+        </div>
+      </aside>
+
+      <main className="min-w-0">
+        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-3 py-2.5 sm:px-4 sm:py-3">
+          <div>
+            <strong className="block text-[10px] text-slate-950 sm:text-xs">
+              {title}
+            </strong>
+            <span className="hidden text-[8px] text-slate-400 sm:block">
+              Seu espaço de estudos
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 text-slate-400">
+            <div className="hidden items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[8px] sm:flex">
+              <Search size={10} />
+              Buscar conjuntos...
+            </div>
+            <div className="grid h-7 w-7 place-items-center rounded-lg border border-slate-200 bg-white">
+              <Bell size={11} />
+            </div>
+          </div>
+        </header>
+        <div className="p-3 sm:p-4">{children}</div>
+      </main>
+    </div>
+  );
+}
+
+function DashboardDemo() {
+  const recent = [
+    ["Inglês básico", "8 cards", "#6758e8"],
+    ["Biologia celular", "6 cards", "#17a99a"],
+    ["História do Brasil", "5 cards", "#ef8d55"],
+  ];
+
+  return (
+    <ProductShell active="Início" title="Olá! Pronto para avançar hoje?">
+      <section className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#6658df] to-[#477fe8] p-4 text-white sm:p-5">
+        <div className="max-w-[72%]">
+          <span className="flex items-center gap-1 text-[7px] font-bold uppercase tracking-[0.12em] text-white/75 sm:text-[8px]">
+            <Sparkles size={10} /> Próximo passo recomendado
+          </span>
+          <strong className="mt-2 block text-sm leading-tight sm:text-xl">
+            Você tem 25 cards para revisar hoje.
+          </strong>
+          <p className="mt-1.5 text-[8px] leading-relaxed text-white/75 sm:text-[10px]">
+            Comece por “Inglês básico” para fortalecer o que ainda precisa de prática.
+          </p>
+          <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1.5 text-[8px] font-bold text-blue-700 sm:text-[9px]">
+            <RotateCcw size={10} /> Revisar agora
+          </span>
+        </div>
+        <div className="absolute right-3 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center rounded-full border-[7px] border-white/25 bg-white/10 sm:right-7 sm:h-24 sm:w-24 sm:border-[10px]">
+          <div className="text-center">
+            <strong className="block text-lg sm:text-2xl">0%</strong>
+            <span className="text-[6px] text-white/70 sm:text-[7px]">domínio geral</span>
+          </div>
+        </div>
+      </section>
+
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {(
+          [
+            ["Estudar conjunto", "Retome seus flashcards", Layers3],
+            ["Teste rápido", "Pratique com perguntas", BrainCircuit],
+            ["Meus estudos", "Veja seus conjuntos", BookOpen],
+          ] as const
+        ).map(([title, detail, Icon]) => (
+          <div
+            key={String(title)}
+            className="flex min-w-0 items-center gap-2 rounded-lg border border-slate-200 bg-white p-2 shadow-sm"
+          >
+            <span className="hidden h-7 w-7 shrink-0 place-items-center rounded-lg bg-blue-50 text-blue-600 sm:grid">
+              <Icon size={13} />
+            </span>
+            <div className="min-w-0">
+              <strong className="block truncate text-[7px] text-slate-900 sm:text-[9px]">
+                {title as string}
+              </strong>
+              <span className="hidden truncate text-[7px] text-slate-400 sm:block">
+                {detail as string}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3">
+        <div className="mb-2 flex items-center justify-between">
+          <strong className="text-[9px] text-slate-950 sm:text-[11px]">
+            Estudos recentes
+          </strong>
+          <span className="text-[7px] font-semibold text-blue-600 sm:text-[8px]">
+            Ver todos
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {recent.map(([title, count, color]) => (
+            <div key={title} className="rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm">
+              <span
+                className="block h-1 w-8 rounded-full"
+                style={{ backgroundColor: color }}
+              />
+              <strong className="mt-2 block truncate text-[7px] text-slate-900 sm:text-[9px]">
+                {title}
+              </strong>
+              <span className="text-[7px] text-slate-400">{count}</span>
+              <div className="mt-2 h-1 overflow-hidden rounded-full bg-slate-100">
+                <span className="block h-full w-0" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </ProductShell>
+  );
+}
+
+function FlashcardsDemo() {
+  return (
+    <ProductShell active="Flashcards" title="Flashcards">
+      <div className="mx-auto max-w-xl">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[8px]">
+              Sessão em foco
+            </span>
+            <strong className="block text-xs text-slate-950 sm:text-base">
+              Biologia celular
+            </strong>
+          </div>
+          <div className="text-[9px] text-slate-400 sm:text-xs">
+            <strong className="text-slate-950">1</strong> / 6
+          </div>
+        </div>
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200">
+          <span className="block h-full w-1/6 rounded-full bg-blue-600" />
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-5 py-9 text-center shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-8 sm:py-12">
+          <span className="text-[7px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-[8px]">
+            Termo
+          </span>
+          <strong className="mt-3 block text-xl text-slate-950 sm:text-3xl">
+            Mitocôndria
+          </strong>
+          <span className="mt-5 block text-[8px] text-slate-400 sm:text-[10px]">
+            Clique para ver a resposta
+          </span>
+        </div>
+
+        <p className="my-3 text-center text-[8px] text-slate-500 sm:text-[10px]">
+          Pense na resposta antes de virar
+        </p>
+
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            ["Não sei", "Rever em breve", "border-rose-200 bg-rose-50 text-rose-700"],
+            ["Quase sei", "Praticar mais", "border-amber-200 bg-amber-50 text-amber-700"],
+            ["Sei", "Você dominou", "border-emerald-200 bg-emerald-50 text-emerald-700"],
+          ].map(([label, detail, color]) => (
+            <div key={label} className={`rounded-lg border p-2 text-center ${color}`}>
+              <strong className="block text-[8px] sm:text-[10px]">{label}</strong>
+              <span className="hidden text-[7px] opacity-70 sm:block">{detail}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </ProductShell>
+  );
+}
+
+function MindMapDemo() {
+  return (
+    <ProductShell active="Mapas Mentais" title="Mapas Mentais">
+      <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[8px]">
+              Conjunto selecionado
+            </span>
+            <strong className="block text-[10px] text-slate-950 sm:text-sm">
+              Biologia celular
+            </strong>
+          </div>
+          <span className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-[7px] font-semibold text-slate-600 sm:text-[8px]">
+            <GitFork size={10} /> Modo resumido
+          </span>
+        </div>
+
+        <div className="relative mt-3 overflow-hidden rounded-xl bg-[#f8f9fc] p-3 sm:p-5">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-1">
+              {["Núcleo", "DNA", "Citoplasma"].map((node) => (
+                <span
+                  key={node}
+                  className="rounded-lg border border-violet-200 bg-white px-2 py-1.5 text-center text-[7px] font-semibold text-violet-700 shadow-sm sm:text-[8px]"
+                >
+                  {node}
+                </span>
+              ))}
+            </div>
+            <span className="hidden h-px w-8 bg-slate-300 sm:block" />
+            <div className="rounded-xl bg-blue-600 px-4 py-3 text-center text-[9px] font-bold text-white shadow-md sm:text-[11px]">
+              Biologia celular
+            </div>
+            <span className="hidden h-px w-8 bg-slate-300 sm:block" />
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-1">
+              {["Mitocôndria", "Membrana plasmática", "Célula"].map((node) => (
+                <span
+                  key={node}
+                  className="rounded-lg border border-cyan-200 bg-white px-2 py-1.5 text-center text-[7px] font-semibold text-cyan-700 shadow-sm sm:text-[8px]"
+                >
+                  {node}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between text-[7px] text-slate-400 sm:text-[8px]">
+          <span>6 conceitos conectados</span>
+          <span>Gerado a partir dos flashcards</span>
+        </div>
+      </div>
+    </ProductShell>
+  );
+}
+
+function TestsDemo() {
+  const options = [
+    "Estrutura que guarda o material genético da célula.",
+    "Organela responsável pela produção de energia.",
+    "Camada que controla a entrada e saída de substâncias.",
+  ];
+
+  return (
+    <ProductShell active="Testes" title="Testes">
+      <div className="mx-auto max-w-2xl rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 p-3 sm:p-4">
+          <div className="flex items-center justify-between text-[8px] sm:text-[10px]">
+            <span className="font-semibold text-slate-600">
+              Biologia celular · Questão 1 de 5
+            </span>
+            <strong className="text-blue-600">0 acertos</strong>
+          </div>
+          <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <span className="block h-full w-1/5 rounded-full bg-blue-600" />
+          </div>
+        </div>
+
+        <div className="p-3 sm:p-5">
+          <span className="text-[7px] font-black uppercase tracking-[0.13em] text-blue-600 sm:text-[8px]">
+            Escolha a definição correta
+          </span>
+          <h3 className="mt-2 text-sm font-bold text-slate-950 sm:text-xl">
+            O que significa “Mitocôndria”?
+          </h3>
+          <div className="mt-4 space-y-2">
+            {options.map((option, index) => (
+              <div
+                key={option}
+                className={`flex items-center gap-2 rounded-lg border p-2.5 text-[8px] font-semibold sm:p-3 sm:text-[10px] ${
+                  index === 1
+                    ? "border-emerald-400 bg-emerald-50 text-emerald-800"
+                    : "border-slate-200 text-slate-600"
+                }`}
+              >
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white text-[7px] shadow-sm">
+                  {String.fromCharCode(65 + index)}
+                </span>
+                <span className="min-w-0 flex-1">{option}</span>
+                {index === 1 && <CheckCircle2 size={13} />}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-between border-t border-slate-100 p-3 text-[8px] sm:px-5 sm:text-[9px]">
+          <span className="flex items-center gap-1 font-semibold text-emerald-700">
+            <Check size={11} /> Resposta certa!
+          </span>
+          <span className="flex items-center gap-1 rounded-md bg-blue-600 px-2.5 py-1.5 font-bold text-white">
+            Próxima questão <ChevronRight size={11} />
+          </span>
+        </div>
+      </div>
+    </ProductShell>
+  );
+}
+
+function ProgressDemo() {
+  return (
+    <div className="bg-[#f5f6fb] p-2 sm:p-4">
+      <Image
+        src="/hero-studyflow-dashboard-real.jpg"
+        alt="Tela real de progresso do StudyFlow"
+        width={753}
+        height={720}
+        sizes="(min-width: 1024px) 720px, 92vw"
+        quality={92}
+        className="mx-auto h-auto w-full max-w-[720px] rounded-xl border border-slate-200 bg-white shadow-sm"
+      />
+    </div>
+  );
+}
+
+function ActiveDemo({ activeTab }: { activeTab: DemoTabId }) {
+  if (activeTab === "flashcards") return <FlashcardsDemo />;
+  if (activeTab === "mapas") return <MindMapDemo />;
+  if (activeTab === "testes") return <TestsDemo />;
+  if (activeTab === "progresso") return <ProgressDemo />;
+  return <DashboardDemo />;
+}
+
 export default function AppDemo() {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState<DemoTabId>("dashboard");
+  const activeContent = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
 
   return (
     <section className="mx-auto w-full min-w-0 max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-text-main tracking-tight mb-3">
+      <div className="mb-10 text-center">
+        <h2 className="mb-3 text-2xl font-extrabold tracking-tight text-text-main sm:text-4xl">
           Veja o StudyFlow em ação
         </h2>
-        <p className="text-text-muted text-base sm:text-lg max-w-2xl mx-auto">
-          Uma interface limpa, intuitiva e pensada para você focar no que realmente importa: aprender.
+        <p className="mx-auto max-w-2xl text-base text-text-muted sm:text-lg">
+          Dashboard, flashcards, mapas mentais, testes e progresso conectados na mesma plataforma.
         </p>
       </div>
 
       <div
         role="tablist"
         aria-label="Recursos do StudyFlow"
-        className="no-scrollbar -mx-4 mb-6 flex snap-x items-center justify-start gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:mb-8 sm:justify-center sm:px-0 sm:pb-4"
+        className="no-scrollbar -mx-4 mb-6 flex snap-x items-center gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:justify-center sm:px-0"
       >
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
+
           return (
             <button
               key={tab.id}
@@ -45,10 +492,10 @@ export default function AppDemo() {
               aria-selected={isActive}
               aria-controls="demo-panel"
               onClick={() => setActiveTab(tab.id)}
-              className={`flex min-h-11 shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-all sm:text-base ${
+              className={`flex min-h-11 shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20 ${
                 isActive
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-600/20"
-                  : "bg-white text-text-muted hover:text-text-main border border-slate-200"
+                  ? "bg-slate-950 text-white shadow-sm"
+                  : "border border-slate-200 bg-white text-text-muted hover:border-slate-300 hover:text-text-main"
               }`}
             >
               <Icon size={16} />
@@ -58,209 +505,73 @@ export default function AppDemo() {
         })}
       </div>
 
-      <div
-        id="demo-panel"
-        role="tabpanel"
-        aria-labelledby={`demo-tab-${activeTab}`}
-        className="relative mx-auto w-full min-w-0 max-w-5xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
-      >
-        <div className="flex min-w-0 items-center gap-3 border-b border-slate-200 bg-slate-100/80 px-3 py-3 sm:px-4">
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-            <div className="w-3 h-3 rounded-full bg-rose-400" />
-            <div className="w-3 h-3 rounded-full bg-amber-400" />
-            <div className="w-3 h-3 rounded-full bg-emerald-400" />
-          </div>
-          <div className="min-w-0 flex-1 truncate rounded-md border border-slate-200 bg-white px-2 py-1 text-center font-mono text-[10px] text-text-muted shadow-inner sm:px-4 sm:text-sm">
-            studyflow-use.netlify.app/{activeTab}
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_330px] lg:gap-8">
+        <div className="min-w-0">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
+            <div className="flex min-w-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
+              <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/55" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/80" />
+              </div>
+              <div className="min-w-0 flex-1 truncate rounded-md border border-white/10 bg-white/5 px-3 py-1 text-center font-mono text-[9px] text-white/60 sm:text-xs">
+                studyflow-use.netlify.app/{activeTab}
+              </div>
+            </div>
+
+            <div
+              id="demo-panel"
+              role="tabpanel"
+              aria-labelledby={`demo-tab-${activeTab}`}
+              className="min-w-0"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  aria-hidden="true"
+                >
+                  <ActiveDemo activeTab={activeTab} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
-        <div className="flex min-h-[340px] min-w-0 items-center justify-center bg-slate-50/50 p-4 sm:min-h-[460px] sm:p-8">
-          <AnimatePresence mode="wait">
-            {activeTab === "dashboard" && (
-              <motion.div
-                key="dashboard"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="w-full space-y-6"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <span className="text-sm font-medium text-text-muted">Sessões da Semana</span>
-                    <p className="text-2xl font-bold text-text-main mt-1">14 matérias</p>
-                    <span className="text-sm text-progress font-semibold">+22% em relação a semana passada</span>
-                  </div>
-                  <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <span className="text-sm font-medium text-text-muted">Taxa de Acerto</span>
-                    <p className="text-2xl font-bold text-text-main mt-1">92.4%</p>
-                    <span className="text-sm text-blue-600 font-semibold">Excelente retenção</span>
-                  </div>
-                  <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                    <span className="text-sm font-medium text-text-muted">Sequência de Estudos</span>
-                    <p className="text-2xl font-bold text-text-main mt-1">12 Dias</p>
-                    <span className="text-sm text-accent font-semibold">Fluxo diário mantido</span>
-                  </div>
-                </div>
+        <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <span className="text-xs font-bold uppercase tracking-[0.12em] text-blue-600">
+            {activeContent.label}
+          </span>
+          <h3 className="mt-3 text-2xl font-extrabold leading-tight text-text-main">
+            {activeContent.benefit}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">
+            {activeContent.description}
+          </p>
 
-                <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                  <h4 className="text-base font-bold text-text-main mb-4">Progresso Geral por Disciplina</h4>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between text-sm font-semibold mb-1">
-                        <span>Biologia Celular</span>
-                        <span>85%</span>
-                      </div>
-                      <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-blue-600 rounded-full" style={{ width: "85%" }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-sm font-semibold mb-1">
-                        <span>História do Brasil</span>
-                        <span>70%</span>
-                      </div>
-                      <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-blue-600 rounded-full" style={{ width: "70%" }} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {activeTab === "flashcards" && (
-              <motion.div
-                key="flashcards"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="mx-auto w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-5 text-center shadow-md sm:p-8"
-              >
-                <span className="text-sm font-bold uppercase tracking-widest text-blue-600 bg-blue-600/10 px-3 py-1 rounded-full">
-                  Baralho: Neurociência
+          <ul className="mt-5 space-y-3">
+            {activeContent.highlights.map((highlight) => (
+              <li key={highlight} className="flex items-start gap-2.5 text-sm text-text-main">
+                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600">
+                  <Check size={12} />
                 </span>
-                <h3 className="text-xl font-bold text-text-main my-6">
-                  Como funciona a potenciação de longa duração (LTP) no hipocampo?
-                </h3>
-                <p className="text-sm text-text-muted mb-8">Clique para virar o cartão ou selecione seu nível de facilidade</p>
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                  <button type="button" className="min-h-11 rounded-xl border border-rose-200 bg-rose-50 py-2.5 text-sm font-bold text-rose-600 transition-colors hover:bg-rose-100">
-                    Difícil
-                  </button>
-                  <button type="button" className="min-h-11 rounded-xl border border-amber-200 bg-amber-50 py-2.5 text-sm font-bold text-amber-600 transition-colors hover:bg-amber-100">
-                    Bom
-                  </button>
-                  <button type="button" className="min-h-11 rounded-xl border border-emerald-200 bg-emerald-50 py-2.5 text-sm font-bold text-emerald-600 transition-colors hover:bg-emerald-100">
-                    Fácil
-                  </button>
-                </div>
-              </motion.div>
-            )}
+                {highlight}
+              </li>
+            ))}
+          </ul>
 
-            {activeTab === "mapas" && (
-              <motion.div
-                key="mapas"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="w-full h-full flex flex-col items-center justify-center p-6 bg-white rounded-xl border border-slate-200"
-              >
-                <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-semibold">
-                  <div className="px-4 py-3 bg-blue-600 text-white rounded-xl shadow-md">
-                    Conceito Central: Sistema Nervoso
-                  </div>
-                  <div className="h-0.5 w-8 bg-slate-300 hidden sm:block" />
-                  <div className="flex flex-col gap-2">
-                    <div className="px-3 py-2 bg-blue-600/10 text-blue-600 border border-blue-600/20 rounded-lg">
-                      S.N. Central (Encéfalo + Médula)
-                    </div>
-                    <div className="px-3 py-2 bg-progress/10 text-emerald-700 border border-progress/20 rounded-lg">
-                      S.N. Periférico (Nervos + Gânglios)
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {activeTab === "testes" && (
-              <motion.div
-                key="testes"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="w-full max-w-xl mx-auto bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
-              >
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-bold text-text-muted">Questão 3 de 10</span>
-                  <span className="text-sm font-bold text-blue-600">Tempo restante: 01:45</span>
-                </div>
-                <p className="text-base font-semibold text-text-main mb-4">
-                  Qual estrutura celular é responsável pela produção primária de ATP através da respiração celular?
-                </p>
-                <div className="space-y-2">
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-text-main">
-                    A) Complexo de Golgi
-                  </div>
-                  <div className="p-3 bg-blue-600/10 border border-blue-600 text-blue-600 rounded-lg text-sm font-bold flex justify-between items-center">
-                    <span>B) Mitocôndria</span>
-                    <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded">Selecionada</span>
-                  </div>
-                  <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-text-main">
-                    C) Ribossomo
-                  </div>
-                </div>
-              </motion.div>
-            )}
-
-            {activeTab === "organizacao" && (
-              <motion.div
-                key="organizacao"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.3 }}
-                className="w-full bg-white p-6 rounded-xl border border-slate-200"
-              >
-                <h4 className="text-base font-bold text-text-main mb-4">Cadernos & Tópicos de Estudo</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-blue-600" />
-                    <div>
-                      <h5 className="text-sm font-bold text-text-main">Medicina / Anatomia</h5>
-                      <p className="text-sm text-text-muted">28 itens organizados</p>
-                    </div>
-                  </div>
-                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-3">
-                    <div className="w-3 h-3 rounded-full bg-blue-600" />
-                    <div>
-                      <h5 className="text-sm font-bold text-text-main">Concursos / Direito Const.</h5>
-                      <p className="text-sm text-text-muted">42 itens organizados</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-
-      <div className="mt-8 flex flex-col items-center text-center">
-        <a
-          href={APP_URL}
-          onClick={() => trackEvent("cta_demo_click", { active_tab: activeTab })}
-          className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] hover:bg-blue-700 sm:w-auto sm:text-base"
-        >
-          Experimentar o StudyFlow
-          <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-        </a>
-        <p className="mt-3 text-xs text-text-muted sm:text-sm">
-          Acesse pelo navegador e comece sua rotina de estudos.
-        </p>
+          <a
+            href={APP_URL}
+            onClick={() => trackEvent("cta_demo_click", { active_tab: activeTab })}
+            className="group mt-6 inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25"
+          >
+            Experimentar o StudyFlow
+            <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+          </a>
+        </aside>
       </div>
     </section>
   );
