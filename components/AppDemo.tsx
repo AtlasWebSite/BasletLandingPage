@@ -71,7 +71,7 @@ export default function AppDemo() {
             <div className="w-3 h-3 rounded-full bg-emerald-400" />
           </div>
           <div className="min-w-0 flex-1 truncate rounded-md border border-slate-200 bg-white px-2 py-1 text-center font-mono text-[10px] text-text-muted shadow-inner sm:px-4 sm:text-sm">
-            app-usestudyflow.vercel.app/{activeTab}
+            studyflow-use.netlify.app/{activeTab}
           </div>
         </div>
 

@@ -59,7 +59,7 @@ export default function RootLayout({
       "@type": "Offer",
       price: "11.90",
       priceCurrency: "BRL",
-      url: "https://app-usestudyflow.vercel.app/",
+      url: "https://studyflow-use.netlify.app/",
       availability: "https://schema.org/InStock",
     },
     description:

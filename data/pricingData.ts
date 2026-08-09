@@ -9,7 +9,7 @@ export interface Plan {
   badge?: string;
 }
 
-export const APP_URL = "https://app-usestudyflow.vercel.app/";
+export const APP_URL = "https://studyflow-use.netlify.app/";
 
 export const pricingPlans: Plan[] = [
   {
