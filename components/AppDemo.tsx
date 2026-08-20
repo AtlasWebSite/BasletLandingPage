@@ -114,6 +114,14 @@ const sidebarItems = [
   ["Progresso", Target],
 ] as const;
 
+const stackedFlashcards = [
+  "left-[2%] right-[2%] top-0 -rotate-[5deg] bg-violet-50",
+  "left-[1%] right-[1%] top-1 rotate-[5deg] bg-cyan-50",
+  "left-[3%] -right-[1%] top-2 -rotate-[3deg] bg-amber-50",
+  "-left-[1%] right-[3%] top-3 rotate-[3deg] bg-emerald-50",
+  "left-[1%] right-[1%] top-4 -rotate-[1.5deg] bg-blue-50",
+] as const;
+
 function ProductShell({
   active,
   title,
@@ -268,7 +276,7 @@ function DashboardDemo() {
 function FlashcardsDemo() {
   return (
     <ProductShell active="Flashcards" title="Flashcards">
-      <div className="mx-auto max-w-xl">
+      <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-xs">
@@ -286,33 +294,42 @@ function FlashcardsDemo() {
           <span className="block h-full w-1/6 rounded-full bg-blue-600" />
         </div>
 
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-5 py-9 text-center shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-8 sm:py-12">
-          <span className="text-[11px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-xs">
-            Termo
-          </span>
-          <strong className="mt-3 block text-xl text-slate-950 sm:text-3xl">
-            Mitocôndria
-          </strong>
-          <span className="mt-5 block text-xs text-slate-400 sm:text-sm">
-            Clique para ver a resposta
-          </span>
-        </div>
-
-        <p className="my-3 text-center text-xs text-slate-500 sm:text-sm">
-          Pense na resposta antes de virar
-        </p>
-
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            ["Não sei", "Rever em breve", "border-rose-200 bg-rose-50 text-rose-700"],
-            ["Quase sei", "Praticar mais", "border-amber-200 bg-amber-50 text-amber-700"],
-            ["Sei", "Você dominou", "border-emerald-200 bg-emerald-50 text-emerald-700"],
-          ].map(([label, detail, color]) => (
-            <div key={label} className={`rounded-lg border p-2 text-center ${color}`}>
-              <strong className="block text-xs sm:text-sm">{label}</strong>
-              <span className="hidden text-[11px] opacity-70 sm:block">{detail}</span>
+        <div className="relative mx-auto mt-4 h-[245px] w-[94%] sm:h-[292px] sm:w-[92%]">
+          {stackedFlashcards.map((cardClass, index) => (
+            <div
+              key={cardClass}
+              aria-hidden="true"
+              className={`absolute h-[82%] rounded-[22px] border border-slate-200 shadow-[0_10px_28px_rgba(15,23,42,0.1)] ${cardClass}`}
+            >
+              <div className="mx-auto mt-5 h-1.5 w-20 rounded-full bg-slate-200/80" />
+              <div className="mx-auto mt-4 h-2 w-[58%] rounded-full bg-slate-200/60" />
+              <span className="absolute right-4 top-4 text-[9px] font-bold text-slate-400">
+                {index + 2} / 6
+              </span>
             </div>
           ))}
+
+          <article className="absolute inset-x-[4%] top-5 z-10 flex h-[82%] flex-col rounded-[22px] border border-slate-200 bg-white px-5 py-5 text-center shadow-[0_20px_45px_rgba(15,23,42,0.16)] sm:px-9 sm:py-7">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-left">
+              <span className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-[0.12em] text-blue-600 sm:text-xs">
+                <Layers3 size={14} /> Flashcard
+              </span>
+              <span className="text-[10px] font-semibold text-slate-400 sm:text-xs">
+                1 / 6
+              </span>
+            </div>
+            <div className="flex flex-1 flex-col items-center justify-center py-3">
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-violet-400 sm:text-xs">
+                Termo
+              </span>
+              <strong className="mt-3 max-w-xl text-lg leading-snug text-slate-950 sm:text-2xl">
+                Cite três características do Parnasianismo.
+              </strong>
+            </div>
+            <span className="text-[10px] font-semibold text-slate-400 sm:text-xs">
+              Clique para ver a resposta
+            </span>
+          </article>
         </div>
       </div>
     </ProductShell>
@@ -506,22 +523,26 @@ export default function AppDemo() {
               onClick={() => setActiveTab(tab.id)}
               className={`relative flex min-h-12 shrink-0 snap-start items-center gap-2.5 overflow-hidden whitespace-nowrap rounded-full px-5 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20 ${
                 isActive
-                  ? "bg-slate-950 text-white shadow-sm"
+                  ? "border border-blue-700 bg-blue-600 text-white shadow-sm"
                   : "border border-slate-200 bg-white text-text-muted hover:border-slate-300 hover:text-text-main"
               }`}
             >
               {isActive ? (
-                <motion.span
-                  key={`tab-progress-${activeTab}`}
+                <span
                   aria-hidden="true"
-                  className="absolute inset-y-0 left-0 bg-blue-600"
+                  className="absolute inset-x-4 bottom-1 h-1 overflow-hidden rounded-full bg-blue-300/50"
+                >
+                  <motion.span
+                  key={`tab-progress-${activeTab}`}
+                  className="block h-full rounded-full bg-blue-950"
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{
-                    duration: shouldReduceMotion ? 0 : AUTO_SWITCH_SECONDS,
+                    duration: AUTO_SWITCH_SECONDS,
                     ease: "linear",
                   }}
-                />
+                  />
+                </span>
               ) : null}
               <Icon size={19} className="relative z-10" />
               <span className="relative z-10">{tab.label}</span>
