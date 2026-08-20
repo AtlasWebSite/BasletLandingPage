@@ -532,7 +532,7 @@ export default function AppDemo() {
 
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_370px] lg:gap-10">
         <div className="min-w-0">
-          <div className="flex aspect-video flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
+          <div className="flex aspect-[16/11] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
             <div className="flex min-w-0 shrink-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
               <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
