@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -438,18 +437,120 @@ function TestsDemo() {
 }
 
 function ProgressDemo() {
+  const stats = [
+    {
+      label: "Domínio geral",
+      value: "0%",
+      detail: "Baseado nas suas respostas",
+      icon: Target,
+      iconStyle: "bg-violet-50 text-violet-600",
+    },
+    {
+      label: "Cards dominados",
+      value: "0",
+      detail: "de 25 cards",
+      icon: BookOpen,
+      iconStyle: "bg-teal-50 text-teal-600",
+    },
+    {
+      label: "Cards para revisar",
+      value: "25",
+      detail: "25 esquecidos · 0 ainda aprendendo",
+      icon: RotateCcw,
+      iconStyle: "bg-orange-50 text-orange-600",
+    },
+    {
+      label: "Cards praticados",
+      value: "0",
+      detail: "Com progresso salvo",
+      icon: BrainCircuit,
+      iconStyle: "bg-rose-50 text-rose-600",
+    },
+  ];
+
   return (
-    <div className="flex h-full min-h-0 items-center justify-center overflow-hidden bg-[#f5f6fb] p-2 sm:p-4">
-      <Image
-        src="/hero-studyflow-dashboard-real.jpg"
-        alt="Tela real de progresso do StudyFlow"
-        width={753}
-        height={720}
-        sizes="(min-width: 1024px) 720px, 92vw"
-        quality={92}
-        className="h-auto max-h-full w-auto max-w-full rounded-xl border border-slate-200 bg-white object-contain shadow-sm"
-      />
-    </div>
+    <ProductShell active="Progresso" title="Seu progresso">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        {stats.map(({ label, value, detail, icon: Icon, iconStyle }) => (
+          <div
+            key={label}
+            className="flex min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm sm:gap-3 sm:p-3.5"
+          >
+            <span
+              className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg sm:h-10 sm:w-10 ${iconStyle}`}
+            >
+              <Icon size={16} />
+            </span>
+            <div className="min-w-0">
+              <strong className="block text-sm leading-none text-slate-950 sm:text-lg">
+                {value}
+              </strong>
+              <span className="mt-1 block truncate text-[10px] font-semibold text-slate-700 sm:text-xs">
+                {label}
+              </span>
+              <span className="hidden truncate text-[10px] text-slate-400 sm:block">
+                {detail}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <section className="mt-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <span className="text-[9px] font-black uppercase tracking-[0.14em] text-violet-500 sm:text-[11px]">
+              Panorama
+            </span>
+            <strong className="block text-xs text-slate-950 sm:text-base">
+              Domínio geral
+            </strong>
+          </div>
+          <span className="flex shrink-0 items-center gap-1 rounded-md bg-emerald-50 px-2 py-1 text-[9px] font-bold text-emerald-600 sm:text-[11px]">
+            <BarChart3 size={11} /> Dados reais
+          </span>
+        </div>
+
+        <div className="mt-3 grid grid-cols-[96px_minmax(0,1fr)] items-center gap-3 sm:mt-4 sm:grid-cols-[150px_minmax(0,1fr)] sm:gap-5">
+          <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full border-[10px] border-slate-100 bg-white shadow-inner sm:h-32 sm:w-32 sm:border-[13px]">
+            <span className="absolute inset-1 rounded-full border border-violet-100" />
+            <div className="relative text-center">
+              <strong className="block text-2xl leading-none text-violet-600 sm:text-4xl">
+                0%
+              </strong>
+              <span className="mt-1 block text-[9px] font-semibold text-slate-500 sm:text-xs">
+                concluído
+              </span>
+            </div>
+          </div>
+
+          <div className="min-w-0">
+            <strong className="block text-base text-slate-950 sm:text-xl">0 de 25</strong>
+            <p className="mt-1 text-[10px] leading-relaxed text-slate-500 sm:text-xs">
+              cards já receberam alguma prática.
+            </p>
+            <p className="text-[10px] leading-relaxed text-slate-400 sm:text-xs">
+              0 cards estão dominados no momento.
+            </p>
+
+            <div className="mt-3 grid grid-cols-3 gap-1.5 border-t border-slate-100 pt-3 sm:gap-3">
+              {[
+                ["25", "Para revisar"],
+                ["0", "Dominados"],
+                ["0", "Praticados"],
+              ].map(([value, label]) => (
+                <div key={label} className="min-w-0">
+                  <strong className="block text-xs text-slate-950 sm:text-sm">{value}</strong>
+                  <span className="block truncate text-[8px] text-slate-400 sm:text-[10px]">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </ProductShell>
   );
 }
 
