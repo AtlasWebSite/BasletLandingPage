@@ -1,7 +1,8 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AppDemo from "@/components/AppDemo";
-import ProblemSolution from "@/components/ProblemSolution";
+import UnifiedStudyFlow from "@/components/UnifiedStudyFlow";
+import SocialProof from "@/components/SocialProof";
 import BentoGrid from "@/components/BentoGrid";
 import HowItWorks from "@/components/HowItWorks";
 import UseCases from "@/components/UseCases";
@@ -16,8 +17,9 @@ export default function Home() {
     <main className="min-h-screen w-full min-w-0 overflow-x-clip bg-background text-text-main [&>*]:min-w-0">
       <Header />
       <Hero />
-      <ProblemSolution />
+      <UnifiedStudyFlow />
       <AppDemo />
+      <SocialProof />
       <BentoGrid />
       <HowItWorks />
       <UseCases />

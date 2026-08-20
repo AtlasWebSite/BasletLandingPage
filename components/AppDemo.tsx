@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -25,6 +25,8 @@ import { APP_URL } from "@/data/pricingData";
 import { trackEvent } from "@/lib/analytics";
 
 type DemoTabId = "dashboard" | "flashcards" | "mapas" | "testes" | "progresso";
+
+const AUTO_SWITCH_SECONDS = 6;
 
 interface DemoTab {
   id: DemoTabId;
@@ -122,10 +124,10 @@ function ProductShell({
   children: ReactNode;
 }) {
   return (
-    <div className="grid h-full min-h-0 min-w-0 overflow-hidden bg-[#f5f6fb] sm:grid-cols-[124px_minmax(0,1fr)]">
-      <aside className="no-scrollbar hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-3 sm:block">
-        <div className="mb-5 flex items-center gap-2 px-1 text-xs font-black text-slate-950">
-          <span className="grid h-6 w-6 place-items-center rounded-lg bg-blue-600 text-white">
+    <div className="grid h-full min-h-0 min-w-0 overflow-hidden bg-[#f5f6fb] sm:grid-cols-[146px_minmax(0,1fr)]">
+      <aside className="no-scrollbar hidden min-h-0 overflow-y-auto border-r border-slate-200 bg-white p-4 sm:block">
+        <div className="mb-6 flex items-center gap-2 px-1 text-sm font-black text-slate-950">
+          <span className="grid h-7 w-7 place-items-center rounded-lg bg-blue-600 text-white">
             S
           </span>
           StudyFlow
@@ -134,13 +136,13 @@ function ProductShell({
           {sidebarItems.map(([label, Icon]) => (
             <div
               key={label}
-              className={`flex items-center gap-2 rounded-lg px-2 py-2 text-[10px] font-semibold ${
+              className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2.5 text-xs font-semibold ${
                 label === active
                   ? "bg-blue-50 text-blue-700"
                   : "text-slate-500"
               }`}
             >
-              <Icon size={12} />
+              <Icon size={14} />
               {label}
             </div>
           ))}
@@ -153,17 +155,17 @@ function ProductShell({
             <strong className="block text-xs text-slate-950 sm:text-sm">
               {title}
             </strong>
-            <span className="hidden text-[10px] text-slate-400 sm:block">
+            <span className="hidden text-xs text-slate-400 sm:block">
               Seu espaço de estudos
             </span>
           </div>
           <div className="flex items-center gap-1.5 text-slate-400">
-            <div className="hidden items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-[10px] sm:flex">
-              <Search size={10} />
+            <div className="hidden items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs sm:flex">
+              <Search size={13} />
               Buscar conjuntos...
             </div>
             <div className="grid h-7 w-7 place-items-center rounded-lg border border-slate-200 bg-white">
-              <Bell size={11} />
+              <Bell size={13} />
             </div>
           </div>
         </header>
@@ -184,23 +186,23 @@ function DashboardDemo() {
     <ProductShell active="Início" title="Olá! Pronto para avançar hoje?">
       <section className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#6658df] to-[#477fe8] p-4 text-white sm:p-5">
         <div className="max-w-[72%]">
-          <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.12em] text-white/75 sm:text-[10px]">
-            <Sparkles size={10} /> Próximo passo recomendado
+          <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-white/75 sm:text-xs">
+            <Sparkles size={13} /> Próximo passo recomendado
           </span>
           <strong className="mt-2 block text-sm leading-tight sm:text-xl">
             Você tem 25 cards para revisar hoje.
           </strong>
-          <p className="mt-1.5 text-[10px] leading-relaxed text-white/75 sm:text-xs">
+          <p className="mt-1.5 text-xs leading-relaxed text-white/75 sm:text-sm">
             Comece por “Inglês básico” para fortalecer o que ainda precisa de prática.
           </p>
-          <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-white px-2.5 py-1.5 text-[10px] font-bold text-blue-700 sm:text-[11px]">
-            <RotateCcw size={10} /> Revisar agora
+          <span className="mt-3 inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-2 text-xs font-bold text-blue-700 sm:text-sm">
+            <RotateCcw size={13} /> Revisar agora
           </span>
         </div>
         <div className="absolute right-3 top-1/2 flex h-16 w-16 -translate-y-1/2 items-center justify-center rounded-full border-[7px] border-white/25 bg-white/10 sm:right-7 sm:h-24 sm:w-24 sm:border-[10px]">
           <div className="text-center">
             <strong className="block text-lg sm:text-2xl">0%</strong>
-            <span className="text-[8px] text-white/70 sm:text-[9px]">domínio geral</span>
+            <span className="text-[10px] text-white/70 sm:text-xs">domínio geral</span>
           </div>
         </div>
       </section>
@@ -221,10 +223,10 @@ function DashboardDemo() {
               <Icon size={13} />
             </span>
             <div className="min-w-0">
-              <strong className="block truncate text-[9px] text-slate-900 sm:text-[11px]">
+              <strong className="block truncate text-[11px] text-slate-900 sm:text-xs">
                 {title as string}
               </strong>
-              <span className="hidden truncate text-[9px] text-slate-400 sm:block">
+              <span className="hidden truncate text-[10px] text-slate-400 sm:block">
                 {detail as string}
               </span>
             </div>
@@ -234,10 +236,10 @@ function DashboardDemo() {
 
       <div className="mt-3">
         <div className="mb-2 flex items-center justify-between">
-          <strong className="text-[11px] text-slate-950 sm:text-[13px]">
+          <strong className="text-xs text-slate-950 sm:text-sm">
             Estudos recentes
           </strong>
-          <span className="text-[9px] font-semibold text-blue-600 sm:text-[10px]">
+          <span className="text-[11px] font-semibold text-blue-600 sm:text-xs">
             Ver todos
           </span>
         </div>
@@ -248,10 +250,10 @@ function DashboardDemo() {
                 className="block h-1 w-8 rounded-full"
                 style={{ backgroundColor: color }}
               />
-              <strong className="mt-2 block truncate text-[9px] text-slate-900 sm:text-[11px]">
+              <strong className="mt-2 block truncate text-[11px] text-slate-900 sm:text-xs">
                 {title}
               </strong>
-              <span className="text-[9px] text-slate-400">{count}</span>
+              <span className="text-[10px] text-slate-400 sm:text-xs">{count}</span>
               <div className="mt-2 h-1 overflow-hidden rounded-full bg-slate-100">
                 <span className="block h-full w-0" />
               </div>
@@ -269,7 +271,7 @@ function FlashcardsDemo() {
       <div className="mx-auto max-w-xl">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
+            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-xs">
               Sessão em foco
             </span>
             <strong className="block text-xs text-slate-950 sm:text-base">
@@ -285,18 +287,18 @@ function FlashcardsDemo() {
         </div>
 
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-5 py-9 text-center shadow-[0_12px_32px_rgba(15,23,42,0.08)] sm:px-8 sm:py-12">
-          <span className="text-[9px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-[10px]">
+          <span className="text-[11px] font-black uppercase tracking-[0.16em] text-blue-600 sm:text-xs">
             Termo
           </span>
           <strong className="mt-3 block text-xl text-slate-950 sm:text-3xl">
             Mitocôndria
           </strong>
-          <span className="mt-5 block text-[10px] text-slate-400 sm:text-xs">
+          <span className="mt-5 block text-xs text-slate-400 sm:text-sm">
             Clique para ver a resposta
           </span>
         </div>
 
-        <p className="my-3 text-center text-[10px] text-slate-500 sm:text-xs">
+        <p className="my-3 text-center text-xs text-slate-500 sm:text-sm">
           Pense na resposta antes de virar
         </p>
 
@@ -307,8 +309,8 @@ function FlashcardsDemo() {
             ["Sei", "Você dominou", "border-emerald-200 bg-emerald-50 text-emerald-700"],
           ].map(([label, detail, color]) => (
             <div key={label} className={`rounded-lg border p-2 text-center ${color}`}>
-              <strong className="block text-[10px] sm:text-xs">{label}</strong>
-              <span className="hidden text-[9px] opacity-70 sm:block">{detail}</span>
+              <strong className="block text-xs sm:text-sm">{label}</strong>
+              <span className="hidden text-[11px] opacity-70 sm:block">{detail}</span>
             </div>
           ))}
         </div>
@@ -323,15 +325,15 @@ function MindMapDemo() {
       <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:p-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
+            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-xs">
               Conjunto selecionado
             </span>
             <strong className="block text-xs text-slate-950 sm:text-base">
               Biologia celular
             </strong>
           </div>
-          <span className="flex items-center gap-1 rounded-md border border-slate-200 px-2 py-1.5 text-[9px] font-semibold text-slate-600 sm:text-[10px]">
-            <GitFork size={10} /> Modo resumido
+          <span className="flex items-center gap-1.5 rounded-md border border-slate-200 px-2.5 py-2 text-[11px] font-semibold text-slate-600 sm:text-xs">
+            <GitFork size={13} /> Modo resumido
           </span>
         </div>
 
@@ -341,14 +343,14 @@ function MindMapDemo() {
               {["Núcleo", "DNA", "Citoplasma"].map((node) => (
                 <span
                   key={node}
-                  className="rounded-lg border border-violet-200 bg-white px-2 py-1.5 text-center text-[9px] font-semibold text-violet-700 shadow-sm sm:text-[10px]"
+                  className="rounded-lg border border-violet-200 bg-white px-2.5 py-2 text-center text-[11px] font-semibold text-violet-700 shadow-sm sm:text-xs"
                 >
                   {node}
                 </span>
               ))}
             </div>
             <span className="hidden h-px w-8 bg-slate-300 sm:block" />
-            <div className="rounded-xl bg-blue-600 px-4 py-3 text-center text-[11px] font-bold text-white shadow-md sm:text-[13px]">
+            <div className="rounded-xl bg-blue-600 px-5 py-4 text-center text-sm font-bold text-white shadow-md sm:text-base">
               Biologia celular
             </div>
             <span className="hidden h-px w-8 bg-slate-300 sm:block" />
@@ -356,7 +358,7 @@ function MindMapDemo() {
               {["Mitocôndria", "Membrana plasmática", "Célula"].map((node) => (
                 <span
                   key={node}
-                  className="rounded-lg border border-cyan-200 bg-white px-2 py-1.5 text-center text-[9px] font-semibold text-cyan-700 shadow-sm sm:text-[10px]"
+                  className="rounded-lg border border-cyan-200 bg-white px-2.5 py-2 text-center text-[11px] font-semibold text-cyan-700 shadow-sm sm:text-xs"
                 >
                   {node}
                 </span>
@@ -365,7 +367,7 @@ function MindMapDemo() {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between text-[9px] text-slate-400 sm:text-[10px]">
+        <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400 sm:text-xs">
           <span>6 conceitos conectados</span>
           <span>Gerado a partir dos flashcards</span>
         </div>
@@ -397,7 +399,7 @@ function TestsDemo() {
         </div>
 
         <div className="p-3 sm:p-5">
-          <span className="text-[9px] font-black uppercase tracking-[0.13em] text-blue-600 sm:text-[10px]">
+          <span className="text-[11px] font-black uppercase tracking-[0.13em] text-blue-600 sm:text-xs">
             Escolha a definição correta
           </span>
           <h3 className="mt-2 text-sm font-bold text-slate-950 sm:text-xl">
@@ -407,13 +409,13 @@ function TestsDemo() {
             {options.map((option, index) => (
               <div
                 key={option}
-                className={`flex items-center gap-2 rounded-lg border p-2.5 text-[10px] font-semibold sm:p-3 sm:text-xs ${
+                className={`flex items-center gap-2.5 rounded-lg border p-3 text-xs font-semibold sm:p-3.5 sm:text-sm ${
                   index === 1
                     ? "border-emerald-400 bg-emerald-50 text-emerald-800"
                     : "border-slate-200 text-slate-600"
                 }`}
               >
-                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white text-[9px] shadow-sm">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-white text-[11px] shadow-sm">
                   {String.fromCharCode(65 + index)}
                 </span>
                 <span className="min-w-0 flex-1">{option}</span>
@@ -422,7 +424,7 @@ function TestsDemo() {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-between border-t border-slate-100 p-3 text-[10px] sm:px-5 sm:text-[11px]">
+        <div className="flex items-center justify-between border-t border-slate-100 p-3 text-xs sm:px-5 sm:text-sm">
           <span className="flex items-center gap-1 font-semibold text-emerald-700">
             <Check size={11} /> Resposta certa!
           </span>
@@ -461,7 +463,17 @@ function ActiveDemo({ activeTab }: { activeTab: DemoTabId }) {
 
 export default function AppDemo() {
   const [activeTab, setActiveTab] = useState<DemoTabId>("dashboard");
+  const shouldReduceMotion = useReducedMotion();
   const activeContent = tabs.find((tab) => tab.id === activeTab) ?? tabs[0];
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      const currentIndex = tabs.findIndex((tab) => tab.id === activeTab);
+      setActiveTab(tabs[(currentIndex + 1) % tabs.length].id);
+    }, AUTO_SWITCH_SECONDS * 1000);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeTab]);
 
   return (
     <section className="mx-auto w-full min-w-0 max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
@@ -477,7 +489,7 @@ export default function AppDemo() {
       <div
         role="tablist"
         aria-label="Recursos do StudyFlow"
-        className="no-scrollbar -mx-4 mb-6 flex snap-x items-center gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:justify-center sm:px-0"
+        className="no-scrollbar -mx-4 mb-8 flex snap-x items-center gap-3 overflow-x-auto px-4 pb-3 sm:mx-0 sm:justify-center sm:px-0"
       >
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -492,22 +504,35 @@ export default function AppDemo() {
               aria-selected={isActive}
               aria-controls="demo-panel"
               onClick={() => setActiveTab(tab.id)}
-              className={`flex min-h-11 shrink-0 snap-start items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20 ${
+              className={`relative flex min-h-12 shrink-0 snap-start items-center gap-2.5 overflow-hidden whitespace-nowrap rounded-full px-5 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20 ${
                 isActive
                   ? "bg-slate-950 text-white shadow-sm"
                   : "border border-slate-200 bg-white text-text-muted hover:border-slate-300 hover:text-text-main"
               }`}
             >
-              <Icon size={16} />
-              <span>{tab.label}</span>
+              {isActive ? (
+                <motion.span
+                  key={`tab-progress-${activeTab}`}
+                  aria-hidden="true"
+                  className="absolute inset-y-0 left-0 bg-blue-600"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : AUTO_SWITCH_SECONDS,
+                    ease: "linear",
+                  }}
+                />
+              ) : null}
+              <Icon size={19} className="relative z-10" />
+              <span className="relative z-10">{tab.label}</span>
             </button>
           );
         })}
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_330px] lg:gap-8">
+      <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_370px] lg:gap-10">
         <div className="min-w-0">
-          <div className="flex aspect-[16/11] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
+          <div className="flex aspect-video flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-36px_rgba(15,23,42,0.35)]">
             <div className="flex min-w-0 shrink-0 items-center gap-3 border-b border-slate-200 bg-slate-950 px-3 py-3 sm:px-4">
               <div className="flex shrink-0 items-center gap-1.5" aria-hidden="true">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/35" />
@@ -528,10 +553,10 @@ export default function AppDemo() {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={activeTab}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: "easeOut" }}
                   className="h-full"
                   aria-hidden="true"
                 >
@@ -542,22 +567,22 @@ export default function AppDemo() {
           </div>
         </div>
 
-        <aside className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <span className="text-xs font-bold uppercase tracking-[0.12em] text-blue-600">
+        <aside aria-live="polite" className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <span className="text-sm font-bold uppercase tracking-[0.12em] text-blue-600">
             {activeContent.label}
           </span>
-          <h3 className="mt-3 text-2xl font-extrabold leading-tight text-text-main">
+          <h3 className="mt-3 text-3xl font-extrabold leading-tight text-text-main">
             {activeContent.benefit}
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-text-muted sm:text-base">
+          <p className="mt-4 text-base leading-relaxed text-text-muted sm:text-lg">
             {activeContent.description}
           </p>
 
           <ul className="mt-5 space-y-3">
             {activeContent.highlights.map((highlight) => (
-              <li key={highlight} className="flex items-start gap-2.5 text-sm text-text-main">
-                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600">
-                  <Check size={12} />
+              <li key={highlight} className="flex items-start gap-3 text-base text-text-main">
+                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-50 text-blue-600">
+                  <Check size={14} />
                 </span>
                 {highlight}
               </li>
@@ -567,7 +592,7 @@ export default function AppDemo() {
           <a
             href={APP_URL}
             onClick={() => trackEvent("cta_demo_click", { active_tab: activeTab })}
-            className="group mt-6 inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25"
+            className="group mt-7 inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-4 text-base font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25"
           >
             Experimentar o StudyFlow
             <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />

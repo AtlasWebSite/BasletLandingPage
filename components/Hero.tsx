@@ -5,7 +5,6 @@ import Image from "next/image";
 import type { MouseEvent } from "react";
 import {
   ArrowRight,
-  BrainCircuit,
   CheckCircle2,
   GitBranch,
   Layers3,
@@ -48,7 +47,7 @@ export default function Hero() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid min-w-0 items-center gap-8 sm:gap-12 lg:grid-cols-12">
           <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={
               reducedMotion
@@ -73,12 +72,12 @@ export default function Hero() {
               evolução.
             </p>
 
-            <div className="mb-8 flex w-full flex-col items-start gap-4 sm:mb-10 sm:w-auto sm:flex-row">
-              <div className="flex w-full flex-col items-center sm:w-auto sm:items-start">
+            <div className="mb-8 w-full max-w-xl sm:mb-10">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <a
                   href={APP_URL}
                   onClick={() => trackEvent("cta_hero_click")}
-                  className="group flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-all hover:scale-[1.02] hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25 active:scale-[0.98] sm:w-auto"
+                  className="group flex min-h-[54px] w-full items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3.5 text-base font-semibold text-white shadow-md shadow-blue-600/25 transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/25 active:translate-y-0"
                 >
                   <span>Criar minha conta</span>
                   <ArrowRight
@@ -87,25 +86,24 @@ export default function Hero() {
                   />
                 </a>
 
-                <p className="mt-2 max-w-[320px] text-center text-[11px] font-medium leading-relaxed text-slate-500 sm:text-left sm:text-xs">
-                  Assinatura de R$11,90/mês • Cancele quando quiser • Comece em
-                  poucos segundos
-                </p>
+                <a
+                  href="#como-funciona"
+                  onClick={(event) => {
+                    trackEvent("cta_secondary_hero_click");
+                    handleSmoothScroll(event, "#como-funciona");
+                  }}
+                  className="flex min-h-[54px] w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3.5 text-base font-semibold text-text-main shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300/50 active:translate-y-0"
+                >
+                  Ver como funciona
+                </a>
               </div>
 
-              <a
-                href="#como-funciona"
-                onClick={(event) => {
-                  trackEvent("cta_secondary_hero_click");
-                  handleSmoothScroll(event, "#como-funciona");
-                }}
-                className="flex min-h-[52px] w-full items-center justify-center rounded-full border border-slate-200 bg-white px-8 py-3.5 text-base font-semibold text-text-main shadow-sm transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-300/50 sm:w-auto"
-              >
-                Ver como funciona
-              </a>
+              <p className="mt-3 text-center text-sm font-semibold leading-relaxed text-slate-600 lg:text-left">
+                Plano Pro por R$11,90/mês • Cancele quando quiser
+              </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-text-muted sm:text-sm lg:justify-start">
+            <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-text-muted sm:text-base lg:justify-start">
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-progress" />
                 <span>Acesso rápido pelo navegador</span>
@@ -119,7 +117,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.figure
-            initial={reducedMotion ? false : { opacity: 0, x: 28, scale: 0.97 }}
+            initial={{ opacity: 0, x: 28, scale: 0.97 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={
               reducedMotion
@@ -128,20 +126,20 @@ export default function Hero() {
             }
             className="relative flex w-full min-w-0 items-center justify-center lg:col-span-7"
           >
-            <div className="relative w-full max-w-[760px] sm:min-h-[560px] lg:ml-auto">
-              <div className="relative z-10 mx-auto w-full overflow-hidden rounded-[22px] border border-neutral-200 bg-neutral-950 shadow-[0_28px_70px_-32px_rgba(15,23,42,0.38)] sm:absolute sm:left-1/2 sm:top-1/2 sm:w-[72%] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px]">
+            <div className="relative w-full max-w-[900px] sm:min-h-[680px] lg:ml-auto">
+              <div className="relative z-10 mx-auto w-full overflow-hidden rounded-[22px] border border-neutral-200 bg-neutral-950 shadow-[0_28px_70px_-32px_rgba(15,23,42,0.38)] sm:absolute sm:left-1/2 sm:top-1/2 sm:w-[76%] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px]">
                 <div className="flex items-center justify-between bg-neutral-950 px-3 py-3 text-white sm:px-4">
                   <div className="flex items-center gap-1.5" aria-hidden="true">
                     <span className="h-2 w-2 rounded-full bg-white/35" />
                     <span className="h-2 w-2 rounded-full bg-white/55" />
                     <span className="h-2 w-2 rounded-full bg-white/80" />
                   </div>
-                  <span className="text-[9px] font-semibold tracking-wide text-white/80 sm:text-[10px]">
+                  <span className="text-[11px] font-semibold tracking-wide text-white/80 sm:text-xs">
                     StudyFlow · painel real
                   </span>
                 </div>
 
-                <div className="relative aspect-[753/720] w-full bg-white">
+                <div className="relative aspect-video w-full bg-white">
                   <Image
                     src="/hero-studyflow-dashboard-real.jpg"
                     alt="Painel real de progresso do StudyFlow com domínio geral, cards para revisar e acompanhamento de desempenho"
@@ -158,98 +156,122 @@ export default function Hero() {
                 aria-hidden="true"
                 className="mt-3 grid grid-cols-2 gap-2.5 sm:contents"
               >
-                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:left-0 sm:top-[4%] sm:z-20 sm:w-[31%] sm:p-3.5">
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:left-0 sm:top-[1%] sm:z-20 sm:w-[38%]">
                   <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
-                    <span className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
-                      <Layers3 size={12} className="text-blue-600" />
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
+                      <Layers3 size={15} className="text-blue-600" />
                       Flashcard
                     </span>
-                    <span className="text-[8px] text-slate-400">Neurociência</span>
+                    <span className="text-[9px] text-slate-400 sm:text-[10px]">7 de 25</span>
                   </div>
-                  <p className="mt-3 text-[9px] font-bold leading-snug text-slate-900 sm:text-[10px]">
-                    Como funciona a potenciação de longa duração no hipocampo?
+                  <span className="mt-3 block text-[9px] font-bold uppercase tracking-[0.12em] text-blue-600 sm:text-[10px]">
+                    Pergunta
+                  </span>
+                  <p className="mt-1 text-[11px] font-bold leading-snug text-slate-900 sm:text-xs">
+                    Qual é a principal função da mitocôndria?
                   </p>
-                  <div className="mt-3 grid grid-cols-3 gap-1 text-center text-[7px] font-bold sm:text-[8px]">
-                    <span className="rounded-md border border-slate-200 py-1.5 text-slate-500">
-                      Difícil
+                  <div className="mt-3 rounded-lg border border-blue-100 bg-blue-50 p-2.5">
+                    <span className="block text-[8px] font-bold uppercase tracking-[0.1em] text-blue-600 sm:text-[9px]">
+                      Resposta
                     </span>
-                    <span className="rounded-md border border-slate-200 py-1.5 text-slate-700">
-                      Bom
-                    </span>
-                    <span className="rounded-md bg-neutral-950 py-1.5 text-white">
-                      Fácil
-                    </span>
+                    <p className="mt-1 text-[10px] font-semibold leading-snug text-slate-700 sm:text-[11px]">
+                      Produzir energia para a célula por meio da respiração celular.
+                    </p>
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:right-0 sm:top-[10%] sm:z-20 sm:w-[31%] sm:p-3.5">
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:right-0 sm:top-[4%] sm:z-20 sm:w-[39%]">
                   <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
-                    <span className="flex items-center gap-1.5 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
-                      <ListChecks size={12} className="text-blue-600" />
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
+                      <ListChecks size={15} className="text-blue-600" />
                       Teste
                     </span>
-                    <span className="text-[8px] text-slate-400">3 de 10</span>
+                    <span className="text-[9px] text-slate-400 sm:text-[10px]">3 de 10</span>
                   </div>
-                  <p className="mt-3 text-[9px] font-bold leading-snug text-slate-900 sm:text-[10px]">
+                  <p className="mt-3 text-[11px] font-bold leading-snug text-slate-900 sm:text-xs">
                     Qual estrutura celular produz ATP?
                   </p>
-                  <div className="mt-2 space-y-1 text-[7px] font-semibold sm:text-[8px]">
-                    <div className="rounded-md border border-slate-200 px-2 py-1.5 text-slate-500">
-                      A · Complexo de Golgi
-                    </div>
-                    <div className="flex items-center justify-between rounded-md border border-neutral-950 bg-neutral-950 px-2 py-1.5 text-white">
-                      <span>B · Mitocôndria</span>
-                      <CheckCircle2 size={10} />
-                    </div>
+                  <div className="mt-2 grid gap-1.5 text-[9px] font-semibold sm:text-[10px]">
+                    {["A · Complexo de Golgi", "B · Mitocôndria", "C · Ribossomo", "D · Lisossomo"].map(
+                      (answer, index) => (
+                        <div
+                          key={answer}
+                          className={`flex items-center justify-between rounded-md border px-2 py-1.5 ${
+                            index === 1
+                              ? "border-neutral-950 bg-neutral-950 text-white"
+                              : "border-slate-200 text-slate-500"
+                          }`}
+                        >
+                          <span>{answer}</span>
+                          {index === 1 && <CheckCircle2 size={13} />}
+                        </div>
+                      ),
+                    )}
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:bottom-[3%] sm:left-[1%] sm:z-20 sm:w-[34%] sm:p-3.5">
-                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
-                    <GitBranch size={12} className="text-blue-600" />
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:bottom-0 sm:left-0 sm:z-20 sm:w-[48%]">
+                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
+                    <GitBranch size={15} className="text-blue-600" />
                     Mapa mental
                   </div>
-                  <div className="mt-3 flex flex-col items-center justify-center gap-1.5 text-[7px] font-semibold sm:flex-row sm:text-[8px]">
-                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-600">
-                      S.N. Central
-                    </span>
-                    <span className="hidden h-px w-3 bg-slate-300 sm:block" />
-                    <span className="rounded-md bg-neutral-950 px-2 py-2 text-center text-white">
-                      Sistema Nervoso
-                    </span>
-                    <span className="hidden h-px w-3 bg-slate-300 sm:block" />
-                    <span className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-600">
-                      S.N. Periférico
-                    </span>
+                  <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-center text-[9px] font-semibold sm:text-[10px]">
+                    <div className="space-y-2">
+                      <span className="block rounded-md border border-violet-200 bg-violet-50 px-2 py-1.5 text-violet-700">Núcleo</span>
+                      <span className="block rounded-md border border-violet-200 bg-violet-50 px-2 py-1.5 text-violet-700">DNA</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="h-px w-3 bg-blue-200" />
+                      <span className="rounded-lg bg-blue-600 px-3 py-3 font-bold text-white shadow-sm">Célula</span>
+                      <span className="h-px w-3 bg-blue-200" />
+                    </div>
+                    <div className="space-y-2">
+                      <span className="block rounded-md border border-cyan-200 bg-cyan-50 px-2 py-1.5 text-cyan-700">Mitocôndria</span>
+                      <span className="block rounded-md border border-cyan-200 bg-cyan-50 px-2 py-1.5 text-cyan-700">Membrana</span>
+                    </div>
                   </div>
-                  <div className="mt-3 flex items-center justify-center gap-1 text-[7px] text-slate-400">
-                    <BrainCircuit size={11} />
-                    Encéfalo · Medula · Nervos
+                  <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[8px] text-slate-500 sm:text-[9px]">
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Material genético</span>
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Energia</span>
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Proteção</span>
                   </div>
                 </div>
 
-                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_12px_32px_rgba(15,23,42,0.10)] sm:absolute sm:bottom-[1%] sm:right-[1%] sm:z-20 sm:w-[30%] sm:p-3.5">
-                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[8px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[9px]">
-                    <TrendingUp size={12} className="text-blue-600" />
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:bottom-[1%] sm:right-0 sm:z-20 sm:w-[39%]">
+                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
+                    <TrendingUp size={15} className="text-blue-600" />
                     Progresso
                   </div>
-                  <div className="mt-3 flex items-center gap-3">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-[5px] border-slate-200 text-[11px] font-black text-slate-950 sm:h-14 sm:w-14 sm:text-xs">
-                      0%
+                  <div className="mt-3 grid grid-cols-[auto_1fr] gap-3">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-[6px] border-blue-100 text-sm font-black text-blue-700 sm:h-16 sm:w-16 sm:text-base">
+                      68%
                     </div>
-                    <div className="min-w-0 space-y-1.5 text-[7px] sm:text-[8px]">
+                    <div className="min-w-0 flex-1 space-y-1.5 text-[9px] sm:text-[10px]">
                       <div className="flex items-center justify-between gap-3 text-slate-500">
                         <span>Para revisar</span>
-                        <strong className="text-slate-950">25</strong>
+                        <strong className="text-slate-950">8</strong>
                       </div>
                       <div className="flex items-center justify-between gap-3 text-slate-500">
                         <span>Dominados</span>
-                        <strong className="text-slate-950">0</strong>
+                        <strong className="text-slate-950">17</strong>
                       </div>
-                      <div className="h-1 overflow-hidden rounded-full bg-slate-100">
-                        <div className="h-full w-0 bg-neutral-950" />
+                      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                        <div className="h-full w-[68%] rounded-full bg-blue-600" />
                       </div>
                     </div>
+                  </div>
+                  <div className="mt-3 grid grid-cols-7 items-end gap-1 rounded-lg bg-slate-50 px-2 py-2" aria-label="Evolução nas últimas sete sessões">
+                    {[28, 42, 36, 58, 51, 72, 84].map((height) => (
+                      <span
+                        key={height}
+                        className="block rounded-sm bg-blue-500/80"
+                        style={{ height: `${Math.max(5, height / 5)}px` }}
+                      />
+                    ))}
+                  </div>
+                  <div className="mt-2 flex items-center justify-between text-[8px] font-semibold text-slate-500 sm:text-[9px]">
+                    <span>7 sessões</span>
+                    <strong className="text-emerald-600">+18% de evolução</strong>
                   </div>
                 </div>
               </div>
