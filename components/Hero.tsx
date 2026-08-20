@@ -6,6 +6,7 @@ import type { MouseEvent } from "react";
 import {
   ArrowRight,
   CheckCircle2,
+  GitBranch,
   Layers3,
   ListChecks,
   TrendingUp,
@@ -126,7 +127,7 @@ export default function Hero() {
             className="relative flex w-full min-w-0 items-center justify-center lg:col-span-7"
           >
             <div className="relative w-full max-w-[900px] sm:min-h-[680px] lg:ml-auto">
-              <div className="relative z-10 mx-auto w-full overflow-hidden rounded-[22px] border border-neutral-200 bg-neutral-950 shadow-[0_28px_70px_-32px_rgba(15,23,42,0.38)] sm:absolute sm:left-1/2 sm:top-1/2 sm:w-[84%] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px]">
+              <div className="relative z-10 mx-auto w-full overflow-hidden rounded-[22px] border border-neutral-200 bg-neutral-950 shadow-[0_28px_70px_-32px_rgba(15,23,42,0.38)] sm:absolute sm:left-1/2 sm:top-1/2 sm:w-[76%] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px]">
                 <div className="flex items-center justify-between bg-neutral-950 px-3 py-3 text-white sm:px-4">
                   <div className="flex items-center gap-1.5" aria-hidden="true">
                     <span className="h-2 w-2 rounded-full bg-white/35" />
@@ -138,7 +139,7 @@ export default function Hero() {
                   </span>
                 </div>
 
-                <div className="relative aspect-[753/720] w-full bg-[#f5f6fb]">
+                <div className="relative aspect-video w-full bg-white">
                   <Image
                     src="/hero-studyflow-dashboard-real.jpg"
                     alt="Painel real de progresso do StudyFlow com domínio geral, cards para revisar e acompanhamento de desempenho"
@@ -146,7 +147,7 @@ export default function Hero() {
                     priority
                     sizes="(min-width: 1024px) 42vw, (min-width: 640px) 68vw, 100vw"
                     quality={92}
-                    className="object-contain object-top"
+                    className="object-cover object-top"
                   />
                 </div>
               </div>
@@ -209,7 +210,34 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <div className="relative col-span-2 overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:bottom-[1%] sm:right-0 sm:z-20 sm:w-[39%]">
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:bottom-0 sm:left-0 sm:z-20 sm:w-[48%]">
+                  <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
+                    <GitBranch size={15} className="text-blue-600" />
+                    Mapa mental
+                  </div>
+                  <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-2 text-center text-[9px] font-semibold sm:text-[10px]">
+                    <div className="space-y-2">
+                      <span className="block rounded-md border border-violet-200 bg-violet-50 px-2 py-1.5 text-violet-700">Núcleo</span>
+                      <span className="block rounded-md border border-violet-200 bg-violet-50 px-2 py-1.5 text-violet-700">DNA</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="h-px w-3 bg-blue-200" />
+                      <span className="rounded-lg bg-blue-600 px-3 py-3 font-bold text-white shadow-sm">Célula</span>
+                      <span className="h-px w-3 bg-blue-200" />
+                    </div>
+                    <div className="space-y-2">
+                      <span className="block rounded-md border border-cyan-200 bg-cyan-50 px-2 py-1.5 text-cyan-700">Mitocôndria</span>
+                      <span className="block rounded-md border border-cyan-200 bg-cyan-50 px-2 py-1.5 text-cyan-700">Membrana</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 grid grid-cols-3 gap-1.5 text-center text-[8px] text-slate-500 sm:text-[9px]">
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Material genético</span>
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Energia</span>
+                    <span className="rounded-md bg-slate-50 px-1.5 py-1">Proteção</span>
+                  </div>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.12)] sm:absolute sm:bottom-[1%] sm:right-0 sm:z-20 sm:w-[39%]">
                   <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-900 sm:text-[11px]">
                     <TrendingUp size={15} className="text-blue-600" />
                     Progresso
@@ -251,7 +279,7 @@ export default function Hero() {
 
             <figcaption className="sr-only">
               Painel real do StudyFlow acompanhado por exemplos dos recursos de
-              flashcards, testes e progresso.
+              flashcards, testes, mapas mentais e progresso.
             </figcaption>
           </motion.figure>
         </div>
