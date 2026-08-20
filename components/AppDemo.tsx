@@ -506,7 +506,7 @@ export default function AppDemo() {
               onClick={() => setActiveTab(tab.id)}
               className={`relative flex min-h-12 shrink-0 snap-start items-center gap-2.5 overflow-hidden whitespace-nowrap rounded-full px-5 py-3 text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600/20 ${
                 isActive
-                  ? "bg-slate-950 text-white shadow-sm"
+                  ? "border border-blue-700 bg-blue-600 text-white shadow-sm"
                   : "border border-slate-200 bg-white text-text-muted hover:border-slate-300 hover:text-text-main"
               }`}
             >
@@ -514,11 +514,11 @@ export default function AppDemo() {
                 <motion.span
                   key={`tab-progress-${activeTab}`}
                   aria-hidden="true"
-                  className="absolute inset-y-0 left-0 bg-blue-600"
+                  className="absolute inset-y-0 left-0 bg-blue-950"
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{
-                    duration: shouldReduceMotion ? 0 : AUTO_SWITCH_SECONDS,
+                    duration: AUTO_SWITCH_SECONDS,
                     ease: "linear",
                   }}
                 />
